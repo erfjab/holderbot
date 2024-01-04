@@ -11,8 +11,8 @@ Now that all the prerequisites are installed, you need to provide the following 
 
 | Data | Description |
 | --- | --- |
-| Admin userID | Telegram userID of the person who wants to use the bot. You can obtain from the @aloidbot bot. |
-| Telegram bot token | You can obtain this from the @BotFather bot. |
+| Admin userID | Telegram userID of the person who wants to use the bot. You can obtain from the [@aloidbot](https://t.me/aloidbot) bot. |
+| Telegram bot token | You can obtain this from the [@BotFather](https://t.me/botfather)  bot. |
 | Panel username | You can enter the username of the main or secondary admin. |
 | Panel password | You can enter the password of the main or secondary admin. |
 | Panel domine | Enter the subdomain of your panel, without 'https://' and port , just like : sub.domain.com |
