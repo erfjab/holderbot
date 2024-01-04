@@ -1,5 +1,23 @@
 ![Example Image](holderbotcover.png)
 
+<p align="center">
+ <a href="./README.md">
+ English
+ </a>
+ /
+ <a href="./README-fa.md">
+ فارسی
+ </a>
+  /
+  <a href="./README-zh-cn.md">
+ 简体中文
+ </a>
+   /
+  <a href="./README-ru.md">
+ Русский
+ </a>
+</p>
+
 # What is holderbot ?
 HolderBot is a fast and simple bot designed to address the absence of the `Start Timer After First Connection` option in the `Marzban Panel` frontend. By leveraging the Marzban Panel APIs, HoldrBot enables you to effortlessly utilize this functionality in Telegram.
 # How to install ?
