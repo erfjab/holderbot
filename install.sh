@@ -28,7 +28,6 @@ git clone https://github.com/erfjab/holderbot.git .
 
 # نصب پیش‌نیازها
 pip3 install -r requirements.txt
-
+pip install -U pyrogram tgcrypto
 # اجرای اسکریپت اصلی
-chmod +x holderbot.py
-nohup python3 holderbot.py &
+python3 holderbot.py
