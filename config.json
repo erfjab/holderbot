@@ -1,0 +1,7 @@
+{
+    "admin_telegram_bot": 123456789,
+    "telegram_bot_token": "bot-token",
+    "marzban_panel_username": "username",
+    "marzban_panel_password": "password",
+    "marzban_panel_domain": "sub.domain.com"
+  }
