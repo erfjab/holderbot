@@ -19,11 +19,6 @@ if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi
 
-# ایجاد و فعالسازی محیط مجازی
-sudo apt install python3.10-venv
-python3 -m venv venv
-source venv/bin/activate
-
 # ایجاد پوشه holder
 if [ -d "holder" ]; then
     echo "Deleting existing data in holder directory..."
@@ -39,6 +34,12 @@ cd holderbot
 
 # از GitHub اسکریپت را دریافت کن
 git clone https://github.com/erfjab/holderbot.git .
+
+# ایجاد و فعالسازی محیط مجازی
+sudo apt install python3.10-venv
+python3 -m venv venv
+source venv/bin/activate
+
 
 # نصب پیش‌نیازها
 pip install -r requirements.txt
