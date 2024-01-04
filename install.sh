@@ -19,19 +19,18 @@ if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi
 
+# ایجاد پوشه holder
+if [ -d "holder" ]; then
+    echo "Deleting existing data in holder directory..."
+    rm -rf holder
+fi
+
+mkdir holder
+cd holder
+
 # ایجاد پوشه holderbot
-if [ ! -d "holderbot" ]; then
-    mkdir holderbot
-fi
-
+mkdir holderbot
 cd holderbot
-
-# چک کردن برای وجود محتوای پوشه holderbot
-if [ "$(ls -A .)" ]; then
-    # در صورت وجود محتوا، حذف اطلاعات
-    echo "Deleting existing data in holderbot directory..."
-    rm -rf *
-fi
 
 # از GitHub اسکریپت را دریافت کن
 git clone https://github.com/erfjab/holderbot.git .
