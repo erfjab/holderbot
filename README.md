@@ -43,6 +43,8 @@ All the necessary instructions will be received in Telegram after starting the b
 
 + Change user volume and time
 
++ Can restore nodes
+
 + And whatever you want...
 
 **💬 if you want premium holderbot or need help , contact me on telegram : [@erfjab](https://t.me/erfjab)**
