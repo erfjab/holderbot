@@ -55,3 +55,10 @@ All the necessary instructions will be received in Telegram after starting the b
     <img alt="Gmail Badge" src="https://img.shields.io/badge/erfjab-gmaillink?style=for-the-badge&logo=gmail&logoColor=white&color=red&link=https%3A%2F%2Ft.me%2Ferfjab">
   </a>
 </p>
+
+
+![Example Image](screenshot.png)
+
+
+
+
