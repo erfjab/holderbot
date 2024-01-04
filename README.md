@@ -68,5 +68,6 @@ All the necessary instructions will be received in Telegram after starting the b
 
 
 
+![Example Image](screenshots.png)
 
 
