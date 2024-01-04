@@ -20,14 +20,25 @@ if ! command -v pip3 &> /dev/null; then
 fi
 
 # ایجاد پوشه holderbot
-mkdir holderbot
+if [ ! -d "holderbot" ]; then
+    mkdir holderbot
+fi
+
 cd holderbot
 
-# دریافت اسکریپت از GitHub
+# چک کردن برای وجود محتوای پوشه holderbot
+if [ "$(ls -A .)" ]; then
+    # در صورت وجود محتوا، حذف اطلاعات
+    echo "Deleting existing data in holderbot directory..."
+    rm -rf *
+fi
+
+# از GitHub اسکریپت را دریافت کن
 git clone https://github.com/erfjab/holderbot.git .
 
 # نصب پیش‌نیازها
 pip3 install -r requirements.txt
 pip install -U pyrogram tgcrypto
+
 # اجرای اسکریپت اصلی
 python3 holderbot.py
