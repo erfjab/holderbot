@@ -4,32 +4,36 @@ from pyrogram.errors.exceptions import *
 from io import *
 import requests , json , time , uuid , qrcode , html , re
 #---------------------------------input data---------------------------------
-while True :
-    admin_telegram_bot = int(input("please enter admin telegram id : "))
-    telegram_bot_token = input("please enter your telegram bot token : ")
-    marzban_panel_username = input("please enter your marzban panel username : ")
-    marzban_panel_password = input("please enter your marzban panel password : ")
-    marzban_panel_domine = input("please enter your marzban panel sub domain name (www.example.com): ")
-    #---------------------------------create acces token---------------------------------
-    try:
-        token_header = {  "accept" : "application/json" , "Content-Type" : "application/x-www-form-urlencoded" }
-        panel_token_data = {"username" : marzban_panel_username , "password" : marzban_panel_password}
-        panel_token = requests.post(url=f"https://{marzban_panel_domine}/api/admin/token" , data=panel_token_data)
-        if panel_token.status_code == 200 :
-            panel_token_back = json.loads(panel_token.text)
-            access_token = panel_token_back.get("access_token")
-            panel_headers = {
-                'accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': f"Bearer {access_token}"}
-            break
-        else :
-            print(panel_token.text)
-            print("i can't create acces token , please try again and enter true info or contact with spport @erfjab")
-    except Exception as e:
-        print(f"i have a error : {str(e)}")
-    
-    print("\n\n\n**********try again...**********\n\n\n")
+with open('holderbot/config.json', 'r') as file:
+    config = json.load(file)
+admin_telegram_bot = config['admin_telegram_bot']
+telegram_bot_token = config['telegram_bot_token']
+marzban_panel_username = config['marzban_panel_username']
+marzban_panel_password = config['marzban_panel_password']
+marzban_panel_domain  = config['marzban_panel_domain']
+#---------------------------------create acces token---------------------------------
+try:
+    token_header = {  "accept" : "application/json" , "Content-Type" : "application/x-www-form-urlencoded" }
+    panel_token_data = {"username" : marzban_panel_username , "password" : marzban_panel_password}
+    panel_token = requests.post(url=f"https://{marzban_panel_domain}/api/admin/token" , data=panel_token_data)
+    if panel_token.status_code == 200 :
+        panel_token_back = json.loads(panel_token.text)
+        access_token = panel_token_back.get("access_token")
+        panel_headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f"Bearer {access_token}"}
+        print("\n\n\n\n\n\n\n\n\n\nBOT IS STARTED...\n\n\n\n\n")
+    else :
+        print(panel_token.text)
+        print("\n\n\n\n\n\n\n\n\n\nError...\n\n\n\n\n")
+        print("i can't create acces token , please try again and enter true info or contact with spport @erfjab")
+        time.sleep(1)
+        print("\n\n\n\n\n\n\n\n\n\nPress Ctrl + C and go to github\n\n\n\n\n")
+        time.sleep(10)
+except Exception as e:
+    print(f"i have a error : {str(e)}")
+    time.sleep(10)
 #---------------------------------connect telgram bot---------------------------------
 app = Client(   
     "holderbot",      
@@ -37,8 +41,6 @@ app = Client(
     api_hash="408bf51732560cb81a0e32533b858cbf",
     bot_token=telegram_bot_token,
 )
-#---------------------------------go to bot start---------------------------------
-print("\n\n\n\n\nBOT IS STARTED...\n\n\n\n\n")
 #---------------------------------github star---------------------------------
 global sendgithub
 sendgithub = 0
