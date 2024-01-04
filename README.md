@@ -13,10 +13,15 @@
 # What is holderbot ?
 HolderBot is a fast and simple bot designed to address the absence of the `Start Timer After First Connection` option in the `Marzban Panel` frontend. By leveraging the Marzban Panel APIs, HoldrBot enables you to effortlessly utilize this functionality in Telegram.
 # How to install ?
-To install HolderBot, simply enter the following command on your ubuntu server.
+To install HolderBot, simply enter the following commands on your ubuntu server.
 ```
-None
+cd && cd ..
 ```
+
+```
+sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/install.sh && chmod +x install.sh && ./install.sh
+```
+
 Now that all the prerequisites are installed, you need to provide the following information to the bot for it to start.
 
 | Data | Description |
@@ -27,8 +32,19 @@ Now that all the prerequisites are installed, you need to provide the following 
 | Panel password | You can enter the password of the main or secondary admin. |
 | Panel domine | Enter the subdomain of your panel, without 'https://' and port , just like : sub.domain.com |
 
+After completing the information, your page will look like this:
 
-If you have entered your information correctly, a message confirming the bot startup will appear for you. if yes so enjoy.
+![Example Image](nohupshot.png)
+
+**Keep the page as it is and now test the bot; If your information is correct, the bot will create a user for you, and if it is not correct, it will not create a user.**
+If the bot did not create a user for you, return to the page and run the following command.
+```
+Ctrl C
+```
+Then go through the installation process again from the beginning, just be careful in completing your information.
+
+**Now, if this time bot user made, then enjoy.**
+
 # How to use ?
 All the necessary instructions will be received in Telegram after starting the bot. Enter the requested account information for the bot following this pattern: `Username volume Time` Then, it will ask for your confirmation. After receiving confirmation, it will send you a barcode and the text link for the created user. Also, a message containing the account details will be sent to you.
 
