@@ -4,7 +4,7 @@ from pyrogram.errors.exceptions import *
 from io import *
 import requests , json , time , uuid , qrcode , html , re
 #---------------------------------input data---------------------------------
-with open('holderbot/config.json', 'r') as file:
+with open('config.json', 'r') as file:
     config = json.load(file)
 admin_telegram_bot = config['admin_telegram_bot']
 telegram_bot_token = config['telegram_bot_token']
