@@ -24,9 +24,17 @@ All the necessary instructions will be received in Telegram after starting the b
 
 | Data | Description |
 | --- | --- |
-| username | text or number , no matter. |
-| volume | How much GB ? |
-| time | How many days? |
+| username | text or number , no matter. (Marzban rules : A-Z 0-9 3-32 character) |
+| volume | How much GB ? (Unlimited or Number(int))|
+| time | How many days? (Number(int))|
+
+> example: Alex 20 30
+
+> example: anna 50 30
+
+> example: jordi unlimited 120
+
+> example: erfjab unlimited 30 
 
 # ⭐ What is premium holderbot ?
 + Get the pro statistics bot with customize
@@ -43,7 +51,7 @@ All the necessary instructions will be received in Telegram after starting the b
 
 + Change user volume and time
 
-+ Can restore nodes
++ Can reconnect nodes
 
 + And whatever you want...
 
