@@ -1,4 +1,4 @@
-![Example Image](erfjab.png)
+![Example Image](holderbotcover.png)
 
 # What is holderbot ?
 HolderBot is a fast and simple bot designed to address the absence of the `Start Timer After First Connection` option in the `Marzban Panel` frontend. By leveraging the Marzban Panel APIs, HoldrBot enables you to effortlessly utilize this functionality in Telegram.
@@ -15,7 +15,7 @@ Now that all the prerequisites are installed, you need to provide the following 
 | Telegram bot token | You can obtain this from the @BotFather bot. |
 | Panel username | You can enter the username of the main or secondary admin. |
 | Panel password | You can enter the password of the main or secondary admin. |
-| Panel domine | Enter the subdomain of your panel, without 'https://' and port. |
+| Panel domine | Enter the subdomain of your panel, without 'https://' and port , just like : sub.domain.com |
 
 
 If you have entered your information correctly, a message confirming the bot startup will appear for you. if yes so enjoy.
@@ -31,11 +31,13 @@ All the necessary instructions will be received in Telegram after starting the b
 # ⭐ What is premium holderbot ?
 + Get the pro statistics bot with customize
 
-+ create admin with volume and time limits
++ Create admin with volume and time limits
 
 + Upload the link to the channel/group/PV
 
 + Create a group of users
+
++ Desired change of inbound configs
   
 + Restart user usage
 
@@ -43,8 +45,7 @@ All the necessary instructions will be received in Telegram after starting the b
 
 + And whatever you want...
 
-👤 just contact me on telegram : @erfjab
-
+**💬 if you want premium holderbot or need help , contact me on telegram : [@erfjab](https://t.me/erfjab)**
 
 <p align="center">
   <a target="_blank" href="https://t.me/erfjab">
