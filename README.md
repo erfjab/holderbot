@@ -8,14 +8,6 @@
  <a href="./README-fa.md">
  فارسی
  </a>
-  /
-  <a href="./README-zh-cn.md">
- 简体中文
- </a>
-   /
-  <a href="./README-ru.md">
- Русский
- </a>
 </p>
 
 # What is holderbot ?
