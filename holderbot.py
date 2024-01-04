@@ -105,7 +105,7 @@ async def handle_callback_query(client: Client, query: CallbackQuery):
         else :
             bytedata = int(user_data) * (1024**3)
         daysdata = user_date * (24*60*60)
-        url = f"https://{marzban_panel_domine}/api/user"
+        url = f"https://{marzban_panel_domain}/api/user"
         newuuid = uuid.uuid4()
         data={
         "username": user_name,
@@ -127,7 +127,7 @@ async def handle_callback_query(client: Client, query: CallbackQuery):
         responce = requests.post(url=url , headers=panel_headers , data=data)
         await query.message.delete()
         if responce.status_code == 200 :
-            url = f"https://{marzban_panel_domine}/api/user/{user_name}"
+            url = f"https://{marzban_panel_domain}/api/user/{user_name}"
             responce = requests.get(url=url , headers=panel_headers)
             if responce.status_code == 200 :
                 datauser = json.loads(responce.text)
