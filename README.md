@@ -37,10 +37,9 @@ After completing the information, your page will look like this:
 ![Example Image](nohupshot.png)
 
 **Keep the page as it is and now test the bot; If your information is correct, the bot will create a user for you, and if it is not correct, it will not create a user.**
-If the bot did not create a user for you, return to the page and run the following command.
-```
-Ctrl C
-```
+If the bot did not create a user for you, return to the page and run the following command. `CTRL + C`
+
+
 Then go through the installation process again from the beginning, just be careful in completing your information.
 
 **Now, if this time bot user made, then enjoy.**
