@@ -40,5 +40,21 @@ git clone https://github.com/erfjab/holderbot.git .
 pip3 install -r requirements.txt
 pip install -U pyrogram tgcrypto
 
-# اجرای اسکریپت اصلی
-python3 holderbot.py
+# اطلاعات را از کاربر بخوان
+read -p "Please enter admin telegram id: " admin_telegram_bot
+read -p "Please enter your telegram bot token: " telegram_bot_token
+read -p "Please enter your marzban panel username: " marzban_panel_username
+read -p "Please enter your marzban panel password: " marzban_panel_password
+read -p "Please enter your marzban panel sub domain name (www.example.com): " marzban_panel_domain
+
+# اطلاعات را در یک فایل JSON بنویس
+echo "{
+    \"admin_telegram_bot\": $admin_telegram_bot,
+    \"telegram_bot_token\": \"$telegram_bot_token\",
+    \"marzban_panel_username\": \"$marzban_panel_username\",
+    \"marzban_panel_password\": \"$marzban_panel_password\",
+    \"marzban_panel_domain\": \"$marzban_panel_domain\"
+}" > config.json
+
+chmod +x holderbot.py
+nohup python3 holderbot.py
