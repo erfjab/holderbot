@@ -60,4 +60,4 @@ echo "{
 }" > config.json
 
 chmod +x holderbot.py
-nohup python holderbot.py
+nohup python3 holderbot.py
