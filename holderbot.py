@@ -109,11 +109,7 @@ async def handle_callback_query(client: Client, query: CallbackQuery):
         newuuid = uuid.uuid4()
         data={
         "username": user_name,
-        "proxies": {
-            "vless": {
-            "id": f"{newuuid}"
-            }
-        },
+        "proxies": {},
         "inbounds": {},
         "expire" : 0,
         "data_limit": bytedata,
