@@ -20,9 +20,9 @@ if ! command -v pip3 &> /dev/null; then
 fi
 
 # چک کردن وجود پروسه holderbot.py و قطع کردن آن
-if pgrep -f "holderbot.py" &> /dev/null; then
+if pgrep -f "python3 holderbot.py" &> /dev/null; then
     echo "Stopping existing holderbot process..."
-    pkill -f "holderbot.py"
+    pkill -f "python3 holderbot.py"
 fi
 
 # ایجاد پوشه holder
