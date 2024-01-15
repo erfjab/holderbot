@@ -19,12 +19,6 @@ if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi
 
-# متوقف کردن پروسه holderbot.py اگر در حال اجرا باشد
-pkill -x "python3 holderbot.py"
-pkill -f "python3 holderbot.py"
-pkill -f "python3 holderbot.py"
-pkill -f "python3 holderbot.py"
-
 # چک کردن وجود پروسه holderbot.py و قطع کردن آن
 if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
     echo "Stopping existing holderbot process..."
@@ -32,20 +26,19 @@ if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
 fi
 
 # ایجاد پوشه holder
-if [ ! -d "holder" ]; then
+if [ -d "holder" ]; then
     echo "Deleting existing data in holder directory..."
-    rm -rf holder/*
+    rm -rf holder
 fi
 
-mkdir -p holder
+pkill -x "python3 holderbot.py"
+
+
+mkdir holder
 cd holder
 
 # ایجاد پوشه holderbot
-if [ ! -d "holderbot" ]; then
-    echo "Creating holderbot directory..."
-    mkdir holderbot
-fi
-
+mkdir holderbot
 cd holderbot
 
 # از GitHub اسکریپت را دریافت کن
