@@ -22,6 +22,8 @@ fi
 # متوقف کردن پروسه holderbot.py اگر در حال اجرا باشد
 pkill -x "python3 holderbot.py"
 pkill -f "python3 holderbot.py"
+pkill -f "python3 holderbot.py"
+pkill -f "python3 holderbot.py"
 
 # چک کردن وجود پروسه holderbot.py و قطع کردن آن
 if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
@@ -32,14 +34,16 @@ fi
 # ایجاد پوشه holder
 if [ -d "holder" ]; then
     echo "Deleting existing data in holder directory..."
-    rm -rf holder
+    rm -rf holder/*
+else
+    echo "Directory holder does not exist. Creating..."
 fi
 
-mkdir holder
+mkdir -p holder
 cd holder
 
 # ایجاد پوشه holderbot
-mkdir holderbot
+mkdir -p holderbot
 cd holderbot
 
 # از GitHub اسکریپت را دریافت کن
