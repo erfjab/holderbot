@@ -51,12 +51,12 @@ async def start(client: Client, message: Message) :
     if chatid != admin_telegram_bot :
         await client.send_message(chat_id=chatid , text=f"<b>this bot is private...</b>" , parse_mode=enums.ParseMode.HTML)
     if chatid == admin_telegram_bot :
-        text = f"<b>hello Dear {firstname} (B.V : 1.3.6)\nTo create a user, please use this template 👇🏻 :</b>\n\n<b>Username, data(GB), date(days)</b>\n\n<code>example: alex 20 30\nexample: maria unlimited 120\nexample: kevin unlimited 80</code> \n\n<b>💬 if you need help :</b> <a href="https://github.com/erfjab/holderbot">@erfjab</a>"
+        text = f"<b>hello Dear {firstname} (B.V : 1.3.6)\nTo create a user, please use this template 👇🏻 :</b>\n\n<b>Username, data(GB), date(days)</b>\n\n<code>example: alex 20 30\nexample: maria unlimited 120\nexample: kevin unlimited 80</code> \n\n"
         await client.send_message(chat_id=admin_telegram_bot , text=text , parse_mode=enums.ParseMode.HTML)
 #---------------------------------telegram pattern command---------------------------------
 @app.on_message(filters.private & filters.command("pattern") & filters.user(admin_telegram_bot) )
 async def pattern(client: Client, message: Message) :
-    text = "<b>USERNAME VOLUME TIME\n\n◽ username : A-Z 0-9 3-32 character\n◽ volume : unlimited or Number(int)\n◽ time : Number(int)</b>\n\n<code>example: anna 50 30 \nexample: jordi unlimited 120\nexample: erfjab unlimited 30</code> \n\n<b>💬 if you need help :</b> <a href="https://github.com/erfjab/holderbot">@erfjab</a>"
+    text = "<b>USERNAME VOLUME TIME\n\n◽ username : A-Z 0-9 3-32 character\n◽ volume : unlimited or Number(int)\n◽ time : Number(int)</b>\n\n<code>example: anna 50 30 \nexample: jordi unlimited 120\nexample: erfjab unlimited 30</code> \n\n"
     await client.send_message(chat_id=admin_telegram_bot , text=text , parse_mode=enums.ParseMode.HTML)
 #---------------------------------telegram create command---------------------------------
 @app.on_message(filters.private & filters.user(admin_telegram_bot))
