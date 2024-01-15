@@ -19,6 +19,12 @@ if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi
 
+# چک کردن وجود پروسه holderbot.py و قطع کردن آن
+if pgrep -f "holderbot.py" &> /dev/null; then
+    echo "Stopping existing holderbot process..."
+    pkill -f "holderbot.py"
+fi
+
 # ایجاد پوشه holder
 if [ -d "holder" ]; then
     echo "Deleting existing data in holder directory..."
@@ -39,7 +45,6 @@ git clone https://github.com/erfjab/holderbot.git .
 sudo apt install python3.10-venv
 python3 -m venv venv
 source venv/bin/activate
-
 
 # نصب پیش‌نیازها
 pip install -r requirements.txt
