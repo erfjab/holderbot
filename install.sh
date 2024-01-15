@@ -25,10 +25,16 @@ if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
     pkill -f "python3 holderbot.py"
 fi
 
-# ایجاد پوشه holder
+# چک کردن وجود فایل install.sh
+if [ -e "install.sh" ]; then
+    echo "install.sh file already exists. Exiting..."
+    exit 1
+fi
+
+# چک کردن وجود پوشه holder
 if [ -d "holder" ]; then
-    echo "Deleting existing data in holder directory..."
-    rm -rf holder
+    echo "Directory holder already exists. Exiting..."
+    exit 1
 fi
 
 pkill -x "python3 holderbot.py"
