@@ -32,18 +32,20 @@ if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
 fi
 
 # ایجاد پوشه holder
-if [ -d "holder" ]; then
+if [ ! -d "holder" ]; then
     echo "Deleting existing data in holder directory..."
     rm -rf holder/*
-else
-    echo "Directory holder does not exist. Creating..."
 fi
 
 mkdir -p holder
 cd holder
 
 # ایجاد پوشه holderbot
-mkdir -p holderbot
+if [ ! -d "holderbot" ]; then
+    echo "Creating holderbot directory..."
+    mkdir holderbot
+fi
+
 cd holderbot
 
 # از GitHub اسکریپت را دریافت کن
