@@ -37,6 +37,15 @@ if [ -d "holder" ]; then
     rm -rf holder
 fi
 
+# بررسی وجود پوشه holder و عدم وجود فایل‌های install.sh
+if [ -d "holder" ] && [ ! -e "install.sh" ]; then
+    echo "Deleting existing data in holder directory..."
+    rm -rf holder
+else
+    echo "Directory holder does not exist or install.sh file already exists. Exiting..."
+    exit 1
+fi 
+
 mkdir holder
 cd holder
 
