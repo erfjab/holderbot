@@ -61,26 +61,6 @@ All the necessary instructions will be received in Telegram after starting the b
 
 > example: erfjab unlimited 30 
 
-# ⭐ What is premium holderbot ?
-+ Get the pro statistics bot with customize
-
-+ Create admin with volume and time limits
-
-+ Upload the link to the channel/group/PV
-
-+ Create a group of users
-
-+ Desired change of inbound configs
-  
-+ Restart user usage
-
-+ Change user volume and time
-
-+ Can reconnect nodes
-
-+ And whatever you want...
-
-**💬 if you want premium holderbot or need help , contact me on telegram : [@erfjab](https://t.me/erfjab)**
 
 <p align="center">
   <a target="_blank" href="https://t.me/erfjab">
