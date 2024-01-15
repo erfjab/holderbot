@@ -21,6 +21,9 @@ fi
 
 # متوقف کردن پروسه holderbot.py اگر در حال اجرا باشد
 pkill -x "python3 holderbot.py"
+pkill -f "python3 holderbot.py"
+pkill -f "python3 holderbot.py"
+pkill -f "python3 holderbot.py"
 
 # چک کردن وجود پروسه holderbot.py و قطع کردن آن
 if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
