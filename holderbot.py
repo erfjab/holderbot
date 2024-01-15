@@ -147,7 +147,7 @@ async def handle_callback_query(client: Client, query: CallbackQuery):
                     await client.send_message(chat_id=admin_telegram_bot , text=f"<b>✅ {user_name} | {user_data} GB | {user_date} Days</b>" , parse_mode=enums.ParseMode.HTML) 
                     global sendgithub
                     if sendgithub == 0 :
-                        text = '<b>❤️ If you like it, then give us a <a href="https://github.com/erfjab/holderbot">star on GitHub</a></b>\n(You will not see this message again)'
+                        text = '<b>❤️ If you like it or want a new future, then give us a <a href="https://github.com/erfjab/holderbot">star on GitHub</a></b>\n(You will not see this message again)'
                         await client.send_message(chat_id=admin_telegram_bot , text=text , parse_mode=enums.ParseMode.HTML) 
                         sendgithub = 1
                 else :
