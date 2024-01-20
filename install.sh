@@ -68,4 +68,4 @@ echo "{
 }" > config.json
 
 chmod +x holderbot.py
-nohup python3 holderbot.py &
+nohup python3 holderbot.py 
