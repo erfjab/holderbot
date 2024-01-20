@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# دستور آپدیت سرور
-sudo apt install && sudo apt-get install libjpeg-dev
-
 # ورود به روت 
 cd && cd ..
 
