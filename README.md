@@ -48,7 +48,7 @@ Then go through the installation process again from the beginning, just be caref
 
 **Now, if this time bot user made, then enjoy.** (Close the server without command.)
 
-# How to use ?
+# How to use ? (Not completed)
 All the necessary instructions will be received in Telegram after starting the bot. Enter the requested account information for the bot following this pattern: `Username volume Time` Then, it will ask for your confirmation. After receiving confirmation, it will send you a barcode and the text link for the created user. Also, a message containing the account details will be sent to you.
 
 | Data | Description |
