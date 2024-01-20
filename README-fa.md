@@ -20,6 +20,11 @@ cd && cd ..
 ```
 
 ```
+rm install.sh*
+```
+
+
+```
 sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/install.sh && chmod +x install.sh && ./install.sh
 ```
 حالا که همه پیش‌نیازها نصب شدن، برای استارت زدن ربات اطلاعات زیر رو بهش بدید.
