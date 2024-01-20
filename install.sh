@@ -49,7 +49,6 @@ python3 -m venv venv
 source venv/bin/activate
 
 # نصب پیش‌نیازها
-pip install -r requirements.txt
 pip install -U pyrogram tgcrypto
 pip install -U requests
 pip install -U Pillow
