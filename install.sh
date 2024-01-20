@@ -51,6 +51,9 @@ source venv/bin/activate
 # نصب پیش‌نیازها
 pip install -r requirements.txt
 pip install -U pyrogram tgcrypto
+pip install -U requests
+pip install -U Pillow
+pip install -U qrcode[pil]
 
 # اطلاعات را از کاربر بخوان
 read -p "Please enter admin telegram id: " admin_telegram_bot
