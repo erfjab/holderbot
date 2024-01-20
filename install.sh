@@ -49,6 +49,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # نصب پیش‌نیازها
+pip install -r requirements.txt
 pip install -U pyrogram tgcrypto
 
 # اطلاعات را از کاربر بخوان
