@@ -6,7 +6,7 @@ import requests , json , time , qrcode , html , re
 #---------------------------------input data---------------------------------
 with open('config.json', 'r') as file:
     config = json.load(file)
-admin_telegram_bot = config['admin_telegram_bot']
+admin_telegram_bot = int(config['admin_telegram_bot'])
 telegram_bot_token = config['telegram_bot_token']
 marzban_panel_username = config['marzban_panel_username']
 marzban_panel_password = config['marzban_panel_password']
@@ -47,7 +47,7 @@ async def start(client: Client, message: Message) :
     if chatid != admin_telegram_bot :
         await client.send_message(chat_id=chatid , text=f"<b>this bot is private...</b>" , parse_mode=enums.ParseMode.HTML)
     if chatid == admin_telegram_bot :
-        text = f"<b>hello Dear {firstname} (B.V : 2.0.1)\nTo create a user, please use this template 👇🏻 :</b>\n\n<b>username tag , number start , how much?, data(GB), date(days)</b>\n\n<code>example: alex 103 10 20 30\nexample: maria 584 5 unlimited 120\nexample: kevin 13 1 unlimited 80</code>\n\n"
+        text = f"<b>hello Dear {firstname} (version : 2.0.1)\nTo create a user, please use this template 👇🏻 :</b>\n\n<b>username tag , number start , how much?, data(GB), date(days)</b>\n\n<code>example: alex 103 10 20 30\nexample: maria 584 5 unlimited 120\nexample: kevin 13 1 unlimited 80</code>\n\n"
         await client.send_message(chat_id=admin_telegram_bot , text=text , parse_mode=enums.ParseMode.HTML)
 #---------------------------------telegram pattern command---------------------------------
 @app.on_message(filters.private & filters.command("pattern") & filters.user(admin_telegram_bot) )
