@@ -75,7 +75,7 @@ echo "{
 chmod +x node_status_checker.py
 nohup python3 node_status_checker.py 
 
-chmod +x holder.py
-nohup python3 holder.py
+chmod +x Holder.py
+nohup python3 Holder.py
 
 
