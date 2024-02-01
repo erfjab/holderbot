@@ -54,8 +54,9 @@ pip install -U requests
 pip install -U Pillow
 pip install -U qrcode[pil]
 pip install -U persiantools
+pip install -U pytz
 
-cleare
+clear
 
 # اطلاعات را از کاربر بخوان
 read -p "Please enter admin telegram id: " admin_telegram_bot
