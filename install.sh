@@ -55,6 +55,7 @@ pip install -U Pillow
 pip install -U qrcode[pil]
 pip install -U persiantools
 pip install -U pytz
+pip install -U python-dateutil
 
 clear
 
