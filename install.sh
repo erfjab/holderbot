@@ -53,6 +53,7 @@ pip install -U pyrogram tgcrypto
 pip install -U requests
 pip install -U Pillow
 pip install -U qrcode[pil]
+pip install -U persiantools
 
 # اطلاعات را از کاربر بخوان
 read -p "Please enter admin telegram id: " admin_telegram_bot
@@ -70,5 +71,11 @@ echo "{
     \"marzban_panel_domain\": \"$marzban_panel_domain\"
 }" > config.json
 
-chmod +x holderbot.py
-nohup python3 holderbot.py 
+
+chmod +x node_status_checker.py
+nohup python3 node_status_checker.py 
+
+chmod +x holder.py
+nohup python3 holder.py
+
+
