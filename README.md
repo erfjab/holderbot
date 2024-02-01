@@ -1,17 +1,8 @@
 ![Example Image](holderbotcover.png)
 
-<p align="center">
- <a href="./README.md">
- English
- </a>
- /
- <a href="./README-fa.md">
- فارسی
- </a>
-</p>
 
 # هولدربات چیه؟
-هولدر بات یه ربات سریع و ساده‌ست که برای حل مشکل عدم وجود گزینه `شروع تایمر پس از اولین اتصال` در رابط کاربری "پنل مرزبان" ساخته شده. با استفاده از رابط‌های برنامه نویسی `پنل مرزبان`، هولدر بات بهت این امکان رو می‌ده که به راحتی از این قابلیت در تلگرام استفاده کنید.
+هولدر بات یه ربات سریع و ساده‌ست که برای حل مشکل عدم وجود گزینه `شروع تایمر پس از اولین اتصال` در رابط کاربری "پنل مرزبان" ساخته شده. با استفاده از رابط‌های برنامه نویسی `پنل مرزبان`، هولدر بات بهت این امکان رو می‌ده که به راحتی از این قابلیت در تلگرام استفاده کنید. ولی بعد از آپدیت 3.0 هولدربات قضیه یکمی متفاوت تر شد و هولدربات امکانات خاصی برای کاربران عرضه کرد. برای اطلاعات بیشتر در کانال [@holderbotchanel](https://t.me/holderbotchanel) عضو شوید ، نصب کنید و لذت ببرید.
 
 # چجوری نصب کنیم؟
 برای نصب فقط کافیه دستورات زیر را در سرور ابونتوی خود وارد کنید.
@@ -31,7 +22,7 @@ sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubu
 
 | اطلاعات | توضیحات |
 | --- | --- |
-| شناسه کاربری ادمین | شناسه کاربری تلگرامی شخصی که می‌خواهد از ربات استفاده کند. می‌توانید این اطلاعات را از این ربات بدست آورید. [@aloidbot](https://t.me/aloidbot) |
+| شناسه کاربری ادمین | شناسه کاربری تلگرامی شخصی که می‌خواهد از ربات استفاده کند. می‌توانید این اطلاعات را از این ربات بدست آورید. [@userinfobot](https://t.me/userinfobot) |
 | توکن ربات تلگرام | توکن بات تلگرامی خود را میتوانید از طریق [@BotFather](https://t.me/botfather) بدست آورید. |
 | نام کاربری پنل | می‌توانید نام کاربری مدیر اصلی یا ادمین را وارد کنید. |
 | رمز عبور پنل | می‌توانید رمز عبور مدیر اصلی یا ادمین را وارد کنید. |
@@ -52,36 +43,18 @@ Ctrl C
 
 # بروزرسانی و امکانات جدید ؟
 
-برای `بورزسانی و افزودن امکانات جدید` به بات ، میتوانید `به گیت هاب هولدربات ستاره بدید.` همچنین برای حمایت های مالی میتوانید از این آأرس کیف پول ترون `TNU42jETaCLg96Dw3Sdcjbrfq1AdHVu4Rr` استفاده کنید. از همه ی شما متشکریم.
+برای `بورزسانی و افزودن امکانات جدید` به بات ، میتوانید به گیت هاب هولدربات ستاره بدید.
 
-# چجوری استفاده کنیم؟ ( تکمیل نشده)
+# چجوری استفاده کنیم؟ 
 
-همه دستورات لازم بعد از شروع ربات، در تلگرام دریافت می‌شود. بر اساس الگوی زیر، اطلاعات حساب خود را برای ربات وارد کنید: `نام‌کاربری حجم زمان` سپس، از شما تأیید خواهد شد. پس از دریافت تأیید، یک بارکد و لینک متنی برای حساب کاربری ایجاد شده برای شما ارسال می‌شود. همچنین، یک پیام حاوی جزئیات حساب به شما ارسال می‌شود.
-
-| اطلاعات | توضیحات |
-| --- | --- |
-| نام‌کاربری | متن یا عدد، مهم نیست. (قوانین مرزبان: A-Z 0-9 3-32 کاراکتر) |
-| حجم | چند گیگابایت؟ (نامحدود یا عدد (صحیح))|
-| زمان | چند روز؟ (عدد (صحیح))|
-
-> مثال: erfjab 20 30
-
-> مثال: marzban 50 30
-
-> مثال: me unlimited 120
-
-> مثال: you unlimited 30
-
+چنل [@holderbotchanel](https://t.me/holderbotchanel) جهت ارائه آموزش ها ، اطلاع رسانی های آپدیت ها ، نظرسنجی ها برای اضافه شدن ویژگی های جدید و از این قبیل تشکیل شده است.
 
 <p align="center">
-  <a target="_blank" href="https://t.me/erfjab">
-    <img alt="Telegram Badge" src="https://img.shields.io/badge/erfjab-Telegramlink?style=for-the-badge&logo=telegram&logoColor=white&color=blue&link=https%3A%2F%2Ft.me%2Ferfjab&link=https%3A%2F%2Ft.me%2Ferfjab">
+  <a target="_blank" href="https://t.me/holderbotchanel">
+    <img alt="Telegram Badge" src="https://img.shields.io/badge/holderbotchanel-Telegramlink?style=for-the-badge&logo=telegram&logoColor=white&color=blue&link=https%3A%2F%2Ft.me%2Fholderbotchanel&link=https%3A%2F%2Ft.me%2Fholderbotchanel">
   </a>
   <a target="_blank" href="mailto:erfjab@gmail.com">
     <img alt="Gmail Badge" src="https://img.shields.io/badge/erfjab-gmaillink?style=for-the-badge&logo=gmail&logoColor=white&color=red&link=https%3A%2F%2Ft.me%2Ferfjab">
   </a>
 </p>
 
-
-
-![Example Image](screenshots.png)
