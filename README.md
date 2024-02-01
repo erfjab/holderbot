@@ -2,7 +2,7 @@
 
 
 # هولدربات چیه؟ (ورژن 3.0)
-هولدر بات یه ربات سریع و ساده‌ست که برای حل مشکل عدم وجود گزینه `شروع تایمر پس از اولین اتصال` در رابط کاربری "پنل مرزبان" ساخته شده. با استفاده از رابط‌های برنامه نویسی `پنل مرزبان`، هولدر بات بهت این امکان رو می‌ده که به راحتی از این قابلیت در تلگرام استفاده کنید. ولی بعد از آپدیت 3.0 هولدربات قضیه یکمی متفاوت تر شد و هولدربات امکانات خاصی برای کاربران عرضه کرد. برای اطلاعات بیشتر به قسمت بروزرسانی ها مراجعه کنید و یا در کانال [@holderbotchanel](https://t.me/holderbotchanel) عضو شوید ، نصب کنید و لذت ببرید.
+هولدر بات یه ربات سریع و ساده‌ست که برای حل مشکل عدم وجود گزینه `شروع تایمر پس از اولین اتصال` در رابط کاربری "پنل مرزبان" ساخته شده. با استفاده از رابط‌های برنامه نویسی `پنل مرزبان`، هولدر بات بهت این امکان رو می‌ده که به راحتی از این قابلیت در تلگرام استفاده کنید. ولی بعد از آپدیت 3.0 هولدربات قضیه یکمی متفاوت تر شد و هولدربات امکانات خاصی برای کاربران عرضه کرد. برای اطلاعات بیشتر به قسمت بروزرسانی ها مراجعه کنید و یا در کانال [@ErfjabHolderbot](https://t.me/ErfjabHolderbot) عضو شوید ، نصب کنید و لذت ببرید.
 
 # چجوری نصب کنیم؟
 برای نصب فقط کافیه دستورات زیر را در سرور ابونتوی خود وارد کنید.
@@ -73,14 +73,11 @@ Ctrl C
 
 # چجوری استفاده کنیم؟ 
 
-چنل [@holderbotchanel](https://t.me/holderbotchanel) جهت ارائه آموزش ها ، اطلاع رسانی های آپدیت ها ، نظرسنجی ها برای اضافه شدن ویژگی های جدید و از این قبیل تشکیل شده است.
+چنل [@ErfjabHolderbot](https://t.me/ErfjabHolderbot) جهت ارائه آموزش ها ، اطلاع رسانی های آپدیت ها ، نظرسنجی ها برای اضافه شدن ویژگی های جدید و از این قبیل تشکیل شده است.
 
 <p align="center">
-  <a target="_blank" href="https://t.me/holderbotchanel">
-    <img alt="Telegram Badge" src="https://img.shields.io/badge/holderbotchanel-Telegramlink?style=for-the-badge&logo=telegram&logoColor=white&color=blue&link=https%3A%2F%2Ft.me%2Fholderbotchanel&link=https%3A%2F%2Ft.me%2Fholderbotchanel">
-  </a>
-  <a target="_blank" href="mailto:erfjab@gmail.com">
-    <img alt="Gmail Badge" src="https://img.shields.io/badge/erfjab-gmaillink?style=for-the-badge&logo=gmail&logoColor=white&color=red&link=https%3A%2F%2Ft.me%2Ferfjab">
+  <a target="_blank" href="https://t.me/ErfjabHolderbot">
+    <img alt="Telegram Badge" src="https://img.shields.io/badge/holderbotchanel-Telegramlink?style=for-the-badge&logo=telegram&logoColor=white&color=blue&link=https%3A%2F%2Ft.me%2FErfjabHolderbot&link=https%3A%2F%2Ft.me%2FErfjabHolderbot">
   </a>
 </p>
 
