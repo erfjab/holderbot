@@ -49,6 +49,9 @@ with app :
         # set panel info
         PANEL_HEADERS = CREATE_TOKEN_TO_ACCESS_PANEL(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)            
 
+        # set problem timer
+        NODE_HAVE_A_PROBLEM = False
+        
         # set url
         URL = f"https://{PANEL_DOMAIN}/api/nodes"
         RESPONCE = requests.get(url=URL , headers=PANEL_HEADERS)
@@ -79,7 +82,7 @@ with app :
                     app.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML)
 
             # wait next check           
-            if NODE_HAVE_A_PROBLEM :
+            if NODE_HAVE_A_PROBLEM == True :
                 time.sleep(120)        
             else :
                 time.sleep(10)
