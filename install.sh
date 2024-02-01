@@ -55,6 +55,8 @@ pip install -U Pillow
 pip install -U qrcode[pil]
 pip install -U persiantools
 
+cleare
+
 # اطلاعات را از کاربر بخوان
 read -p "Please enter admin telegram id: " admin_telegram_bot
 read -p "Please enter your telegram bot token: " telegram_bot_token
@@ -75,7 +77,7 @@ echo "{
 chmod +x node_status_checker.py
 nohup python3 node_status_checker.py 
 
-chmod +x Holder.py
-nohup python3 Holder.py
+chmod +x holder.py
+nohup python3 holder.py
 
 
