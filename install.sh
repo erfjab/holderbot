@@ -49,13 +49,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # نصب پیش‌نیازها
-pip install -U pyrogram tgcrypto
-pip install -U requests
-pip install -U Pillow
-pip install -U qrcode[pil]
-pip install -U persiantools
-pip install -U pytz
-pip install -U python-dateutil
+pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil
 
 clear
 
@@ -79,7 +73,8 @@ echo "{
 chmod +x node_status_checker.py
 nohup python3 node_status_checker.py 
 
+chmod +x node_status_checker.py
 chmod +x holder.py
-nohup python3 holder.py
+nohup python3 node_status_checker.py & python3 holder.py &
 
 
