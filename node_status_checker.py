@@ -45,45 +45,46 @@ def CREATE_TOKEN_TO_ACCESS_PANEL (PANEL_USER , PANEL_PASS , PANEL_DOMAIN) :
 
 with app :
     while True :
-
-        # set panel info
-        PANEL_HEADERS = CREATE_TOKEN_TO_ACCESS_PANEL(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)            
-
-        # set wait false
-        NODE_HAVE_A_PROBLEM = False
-        
-        # set url
-        URL = f"https://{PANEL_DOMAIN}/api/nodes"
-        RESPONCE = requests.get(url=URL , headers=PANEL_HEADERS)
-        if RESPONCE.status_code == 200 :
-            RESPONCE_DATA = RESPONCE.json()
-
-            # check node
-            for NODE in RESPONCE_DATA :
-                
-                # node status
-                RD_NODE_STATUS = NODE.get("status")
-
-                if RD_NODE_STATUS == "error" or RD_NODE_STATUS == "connecting" :
+        try :
+            # set panel info
+            PANEL_HEADERS = CREATE_TOKEN_TO_ACCESS_PANEL(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)            
+    
+            # set wait false
+            NODE_HAVE_A_PROBLEM = False
+            
+            # set url
+            URL = f"https://{PANEL_DOMAIN}/api/nodes"
+            RESPONCE = requests.get(url=URL , headers=PANEL_HEADERS)
+            if RESPONCE.status_code == 200 :
+                RESPONCE_DATA = RESPONCE.json()
+    
+                # check node
+                for NODE in RESPONCE_DATA :
                     
-                    # node info
-                    RD_NODE_NAME = NODE.get("name")
-                    RD_NODE_MESSAGE = NODE.get("message")
-                    RD_NODE_ADDRESS = NODE.get("address")
-                    RD_NODE_ID = NODE.get("id")
-
-                    # set text
-                    TEXT = f"<b>🚨مشکلی در یکی از نود های سرورتون پیدا شده! هرچه زودتر بررسی کنید. برای مزاحم نشدن به بررسی شما ، بات تا 2 دقیقه آینده نودهارو چک نخواهد کرد.\n\nسرور نود :</b> {RD_NODE_NAME}\n<b>آیپی نود : </b>{RD_NODE_ADDRESS}\n<b>وضعیت نود : </b>{RD_NODE_STATUS}\n<b>پیام پنل : </b>\n{RD_NODE_MESSAGE}"
-                    
-                    # set wait more
-                    NODE_HAVE_A_PROBLEM = True
-
-                    # send admin
-                    app.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML)
-
-            # wait next check           
-            if NODE_HAVE_A_PROBLEM is True :
-                time.sleep(120)        
-            else :
-                time.sleep(10)
-
+                    # node status
+                    RD_NODE_STATUS = NODE.get("status")
+    
+                    if RD_NODE_STATUS == "error" or RD_NODE_STATUS == "connecting" :
+                        
+                        # node info
+                        RD_NODE_NAME = NODE.get("name")
+                        RD_NODE_MESSAGE = NODE.get("message")
+                        RD_NODE_ADDRESS = NODE.get("address")
+                        RD_NODE_ID = NODE.get("id")
+    
+                        # set text
+                        TEXT = f"<b>🚨مشکلی در یکی از نود های سرورتون پیدا شده! هرچه زودتر بررسی کنید. برای مزاحم نشدن به بررسی شما ، بات تا 2 دقیقه آینده نودهارو چک نخواهد کرد.\n\nسرور نود :</b> {RD_NODE_NAME}\n<b>آیپی نود : </b>{RD_NODE_ADDRESS}\n<b>وضعیت نود : </b>{RD_NODE_STATUS}\n<b>پیام پنل : </b>\n{RD_NODE_MESSAGE}"
+                        
+                        # set wait more
+                        NODE_HAVE_A_PROBLEM = True
+    
+                        # send admin
+                        app.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML)
+    
+                # wait next check           
+                if NODE_HAVE_A_PROBLEM is True :
+                    time.sleep(120)        
+                else :
+                    time.sleep(10)
+        except Exception as e:
+            app.storage.db_connect()    
