@@ -9,8 +9,8 @@ import requests , json , time , qrcode , html , re , pytz
 
 #------------------------------------- JSON INFO -------------------------------------#
 
-with open('config.json', 'r') as file:
-    CONFIG = json.load(file)
+with open('config.json', 'r', encoding='utf-8') as file:
+    config = json.load(file)
 
 ADMIN_TGBOT = int(CONFIG['admin_telegram_bot'])
 PANEL_USER = CONFIG['marzban_panel_username']
