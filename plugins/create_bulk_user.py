@@ -122,11 +122,10 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
             ]
             KEYBOARD_INBOUNDS.append([
                 InlineKeyboardButton("❌ بیخیال", callback_data="cr no"),
-                InlineKeyboardButton("✅ برو بعدی", callback_data="cr createusers")
+                InlineKeyboardButton("✅ بسازش", callback_data="cr createusers")
             ])
             await query.edit_message_text(text="<b>لطفا اینباندهای مدنظرتون رو انتخاب کنید.</b>" , reply_markup=InlineKeyboardMarkup(KEYBOARD_INBOUNDS) , parse_mode=enums.ParseMode.HTML)
-            return 
-            
+
         elif CALLBACK_DATA.startswith("cr tag") :
             SELECTED_TAG = CALLBACK_DATA[7:]
             INBOUNDS_TAG_NAME[SELECTED_TAG] = not INBOUNDS_TAG_NAME[SELECTED_TAG]
@@ -141,8 +140,7 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                 InlineKeyboardButton("✅ بسازش", callback_data="cr createusers")
             ])
             await query.edit_message_text(text="<b>لطفا اینباندهای مدنظرتون رو انتخاب کنید.</b>" , reply_markup=InlineKeyboardMarkup(KEYBOARD_INBOUNDS) , parse_mode=enums.ParseMode.HTML)
-            return
-            
+
         elif CALLBACK_DATA == "cr createusers" :
 
             # set inbounds url
@@ -172,7 +170,6 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                 return
             else :
                 await query.message.delete()
-            
             # set proxys
             PROXY_LIST = {}
             for CATAGORY , TAGS in FORMATTED_DATA.items() :
