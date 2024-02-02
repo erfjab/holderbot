@@ -68,7 +68,7 @@ read -p "Please enter admin telegram id: " admin_telegram_bot
 read -p "Please enter your telegram bot token: " telegram_bot_token
 read -p "Please enter your marzban panel username: " marzban_panel_username
 read -p "Please enter your marzban panel password: " marzban_panel_password
-read -p "Please enter your marzban panel sub domain name (www.example.com): " marzban_panel_domain
+read -p "Please enter your marzban panel sub domain name (sub.domain.com:port): " marzban_panel_domain
 
 # اطلاعات را در یک فایل JSON بنویس
 echo "{
