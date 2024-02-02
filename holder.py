@@ -5,7 +5,7 @@ from io import *
 import json
 
 #------------------------- IMPORT INFO -------------------------#
-with open('config.json', 'r') as file:
+with open('config.json', 'r', encoding='utf-8') as file:
     config = json.load(file)
 telegram_bot_token = config['telegram_bot_token']
 
