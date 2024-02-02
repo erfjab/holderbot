@@ -68,9 +68,6 @@ echo "{
 }" > config.json
 
 chmod +x node_status_checker.py
-nohup python3 node_status_checker.py 
-
-chmod +x node_status_checker.py
 chmod +x holder.py
 nohup python3 node_status_checker.py & python3 holder.py &
 
