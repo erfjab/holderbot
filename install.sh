@@ -25,6 +25,12 @@ if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
     pkill -f "python3 holderbot.py"
 fi
 
+# چک کردن وجود پروسه holderbot.py و قطع کردن آن
+if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
+    echo "Stopping existing holder process..."
+    pkill -f "python3 holder.py"
+fi
+
 # چک کردن وجود پوشه holder و حذف آن
 if [ -d "holder" ]; then
     echo "Directory holder already exists. Deleting..."
