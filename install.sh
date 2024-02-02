@@ -49,6 +49,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # نصب پیش‌نیازها
+sudo apt-get install libsqlite3-dev
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3
 
 
