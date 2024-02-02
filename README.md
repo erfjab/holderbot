@@ -7,13 +7,8 @@
 # چجوری نصب کنیم؟ (همچنین آپدیت)
 برای آپدیت ابتدا توکن بات را revoke کنید. سپس برای نصب فقط کافیه دستورات زیر را در سرور ابونتوی خود وارد کنید.
 ```
-cd && cd ..
+cd && cd .. && rm install.sh*
 ```
-
-```
-rm install.sh*
-```
-
 
 ```
 sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/install.sh && chmod +x install.sh && ./install.sh
