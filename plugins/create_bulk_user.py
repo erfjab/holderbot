@@ -239,12 +239,12 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                             USER_START = USER_START + 1
                         
                     else :
-                        TEXT = f"<b>❌ ارور ارسال کاربر</b>\n<code>{str(RESPONCE_DATA.text)}</code>"
+                        TEXT = f"<b>❌ ارور ارسال کاربر</b>\n<code>{str(RESPONCE.text)}</code>"
                         await client.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML) 
                         break
 
                 else :
-                    TEXT = f"<b>❌ ارور ساخت کاربر</b>\n<code>{str(RESPONCE_DATA.text)}</code>"
+                    TEXT = f"<b>❌ ارور ساخت کاربر</b>\n<code>{str(RESPONCE.text)}</code>"
                     await client.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML) 
                     break
         elif CALLBACK_DATA == "cr no" :
