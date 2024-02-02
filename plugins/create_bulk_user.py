@@ -141,7 +141,8 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                 InlineKeyboardButton("✅ بسازش", callback_data="cr createusers")
             ])
             await query.edit_message_text(text="<b>لطفا اینباندهای مدنظرتون رو انتخاب کنید.</b>" , reply_markup=InlineKeyboardMarkup(KEYBOARD_INBOUNDS) , parse_mode=enums.ParseMode.HTML)
-
+            return
+            
         elif CALLBACK_DATA == "cr createusers" :
 
             # set inbounds url
