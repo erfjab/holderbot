@@ -125,7 +125,8 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                 InlineKeyboardButton("✅ برو بعدی", callback_data="cr createusers")
             ])
             await query.edit_message_text(text="<b>لطفا اینباندهای مدنظرتون رو انتخاب کنید.</b>" , reply_markup=InlineKeyboardMarkup(KEYBOARD_INBOUNDS) , parse_mode=enums.ParseMode.HTML)
-
+            return 
+            
         elif CALLBACK_DATA.startswith("cr tag") :
             SELECTED_TAG = CALLBACK_DATA[7:]
             INBOUNDS_TAG_NAME[SELECTED_TAG] = not INBOUNDS_TAG_NAME[SELECTED_TAG]
