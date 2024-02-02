@@ -35,7 +35,6 @@ if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
     pkill -f "python3 holder.py"
 fi
 
-# چک کردن وجود پوشه holder و حذف آن
 if [ -d "holder" ]; then
     echo "Directory holder already exists. Deleting..."
     rm -rf holder
