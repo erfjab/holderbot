@@ -20,6 +20,16 @@ sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubu
 ```
 حالا که همه پیش‌نیازها نصب شدن، برای استارت زدن ربات اطلاعات زیر رو بهش بدید.
 
+</details>
+
+<details  markdown="1"> <summary>در صورت نیاز به حذف کامل بات کلیک کنید.</summary>
+
+```
+cd ~/holder/holderbot && pkill -f "python3 holderbot.py" && pkill -f "python3 node_status_checker.py" && pkill -f "python3 holder.py" && cd .. && rm -rf holder
+```
+
+</details>
+
 | اطلاعات | توضیحات |
 | --- | --- |
 | شناسه کاربری ادمین | شناسه کاربری تلگرامی شخصی که می‌خواهد از ربات استفاده کند. می‌توانید این اطلاعات را از این ربات بدست آورید. [@userinfobot](https://t.me/userinfobot) |
