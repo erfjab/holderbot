@@ -171,7 +171,7 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                 await query.answer(text="<b>خب همه شو که حذف کردی ، الان با چی کانفیگ بسازیم؟</b>")
                 return
             else :
-                await query.delete.message()
+                await query.message.delete()
             
             # set proxys
             PROXY_LIST = {}
