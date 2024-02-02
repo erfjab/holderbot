@@ -5,17 +5,18 @@ from datetime import datetime, timezone
 from persiantools.jdatetime import JalaliDateTime
 from io import *
 from dateutil import tz
-import requests , json , time , qrcode , html , re , pytz
+import requests , json , time , qrcode , html , re , pytz 
 
 #------------------------------------- JSON INFO -------------------------------------#
 
-with open('config.json', 'r', encoding='utf-8') as file:
+with open('config.json', 'r') as file:
     CONFIG = json.load(file)
 
 ADMIN_TGBOT = int(CONFIG['admin_telegram_bot'])
 PANEL_USER = CONFIG['marzban_panel_username']
 PANEL_PASS = CONFIG['marzban_panel_password']
 PANEL_DOMAIN = CONFIG['marzban_panel_domain']
+TOKEN_TGBOT = CONFIG['telegram_bot_token']
 
 #------------------------------------- ALL DEFS -------------------------------------#
 
