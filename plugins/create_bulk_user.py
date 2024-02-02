@@ -67,8 +67,15 @@ async def create(client: Client, message: Message) :
             await client.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML ,reply_markup=KEYBOARD)
 
             # set panel info
-            PANEL_HEADERS = CREATE_TOKEN_TO_ACCESS_PANEL(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)            
-
+            PANEL_TOKEN_DATA = {"username" : PANEL_USER , "password" : PANEL_PASS }
+            PANEL_TOKEN = requests.post(url=f"https://{PANEL_DOMAIN}/api/admin/token" , data=PANEL_TOKEN_DATA)
+            if PANEL_TOKEN.status_code == 200 :
+                PANEL_TOKEN_BACK = json.loads(PANEL_TOKEN.text)
+                PANEL_HEADERS = {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': f"Bearer {PANEL_TOKEN_BACK.get('access_token')}"}
+                    
             # set inbounds url
             URL = f"https://{PANEL_DOMAIN}/api/inbounds"
             RESPONCE = requests.get(url=URL, headers=PANEL_HEADERS)
@@ -101,7 +108,14 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
     try :
 
         # set panel info
-        PANEL_HEADERS = CREATE_TOKEN_TO_ACCESS_PANEL(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)            
+        PANEL_TOKEN_DATA = {"username" : PANEL_USER , "password" : PANEL_PASS }
+        PANEL_TOKEN = requests.post(url=f"https://{PANEL_DOMAIN}/api/admin/token" , data=PANEL_TOKEN_DATA)
+        if PANEL_TOKEN.status_code == 200 :
+            PANEL_TOKEN_BACK = json.loads(PANEL_TOKEN.text)
+            PANEL_HEADERS = {
+                        'accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': f"Bearer {PANEL_TOKEN_BACK.get('access_token')}"}
         
         # set callback data
         CALLBACK_DATA = query.data
