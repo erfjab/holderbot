@@ -168,6 +168,8 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
             if not FORMATTED_DATA :
                 await query.answer(text="<b>خب همه شو که حذف کردی ، الان با چی کانفیگ بسازیم؟</b>")
                 return
+            else :
+                await query.delete.message()
             
             # set proxys
             PROXY_LIST = {}
