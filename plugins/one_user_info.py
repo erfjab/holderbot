@@ -19,20 +19,6 @@ PANEL_DOMAIN = CONFIG['marzban_panel_domain']
 
 #------------------------------------- ALL DEFS -------------------------------------#
 
-def CREATE_TOKEN_TO_ACCESS_PANEL (PANEL_USER , PANEL_PASS , PANEL_DOMAIN) :
-    PANEL_TOKEN_DATA = {"username" : PANEL_USER , "password" : PANEL_PASS }
-    PANEL_TOKEN = requests.post(url=f"https://{PANEL_DOMAIN}/api/admin/token" , data=PANEL_TOKEN_DATA)
-    if PANEL_TOKEN.status_code == 200 :
-        PANEL_TOKEN_BACK = json.loads(PANEL_TOKEN.text)
-        PANEL_HEADERS = {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': f"Bearer {PANEL_TOKEN_BACK.get('access_token')}"}
-        return PANEL_HEADERS
-    else :
-        return None
-
-
 def SUB_LINK_FIND_FROM_USER_MESSAGE (LINK) :
     PATTERN = r"([^/]+)"
     MATCH = re.search(PATTERN , LINK)
@@ -83,7 +69,14 @@ async def ONE_USER_INFO (client: Client, message: Message) :
         if len(MESSAGES_SPLIT) == 1 and not MESSAGES.startswith("/") :
             
             # set panel info
-            PANEL_HEADERS = CREATE_TOKEN_TO_ACCESS_PANEL(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)            
+            PANEL_TOKEN_DATA = {"username" : PANEL_USER , "password" : PANEL_PASS }
+            PANEL_TOKEN = requests.post(url=f"https://{PANEL_DOMAIN}/api/admin/token" , data=PANEL_TOKEN_DATA)
+            if PANEL_TOKEN.status_code == 200 :
+                PANEL_TOKEN_BACK = json.loads(PANEL_TOKEN.text)
+                PANEL_HEADERS = {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': f"Bearer {PANEL_TOKEN_BACK.get('access_token')}"}
             
             # check name or link and get user info
             SUB_LINK_FINDER =   re.findall(r'https://[^/]+/sub/([^/]+)', MESSAGES)
@@ -206,7 +199,14 @@ async def handle_callback_one_user(client: Client, query: CallbackQuery):
         CALLBACK_DATA = query.data
 
         # set panel info
-        PANEL_HEADERS = CREATE_TOKEN_TO_ACCESS_PANEL(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)            
+        PANEL_TOKEN_DATA = {"username" : PANEL_USER , "password" : PANEL_PASS }
+        PANEL_TOKEN = requests.post(url=f"https://{PANEL_DOMAIN}/api/admin/token" , data=PANEL_TOKEN_DATA)
+        if PANEL_TOKEN.status_code == 200 :
+            PANEL_TOKEN_BACK = json.loads(PANEL_TOKEN.text)
+            PANEL_HEADERS = {
+                        'accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': f"Bearer {PANEL_TOKEN_BACK.get('access_token')}"}
 
         # set username
         CALLBACK_DATA_SPLIT = CALLBACK_DATA.strip().split(" ")
