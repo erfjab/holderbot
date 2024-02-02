@@ -51,7 +51,6 @@ source venv/bin/activate
 # نصب پیش‌نیازها
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3
 
-clear
 
 # اطلاعات را از کاربر بخوان
 read -p "Please enter admin telegram id: " admin_telegram_bot
