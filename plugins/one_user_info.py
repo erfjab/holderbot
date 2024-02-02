@@ -140,22 +140,28 @@ async def ONE_USER_INFO (client: Client, message: Message) :
                         if RD_STATUS == "اتمام حجم" :
                             RD_DATA_LEFT = "تمام شده"
                     else :
-                        RD_DATA_LEFT_USERS = "معرفی"
+                        RD_DATA_LEFT_USERS = "مصرفی"
                         RD_DATA_LEFT = RD_DATA_USED
 
                     # set online
-                    RD_LAST_ONLINE = LAST_TIME_TO_TIME_DIFFERNCE(RESPONCE_DATA.get("online_at"))
+                    if RESPONCE_DATA.get("online_at") :
+                        RD_LAST_ONLINE = f"{LAST_TIME_TO_TIME_DIFFERNCE(RESPONCE_DATA.get('online_at'))} پیش"
+                    else : 
+                        RD_LAST_ONLINE = "استفاده نشده"
 
                     # set update
-                    RD_SUB_LAST_UPDATE = LAST_TIME_TO_TIME_DIFFERNCE(RESPONCE_DATA.get("sub_updated_at"))
+                    if RESPONCE_DATA.get("sub_updated_at") :
+                        RD_SUB_LAST_UPDATE = f"{LAST_TIME_TO_TIME_DIFFERNCE(RESPONCE_DATA.get('sub_updated_at'))} پیش"
+                    else : 
+                        RD_SUB_LAST_UPDATE = "استفاده نشده"
 
                     # set text tgbot
                     TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})\n<b>حجم {RD_DATA_LEFT_USERS} :</b> {RD_DATA_LEFT}\n<b>روز مانده :</b> {RD_DATE_LEFT}"
                     if RD_DATE_JALALI :
                         TEXT += f"\n<b>تاریخ انقضاء :</b> {RD_DATE_JALALI}"
                     if CHATID == ADMIN_TGBOT :
-                        TEXT += f"\n<b>آخرین تایم آنلاینی :</b> {RD_LAST_ONLINE} پیش"
-                        TEXT += f"\n<b>آخرین آپدیت ساب :</b> {RD_SUB_LAST_UPDATE} پیش"
+                        TEXT += f"\n<b>آخرین تایم آنلاینی :</b> {RD_LAST_ONLINE}"
+                        TEXT += f"\n<b>آخرین آپدیت ساب :</b> {RD_SUB_LAST_UPDATE}"
                     
                     # set keyboard
                     KEYBOARD = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 بروزرسانی آمار", callback_data=f'info one {RD_USERNAME}')]])
@@ -190,7 +196,7 @@ async def ONE_USER_INFO (client: Client, message: Message) :
                 return
         else :
             pass
-
+        
     except Exception as e :
         ERROR_MESSAGE = f"<b>❌ ارور :</b>\n<code>{str(e)}</code>"
         await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
