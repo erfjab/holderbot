@@ -9,7 +9,7 @@ import requests , json , time , qrcode , html , re , pytz
 
 #------------------------------------- JSON INFO -------------------------------------#
 
-with open('config.json', 'r') as file:
+with open('config.json', 'r', encoding='utf-8') as file:
     CONFIG = json.load(file)
 
 ADMIN_TGBOT = int(CONFIG['admin_telegram_bot'])
