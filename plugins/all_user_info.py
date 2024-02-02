@@ -5,24 +5,18 @@ from datetime import datetime, timezone
 from persiantools.jdatetime import JalaliDateTime
 from io import *
 from dateutil import tz
-import requests , json , time , qrcode , html , re , pytz , sqlite3
+import requests , json , time , qrcode , html , re , pytz 
 
 #------------------------------------- JSON INFO -------------------------------------#
 
-conn = sqlite3.connect('holder.db')
-cursor = conn.cursor()
-cursor.execute("SELECT * FROM config ORDER BY id DESC LIMIT 1")
-row = cursor.fetchone()
-if row:
-    ADMIN_TGBOT = int(row[1])
-    PANEL_USER = row[2]
-    PANEL_PASS = row[3]
-    PANEL_DOMAIN = row[4]
-    TOKEN_TGBOT = row[5]
-else:
-    print("No configuration found in the database. Exiting.")
-    exit()
-conn.close()
+with open('config.json', 'r') as file:
+    CONFIG = json.load(file)
+
+ADMIN_TGBOT = int(CONFIG['admin_telegram_bot'])
+PANEL_USER = CONFIG['marzban_panel_username']
+PANEL_PASS = CONFIG['marzban_panel_password']
+PANEL_DOMAIN = CONFIG['marzban_panel_domain']
+TOKEN_TGBOT = CONFIG['telegram_bot_token']
 
 #------------------------------------- ALL DEFS -------------------------------------#
 
