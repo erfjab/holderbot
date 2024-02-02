@@ -26,7 +26,7 @@ app = Client(
     "holderbot",      
     api_id=26410400,
     api_hash="408bf51732560cb81a0e32533b858cbf",
-    bot_token=telegram_bot_token,
+    bot_token=TOKEN_TGBOT,
     plugins=plugins)
     
 #--------------------------------- RUN INFITY BOT ---------------------------------
