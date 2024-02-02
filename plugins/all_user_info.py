@@ -140,7 +140,7 @@ async def ONE_USER_INFO (client: Client, message: Message) :
 
 
         else :
-            await client.send_message(chat_id=CHATID , text=f"<b>❌ ارور در بررسی یوزرها : </b>\n<code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
+            await client.send_message(chat_id=CHATID , text=f"<b>❌ ارور در بررسی یوزرها :</b> \n<code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
             return
     
     except Exception as e :
@@ -225,7 +225,7 @@ async def handle_callback_all_user(client: Client, query: CallbackQuery):
                         TEXT = f"<b>{CB_NAME}</b> :\n\n"
 
             else :
-                await client.send_message(chat_id=CHATID , text=f"<b>❌ ارور در بررسی یوزرها : \n<code>{RESPONCE.text}</code></b>" , parse_mode=enums.ParseMode.HTML)                
+                await client.send_message(chat_id=CHATID , text=f"<b>❌ ارور در بررسی یوزرها :</b> \n<code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
                 return
         else :
             pass
