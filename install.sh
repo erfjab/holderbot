@@ -60,14 +60,31 @@ read -p "Please enter your marzban panel username: " marzban_panel_username
 read -p "Please enter your marzban panel password: " marzban_panel_password
 read -p "Please enter your marzban panel sub domain name (www.example.com): " marzban_panel_domain
 
-# اطلاعات را در یک فایل JSON بنویس
-echo "{
-    \"admin_telegram_bot\": \"$admin_telegram_bot\",
-    \"telegram_bot_token\": \"$telegram_bot_token\",
-    \"marzban_panel_username\": \"$marzban_panel_username\",
-    \"marzban_panel_password\": \"$marzban_panel_password\",
-    \"marzban_panel_domain\": \"$marzban_panel_domain\"
-}" > config.json
+# اطلاعات را در یک دیتابیس SQLite با نام holder ذخیره کن
+sqlite3 holder <<EOF
+CREATE TABLE IF NOT EXISTS config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    admin_telegram_bot TEXT,
+    telegram_bot_token TEXT,
+    marzban_panel_username TEXT,
+    marzban_panel_password TEXT,
+    marzban_panel_domain TEXT
+);
+
+INSERT INTO config (
+    admin_telegram_bot,
+    telegram_bot_token,
+    marzban_panel_username,
+    marzban_panel_password,
+    marzban_panel_domain
+) VALUES (
+    '$admin_telegram_bot',
+    '$telegram_bot_token',
+    '$marzban_panel_username',
+    '$marzban_panel_password',
+    '$marzban_panel_domain'
+);
+EOF
 
 
 chmod +x node_status_checker.py
