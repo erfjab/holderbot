@@ -49,7 +49,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # نصب پیش‌نیازها
-pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil sqlite3
+pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3
 
 clear
 
