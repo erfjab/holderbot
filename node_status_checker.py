@@ -87,4 +87,4 @@ with app :
                 else :
                     time.sleep(10)
         except Exception as e:
-            app.storage.db_connect()    
+            app.storage.connect()
