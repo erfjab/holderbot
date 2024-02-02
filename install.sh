@@ -3,6 +3,9 @@
 # ورود به روت 
 cd && cd ..
 
+sudo apt-get update
+sudo apt-get install python3-dev
+
 # چک کردن نصب بودن Python، Git و pip3
 if ! command -v python3 &> /dev/null; then
     echo "Python not found. Installing..."
@@ -19,13 +22,16 @@ if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi
 
-# چک کردن وجود پروسه holderbot.py و قطع کردن آن
 if ps aux | grep -v grep | grep "python3 holderbot.py" &> /dev/null; then
     echo "Stopping existing holderbot process..."
     pkill -f "python3 holderbot.py"
 fi
 
-# چک کردن وجود پروسه holderbot.py و قطع کردن آن
+if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
+    echo "Stopping existing holderbot process..."
+    pkill -f "python3 node_status_checker.py"
+fi
+
 if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
     echo "Stopping existing holder process..."
     pkill -f "python3 holder.py"
