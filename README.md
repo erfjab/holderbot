@@ -20,7 +20,7 @@ sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubu
 <details  markdown="1"> <summary>در صورت نیاز به حذف کامل بات کلیک کنید.</summary>
 
 ```
-cd ~/holder/holderbot && pkill -f "python3 holderbot.py" && pkill -f "python3 node_status_checker.py" && pkill -f "python3 holder.py" && cd .. && rm -rf holder
+cd /holder/holderbot && pkill -f "python3 holderbot.py" && pkill -f "python3 node_status_checker.py" && pkill -f "python3 holder.py" && cd .. && rm -rf holder
 ```
 
 </details>
