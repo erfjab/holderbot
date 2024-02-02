@@ -2,7 +2,7 @@ from pyrogram import *
 from pyrogram.types import *
 from pyrogram.errors.exceptions import *
 from io import *
-import json
+import json , sqlite3
 
 #------------------------- IMPORT INFO -------------------------#
 conn = sqlite3.connect('holder.db')
