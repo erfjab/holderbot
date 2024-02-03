@@ -156,12 +156,12 @@ async def ONE_USER_INFO (client: Client, message: Message) :
                         RD_SUB_LAST_UPDATE = "استفاده نشده"
 
                     # set text tgbot
-                    TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})<br><b>حجم {RD_DATA_LEFT_USERS} :</b> {RD_DATA_LEFT}<br><b>روز مانده :</b> {RD_DATE_LEFT}"
+                    TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})\n<b>حجم {RD_DATA_LEFT_USERS} :</b> {RD_DATA_LEFT}\n<b>روز مانده :</b> {RD_DATE_LEFT}"
                     if RD_DATE_JALALI :
-                        TEXT += f"<br><b>تاریخ انقضاء :</b> {RD_DATE_JALALI}"
+                        TEXT += f"\n<b>تاریخ انقضاء :</b> {RD_DATE_JALALI}"
                     if CHATID == ADMIN_TGBOT :
-                        TEXT += f"<br><b>آخرین تایم آنلاینی :</b> {RD_LAST_ONLINE}"
-                        TEXT += f"<br><b>آخرین آپدیت ساب :</b> {RD_SUB_LAST_UPDATE}"
+                        TEXT += f"\n<b>آخرین تایم آنلاینی :</b> {RD_LAST_ONLINE}"
+                        TEXT += f"\n<b>آخرین آپدیت ساب :</b> {RD_SUB_LAST_UPDATE}"
                     
                     # set keyboard
                     KEYBOARD = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 بروزرسانی آمار", callback_data=f'info one {RD_USERNAME}')]])
@@ -182,7 +182,7 @@ async def ONE_USER_INFO (client: Client, message: Message) :
                     RD_ON_HOLD_DATA_USERS = "تعیین شده"
 
                     # set text tgbot 
-                    TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})<br><b>حجم {RD_ON_HOLD_DATA_USERS} :</b> {RD_ON_HOLD_DATA} گیگ<br><b>روز تعیین شده :</b> {RD_ON_HOLD_DATE} روز"
+                    TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})\n<b>حجم {RD_ON_HOLD_DATA_USERS} :</b> {RD_ON_HOLD_DATA} گیگ\n<b>روز تعیین شده :</b> {RD_ON_HOLD_DATE} روز"
 
                     #set keyboard
                     KEYBOARD = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 بروزرسانی آمار", callback_data=f'reset_stase_{RD_USERNAME}')]])
@@ -198,7 +198,7 @@ async def ONE_USER_INFO (client: Client, message: Message) :
             pass
         
     except Exception as e :
-        ERROR_MESSAGE = f"<b>❌ ارور :</b><br><code>{str(e)}</code>"
+        ERROR_MESSAGE = f"<b>❌ ارور :</b>\n<code>{str(e)}</code>"
         await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
 
     
@@ -272,12 +272,12 @@ async def handle_callback_one_user(client: Client, query: CallbackQuery):
                 RD_SUB_LAST_UPDATE = LAST_TIME_TO_TIME_DIFFERNCE(RESPONCE_DATA.get("sub_updated_at"))
 
                 # set text tgbot
-                TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})<br><b>حجم {RD_DATA_LEFT_USERS} :</b> {RD_DATA_LEFT}<br><b>روز مانده :</b> {RD_DATE_LEFT}"
+                TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})\n<b>حجم {RD_DATA_LEFT_USERS} :</b> {RD_DATA_LEFT}\n<b>روز مانده :</b> {RD_DATE_LEFT}"
                 if RD_DATE_JALALI :
-                    TEXT += f"<br><b>تاریخ انقضاء :</b> {RD_DATE_JALALI}"
+                    TEXT += f"\n<b>تاریخ انقضاء :</b> {RD_DATE_JALALI}"
                 if CHATID == ADMIN_TGBOT :
-                    TEXT += f"<br><b>آخرین تایم آنلاینی :</b> {RD_LAST_ONLINE} پیش"
-                    TEXT += f"<br><b>آخرین آپدیت ساب :</b> {RD_SUB_LAST_UPDATE} پیش"
+                    TEXT += f"\n<b>آخرین تایم آنلاینی :</b> {RD_LAST_ONLINE} پیش"
+                    TEXT += f"\n<b>آخرین آپدیت ساب :</b> {RD_SUB_LAST_UPDATE} پیش"
                 
                 # set keyboard
                 KEYBOARD = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 بروزرسانی آمار", callback_data=f'info one {RD_USERNAME}')]])
@@ -298,7 +298,7 @@ async def handle_callback_one_user(client: Client, query: CallbackQuery):
                 RD_ON_HOLD_DATA_USERS = "تعیین شده"
 
                 # set text tgbot 
-                TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})<br><b>حجم {RD_ON_HOLD_DATA_USERS} :</b> {RD_ON_HOLD_DATA} گیگ<br><b>روز تعیین شده :</b> {RD_ON_HOLD_DATE} روز"
+                TEXT = f"<b>نام کاربری : </b>{RD_USERNAME} ({RD_STATUS})\n<b>حجم {RD_ON_HOLD_DATA_USERS} :</b> {RD_ON_HOLD_DATA} گیگ\n<b>روز تعیین شده :</b> {RD_ON_HOLD_DATE} روز"
 
                 #set keyboard
                 KEYBOARD = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 بروزرسانی آمار", callback_data=f'reset_stase_{RD_USERNAME}')]])
@@ -315,9 +315,9 @@ async def handle_callback_one_user(client: Client, query: CallbackQuery):
         await query.answer(text="آمار شما تغییری نکرده.")
         return
     except ValueError :
-        ERROR_MESSAGE = f"<b>❌ ارور :</b><br><code>The day variable must be a number</code>"
+        ERROR_MESSAGE = f"<b>❌ ارور :</b>\n<code>The day variable must be a number</code>"
         await query.edit_message_text(text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
     except Exception as e :
-        ERROR_MESSAGE = f"<b>❌ ارور :</b><br><code>{str(e)}</code>"
+        ERROR_MESSAGE = f"<b>❌ ارور :</b>\n<code>{str(e)}</code>"
         await query.edit_message_text(text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
         return
