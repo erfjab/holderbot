@@ -56,7 +56,7 @@ async def create(client: Client, message: Message) :
             USER_DATE = int(MESSAGES_SPLIT[5])
             
             # set confirm text
-            TEXT = f"<b>اسم کاربر : </b>{USER_TAG}\n<b>استارت از : </b>{USER_START}\n<b>تعداد کاربر : </b>{USER_HOW}\n<b>محدودیت حجم : </b>{USER_DATA} گیگ\n<b>محدودیت زمان : </b>{USER_DATE} روز"
+            TEXT = f"<b>اسم کاربر : </b>{USER_TAG}<br><b>استارت از : </b>{USER_START}<br><b>تعداد کاربر : </b>{USER_HOW}<br><b>محدودیت حجم : </b>{USER_DATA} گیگ<br><b>محدودیت زمان : </b>{USER_DATE} روز"
 
             # set keyboard
             KEYBOARD = InlineKeyboardMarkup([
@@ -75,7 +75,7 @@ async def create(client: Client, message: Message) :
             if RESPONCE.status_code == 200:
                 RESPONCE_DATA = RESPONCE.json()
             else :
-                ERROR_MESSAGE = f"<b>❌ ارور در چک اینباند:</b>\n<code>{RESPONCE.text}</code>"
+                ERROR_MESSAGE = f"<b>❌ ارور در چک اینباند:</b><br><code>{RESPONCE.text}</code>"
                 await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML)     
                 return
                        
@@ -91,7 +91,7 @@ async def create(client: Client, message: Message) :
                         INBOUNDS_TAG_NAME[TAG] = True 
                                     
     except Exception as e :
-        ERROR_MESSAGE = f"<b>❌ ارور :</b>\n<code>{str(e)}</code>"
+        ERROR_MESSAGE = f"<b>❌ ارور :</b><br><code>{str(e)}</code>"
         await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
 
 
@@ -149,7 +149,7 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
             if RESPONCE.status_code == 200:
                 RESPONCE_DATA = RESPONCE.json()
             else :
-                ERROR_MESSAGE = f"<b>❌ ارور در چک اینباند:</b>\n<code>{RESPONCE.text}</code>"
+                ERROR_MESSAGE = f"<b>❌ ارور در چک اینباند:</b><br><code>{RESPONCE.text}</code>"
                 await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML)     
                 return
             
@@ -240,7 +240,7 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                             USER_START = USER_START + 1
                         
                     else :
-                        TEXT = f"<b>❌ ارور ارسال کاربر</b>\n<code>{str(RESPONCE.text)}</code>"
+                        TEXT = f"<b>❌ ارور ارسال کاربر</b><br><code>{str(RESPONCE.text)}</code>"
                         await client.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML) 
                         break
 
@@ -253,6 +253,6 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
 
 
     except Exception as e :
-        ERROR_MESSAGE = f"<b>❌ ارور :</b>\n<code>{str(e)}</code>"
+        ERROR_MESSAGE = f"<b>❌ ارور :</b><br><code>{str(e)}</code>"
         await query.edit_message_text(text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
         return
