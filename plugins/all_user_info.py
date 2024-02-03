@@ -140,11 +140,11 @@ async def ONE_USER_INFO (client: Client, message: Message) :
 
 
         else :
-            await client.send_message(chat_id=CHATID , text=f"<b>❌ ارور در بررسی یوزرها :</b> <br><code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
+            await client.send_message(chat_id=CHATID , text=f"❌<b> ارور در بررسی یوزرها :</b> <br><code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
             return
     
     except Exception as e :
-        ERROR_MESSAGE = f"<b>❌ ارور :</b><br><code>{str(e)}</code>"
+        ERROR_MESSAGE = f"❌<b> ارور :</b><br><code>{str(e)}</code>"
         await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
 
 
@@ -225,12 +225,12 @@ async def handle_callback_all_user(client: Client, query: CallbackQuery):
                         TEXT = f"<b>{CB_NAME}</b> :<br><br>"
 
             else :
-                await client.send_message(chat_id=CHATID , text=f"<b>❌ ارور در بررسی یوزرها :</b><br><code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
+                await client.send_message(chat_id=CHATID , text=f"❌<b> ارور در بررسی یوزرها :</b><br><code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
                 return
         else :
             pass
 
     except Exception as e :
-        ERROR_MESSAGE = f"<b>❌ ارور :</b><br><code>{str(e)}</code>"
+        ERROR_MESSAGE = f"❌<b> ارور :</b><br><code>{str(e)}</code>"
         await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
 
