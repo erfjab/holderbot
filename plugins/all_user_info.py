@@ -139,7 +139,7 @@ async def ONE_USER_INFO (client: Client, message: Message) :
             return
     
     except Exception as e :
-        ERROR_MESSAGE = f"❌<b> ارور :</b><br><code>{str(e)}</code>"
+        ERROR_MESSAGE = f"❌<b> ارور :</b>\n<code>{str(e)}</code>"
         await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
 
 
@@ -209,23 +209,23 @@ async def handle_callback_all_user(client: Client, query: CallbackQuery):
                 # send message
                 LEN_SEND = 0
                 LEN_ALL_USERS = int(CB_LEN)
-                TEXT = f"<b>{CB_NAME} :</b><br><br>"
+                TEXT = f"<b>{CB_NAME} :</b>\n<br>"
                 for USER in CB_LIST :
-                    TEXT += f"<code>{USER}</code><br> "
+                    TEXT += f"<code>{USER}</code>\n"
                     LEN_SEND += 1
                     if LEN_SEND == 99 or LEN_SEND == LEN_ALL_USERS :
                         await client.send_message(chat_id=ADMIN_TGBOT , text=TEXT , parse_mode=enums.ParseMode.HTML)
                         LEN_SEND = 0
                         LEN_ALL_USERS -= 99
-                        TEXT = f"<b>{CB_NAME}</b> :<br><br>"
+                        TEXT = f"<b>{CB_NAME}</b> :\n<br>"
 
             else :
-                await client.send_message(chat_id=CHATID , text=f"❌<b> ارور در بررسی یوزرها :</b><br><code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
+                await client.send_message(chat_id=CHATID , text=f"❌<b> ارور در بررسی یوزرها :</b>\n<code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
                 return
         else :
             pass
 
     except Exception as e :
-        ERROR_MESSAGE = f"❌<b> ارور :</b><br><code>{str(e)}</code>"
+        ERROR_MESSAGE = f"❌<b> ارور :</b>\n<code>{str(e)}</code>"
         await client.send_message(chat_id=CHATID, text=ERROR_MESSAGE, parse_mode=enums.ParseMode.HTML) 
 
