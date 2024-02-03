@@ -137,11 +137,6 @@ async def ONE_USER_INFO (client: Client, message: Message) :
             # send message
             await client.send_message(chat_id=CHATID , text=TEXT , reply_markup=KEYBOARD , parse_mode=enums.ParseMode.HTML)
             return
-
-
-        else :
-            await client.send_message(chat_id=CHATID , text=f"❌<b> ارور در بررسی یوزرها :</b> <br><code>{RESPONCE.text}</code>" , parse_mode=enums.ParseMode.HTML)                
-            return
     
     except Exception as e :
         ERROR_MESSAGE = f"❌<b> ارور :</b><br><code>{str(e)}</code>"
