@@ -197,7 +197,6 @@ async def handle_callback_create(client: Client, query: CallbackQuery):
                 "username": USER_NAME,
                 "proxies" : PROXY_LIST,
                 "inbounds": FORMATTED_DATA,
-                "expire" : 0,
                 "data_limit": DATA_TO_BYTE,
                 "data_limit_reset_strategy": "no_reset",
                 "status": "on_hold",
