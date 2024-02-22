@@ -47,14 +47,14 @@ sudo apt install -y python3.10-venv
 python3 -m venv hold
 source hold/bin/activate
 
-pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 diffilb reportlab
+pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab
 
-read -p "Please enter chatid: " chatid
-read -p "Please enter name: " name
-read -p "Please enter user: " user
-read -p "Please enter password: " password
-read -p "Please enter domain: " domain
-read -p "Please enter token: " token
+read -p "Please enter telegram chatid : " chatid
+read -p "Please enter name (nickname) : " name
+read -p "Please enter panel username : " user
+read -p "Please enter panel password : " password
+read -p "Please enter panel domain (like : sub.domian.com:port ) : " domain
+read -p "Please enter telegram bot token: " token
 
 # Create SQLite database
 sqlite3 holder.db <<EOF
