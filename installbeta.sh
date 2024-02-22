@@ -42,7 +42,7 @@ sudo apt install python3.10-venv
 python3 -m venv venv
 source venv/bin/activate
 
-pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil sqlite3 json diffilb reportlab
+pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3  json diffilb reportlab
 
 read -p "Please enter chatid: " chatid
 read -p "Please enter name: " name
