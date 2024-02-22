@@ -85,12 +85,10 @@ CREATE TABLE users
      domain TEXT,
      step TEXT);
 
-INSERT INTO users (chatid, role, name, user, password, domain, step) VALUES ('$chatid', 'boss', '$name', '$user', '$password', '$domain', 'None');
+INSERT INTO users (chatid, role, name, user, password, domain, step) VALUES ("$chatid", "boss", "$name", "$user", "$password", "$domain", "None");
 INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$chatid', 'on', '10', '100');
-INSERT INTO bot (chatid, token) VALUES ('$chatid', '$token');
+INSERT INTO bot (chatid, token) VALUES ("$chatid", "$token");
 EOF
-
-echo "Database created and data inserted successfully."
 
 chmod +x monitoringbeta.py
 chmod +x holderbeta.py
