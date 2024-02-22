@@ -4,6 +4,7 @@ cd && cd ..
 
 sudo apt-get update
 sudo apt-get install -y python3-dev
+sudo apt-get install -y libsqlite3-dev
 
 if ! command -v python3 &> /dev/null; then
     echo "Python not found. Installing..."
