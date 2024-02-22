@@ -53,25 +53,32 @@ read -p "Please enter token: " token
 
 # Create SQLite database
 sqlite3 holder.db <<EOF
-CREATE TABLE IF NOT EXISTS users (
-    chatid INTEGER PRIMARY KEY,
-    role TEXT,
-    name TEXT,
-    user TEXT,
-    password TEXT,
-    domain TEXT,
-    step TEXT
-);
-CREATE TABLE IF NOT EXISTS monitoring (
-    chatid INTEGER PRIMARY KEY,
-    status TEXT,
-    check_normal INTEGER,
-    check_error INTEGER
-);
-CREATE TABLE IF NOT EXISTS bot (
-    chatid INTEGER PRIMARY KEY,
-    token TEXT
-);
+CREATE TABLE bot
+    (chatid INTEGER PRIMARY KEY,
+     token TEXT);
+
+CREATE TABLE monitoring
+    (chatid INTEGER PRIMARY KEY,
+     status TEXT,
+     check_normal INTEGER,
+     check_error INTEGER);
+
+CREATE TABLE templates
+    (name TEXT PRIMARY KEY,
+     data INTEGER,
+     date INTEGER,
+     proxies TEXT,
+     inbounds TEXT);
+
+CREATE TABLE users
+    (chatid INTEGER PRIMARY KEY,
+     role TEXT,
+     name TEXT,
+     username TEXT,
+     password TEXT,
+     domain TEXT,
+     step TEXT);
+
 INSERT INTO users (chatid, role, name, user, password, domain, step) VALUES ('$chatid', 'boss', '$name', '$user', '$password', '$domain', 'None');
 INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$chatid', 'on', '10', '100');
 INSERT INTO bot (chatid, token) VALUES ('$chatid', '$token');
