@@ -11,7 +11,7 @@ cd && cd .. && rm installbeta.sh*
 ```
 
 ```
-sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/beta/installbate.sh && chmod +x installbate.sh && ./installbate.sh
+sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/beta/installbeta.sh && chmod +x installbeta.sh && ./installbeta.sh
 ```
 حالا که همه پیش‌نیازها نصب شدن، برای استارت زدن ربات اطلاعات زیر رو بهش بدید.
 
