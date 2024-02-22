@@ -33,6 +33,11 @@ fi
 
 pkill -x "python3 holderbeta.py"
 
+if [ -d "holderbeta" ]; then
+    echo "Removing existing holderbeta directory..."
+    rm -rf holderbeta
+fi
+
 mkdir holderbeta
 cd holderbeta
 
