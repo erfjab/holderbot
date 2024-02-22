@@ -7,11 +7,11 @@
 # چجوری نصب/آپدیت کنیم؟
 برای آپدیت ابتدا توکن بات را revoke کنید. سپس برای نصب فقط کافیه دستورات زیر را در سرور ابونتوی خود وارد کنید.
 ```
-cd && cd .. && rm install.sh*
+cd && cd .. && rm installbeta.sh*
 ```
 
 ```
-sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/install.sh && chmod +x install.sh && ./install.sh
+sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/beta/installbate.sh && chmod +x installbate.sh && ./installbate.sh
 ```
 حالا که همه پیش‌نیازها نصب شدن، برای استارت زدن ربات اطلاعات زیر رو بهش بدید.
 
