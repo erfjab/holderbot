@@ -44,10 +44,10 @@ cd holderbeta
 git clone -b beta https://github.com/erfjab/holderbot.git .
 
 sudo apt install -y python3.10-venv
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv hold
+source hold/bin/activate
 
-pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3  diffilb reportlab pyrogram
+pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 diffilb reportlab
 
 read -p "Please enter chatid: " chatid
 read -p "Please enter name: " name
