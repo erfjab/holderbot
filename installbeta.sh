@@ -92,4 +92,6 @@ EOF
 
 chmod +x monitoringbeta.py
 chmod +x holderbeta.py
-nohup python3 monitoringbeta.py & python3 holderbeta.py &
+nohup python3 monitoringbeta.py & disown
+nohup python3 holderbeta.py & disown
+
