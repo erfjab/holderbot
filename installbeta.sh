@@ -49,6 +49,7 @@ python3 -m venv hold
 source hold/bin/activate
 
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab
+sudo apt-get install sqlite3
 
 read -p "Please enter telegram chatid : " chatid
 read -p "Please enter name (nickname) : " name
