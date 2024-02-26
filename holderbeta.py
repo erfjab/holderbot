@@ -261,7 +261,7 @@ async def holderbot(client: Client, message: Message) :
 
                 if CHECK_STEP == "nodes | wait to select node" :
                     
-                    if re.match('\(\s*(\d+)\s*\)\s*([\w\s]*)\s*-\s*([\w\s]*)', MESSAGE_TEXT) :
+                    if re.match('\(\s*(\d+)\s*\)\s*([^-]+)\s*-\s*([^-]+)', MESSAGE_TEXT) :
                         await client.send_message(chat_id=MESSAGE_CHATID , text=f"<b>You have chosen {MESSAGES_SPLIT[3]} server.\nwhat operation do you need?</b>" , reply_markup=KEYBOARD_NODE)
                         UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,f"nodes | select node {MESSAGES_SPLIT[1]}")
 
@@ -338,7 +338,7 @@ async def holderbot(client: Client, message: Message) :
                         UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,f"templates | delete {MESSAGES_SPLIT[0]}")
 
                     elif MESSAGE_TEXT == "➕ Add new tempalte" :
-                        await client.send_message(chat_id=MESSAGE_CHATID , text="<b>Please enter template name.</b>" , reply_markup=KEYBOARD_CANCEL , parse_mode=enums.ParseMode.HTML)
+                        await client.send_message(chat_id=MESSAGE_CHATID , text="<b>Please enter template name.\n(just text , no space no number no icon!)\nlike :</b> <code>Test</code> ,<code>Ali</code>, <code>Bulk</code>, <code>Free</code>" , reply_markup=KEYBOARD_CANCEL , parse_mode=enums.ParseMode.HTML)
                         UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,f"templates | add template")
 
                 else :
@@ -354,7 +354,7 @@ async def holderbot(client: Client, message: Message) :
 
                         if CHECK_STEP.startswith("templates | add template") :
                             print(STEP_SPLIT)
-                            if  len(STEP_SPLIT) == 4 and len(MESSAGES_SPLIT) == 1 :
+                            if  len(STEP_SPLIT) == 4 and len(MESSAGES_SPLIT) == 1 and re.match("^[A-Za-z]+$" , MESSAGE_TEXT) :
                                 if DEF_CHECK_TEMPLATES_NAME(MESSAGE_TEXT) :
                                     return
                                 await client.send_message(chat_id=MESSAGE_CHATID , text="<b>Please enter data limit (GB).\nlike : <code>25.5</code>, <code>15</code>, <code>0.5</code>, <code>100</code></b>" , reply_markup=KEYBOARD_CANCEL , parse_mode=enums.ParseMode.HTML)
