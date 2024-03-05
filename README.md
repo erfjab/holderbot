@@ -1,99 +1,126 @@
 ![Example Image](holderbotcover.png)
 
+# What is Holderbot? #
 
-# هولدربات بتا چیه؟ (ورژن 4.0.2)
-هولدر بات یه ربات سریع و ساده‌ست که برای حل مشکل عدم وجود گزینه `شروع تایمر پس از اولین اتصال` در رابط کاربری "پنل مرزبان" ساخته شده. با استفاده از رابط‌های برنامه نویسی `پنل مرزبان`، هولدر بات بهت این امکان رو می‌ده که به راحتی از این قابلیت در تلگرام استفاده کنید. ولی بعد از آپدیت 3.0 هولدربات قضیه یکمی متفاوت تر شد و هولدربات امکانات خاصی برای کاربران عرضه کرد که این قابلیت ها در نسخه های بعد از 4 به اوج رسید. هم اکنون هولدربات یک دستیار حرفه ای برای مرزبانی ها می باشد. برای اطلاعات بیشتر به قسمت بروزرسانی ها مراجعه کنید و یا در کانال [@ErfjabHolderbot](https://t.me/ErfjabHolderbot) عضو شوید ، نصب کنید و لذت ببرید.
+Holder Bot is a quick and simple bot designed to address the issue of the lack of a timer start option after the initial connection in the "Marzban Panel" user interface. Utilizing the programming interfaces of Marzban Panel, Holder Bot provided users with the ability to easily utilize this feature on Telegram. However, after the 3.0 update, Holder Bot has enhanced its capabilities with the introduction of special features, reaching its peak in subsequent versions. Now, Holder Bot serves as a professional assistant for Marzban users. For more information, you can refer to the update section or join the Telegram channel.
 
-# چجوری نصب/آپدیت کنیم؟
-برای آپدیت ابتدا توکن بات را revoke کنید. سپس برای نصب فقط کافیه دستورات زیر را در سرور ابونتوی خود وارد کنید.
+> [!IMPORTANT]
+> You can show your support by giving a star to this project on GitHub.
+> We have created a Telegram channel for announcements, surveys, and interaction with users. You can join us via [@ErfjabHolderbot](https://t.me/erfjabholderbot).
+
+# Why Holderbot?
+
+- Ability to manage panel admins (change password or sudo)
+- Ability to add or remove admins for the panel
+- Ability to determine the node consumption coefficient
+- Ability to manage nodes (deactivate/activate/reconnect)
+- Ability to monitor and receive notifications of node disconnections
+- Ability to deactivate/activate monitoring
+- Ability to change the monitoring timer for nodes
+- Ability to create users in bulk/individually (on_hold)
+- Ability to create users via templates
+- Ability to create templates (volume, time, inbounds)
+- Ability to get the last online time, sub-user update (individual)
+- Ability to directly receive barcode and sub-link text or delete user
+- Ability to receive the software used by the user
+- Ability to receive a barcode for a desired sent link
+- Ability to search and get similar users (like Google's Did you Mean)
+- Ability to get a list of online/offline users 
+- (from 1 minute to the last 60 days in table and PDF format)
+- Ability to get a list of updated/not updated sub-users 
+- (from 1 minute to the last 60 days in table and PDF format)
+- New sleek and simple user interface.
+
+> [!NOTE]
+> We are constantly working on new updates. Do you have any ideas or suggestions? Please raise them as issues, and we will consider adding them in future updates.
+
+# How to install Holderbot? #
+
+To use the holderbot , you will need the following information:
+1. **Name:** You can enter any name you prefer.
+2. **Chat ID:** You need to obtain this from the [@chatIDrobot](https://t.me/chatIDrobot).
+3. **Bot Token:** You need to obtain this from the [@botfather](https://t.me/BotFather).
+4. **Panel Username:** Enter your panel sudo admin username.
+5. **Panel Password:** Enter your panel sudo admin password.
+6. **Panel Domain:** Enter your panel domain in this format (sub.domain.com:port).
+
+> [!WARNING]
+> Please note that HolderBot is currently only supported for installation and use on 
+Ubuntu servers, and any responsibility for other setups is your own.
+
+Please use the following command to install on your server:
+
 ```
-cd && cd .. && rm installbeta.sh*
+cd && cd .. && rm installbeta.sh* && sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/installbeta.sh && chmod +x installbeta.sh && ./installbeta.sh
 ```
 
-```
-sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/installbeta.sh && chmod +x installbeta.sh && ./installbeta.sh
-```
-حالا که همه پیش‌نیازها نصب شدن، برای استارت زدن ربات اطلاعات زیر رو بهش بدید.
+# How to use the bot? # 
 
+Please return to the main GitHub page of Holder Bot for installation. This page is only for tutorials. All explanations are complete and clear, but if you still notice any deficiencies or shortcomings in the explanations, please create an issue, and we will address it. Thank you for your cooperation.
 
+> [!WARNING]
+> These tutorials are exclusively for version 4. Previous versions are no longer supported.
 
-| اطلاعات | توضیحات |
-| --- | --- |
-| شناسه کاربری ادمین | شناسه کاربری تلگرامی شخصی که می‌خواهد از ربات استفاده کند. می‌توانید این اطلاعات را از این ربات بدست آورید. [@userinfobot](https://t.me/userinfobot) |
-| اسم | یک اسم الکی وارد کنید. |
-| توکن ربات تلگرام | توکن بات تلگرامی خود را میتوانید از طریق [@BotFather](https://t.me/botfather) بدست آورید. |
-| نام کاربری پنل | می‌توانید نام کاربری مدیر اصلی را وارد کنید. |
-| رمز عبور پنل | می‌توانید رمز عبور مدیر اصلی را وارد کنید. |
-| دامنه پنل | ساب دامنه پنل خود را وارد کنید، بدون 'https://' ولی با پورت ، مانند: sub.domain.com:port |
+## 🏛 Home Page
 
-اگر اطلاعاتتون رو به درستی وارد کرده باشید، یک پیامی به این شکل دریافت خواهید کرد.
+about the homepage, you'll find all the necessary commands listed, with detailed explanations provided further down the page. Here, besides entering commands, you can also send the username or link of your subscription. If the user exists, you'll receive their statistics, and if they don't , with Holder Bot's search feature to receive a list of similar users.
 
-![Example Image](nohupshot.png)
+When user statistics are sent to you, you'll see three options: "Update," "Qrcode," and "Delete." To update the user's statistics, use the "Update" button. To receive the barcode for the user's subscription link, use the "Barcode" button. And to delete the user, use the "Delete" button. 
 
-**صفحه را همانطور که هست نگه دارید و اکنون ربات را تست کنید. اگر اطلاعات شما صحیح باشد، ربات برای شما کاربر ایجاد می کند و اگر صحیح نباشد، کاربر ایجاد نمی کند.**
-اگر ربات برای شما کاربر ایجاد نکرد، به صفحه بازگردید و دستور زیر را اجرا کنید.
-```
-Ctrl C
-```
-سپس دوباره از ابتدا مراحل نصب را طی کنید، فقط در تکمیل اطلاعات خود دقت کنید.
+> [!NOTE]
+> Don't worry, before carrying out the deletion operation, you will be asked for confirmation.
 
-**اکنون، اگر این بار کاربر ربات ساخته است، پس لذت ببرید.** (سرور رو بدون دستوری ببندید.)
+## 🚀 Create User
 
-# بروزرسانی و امکانات جدید ؟
+You have two options for creating a user: either through templates or manually. You can create ready-made templates by referring to the 'templates' section in this tutorial and creating your templates. When creating a user, if you click on one of your templates, the inbounds, volume, and time are pre-selected, and you will be asked for your username and the desired number. The bot automatically numbers the usernames and creates the users.
 
-<details  markdown="1"> <summary>نسخه‌ی 1.0</summary>
+If you want to do this manually, you will be asked for inbounds, volume, and time, which is more suitable for specific cases. Templates speed up your work and allow you to create hundreds of users in a fraction of a second.
 
-  - تولد هولدربات و امکان دریافت ساخت یوزر با قابلیت شروع تایم بعد اولین اتصال. 
+## 👤 Users
 
-</details>
+In the Users section, you receive general statistics of your panel. The number of users "all," "activated," "disabled," "on_hold," "limited," and "expired," along with the count of users who were online or offline in the last 24 hours, and whether their links have been updated or not, are provided.
 
-<details  markdown="1"> <summary>نسخه‌ی 2.0</summary>
+Below, you'll find options where clicking on them will provide you with a list of user names in PDF format. If you click on the last two options, you'll be prompted for your desired timeframe, and based on that, you'll receive the statistics.
 
-  - امکان ساخت دسته جمعی یوزر. 
+> [!TIP]
+> If you have a specific timeframe in mind, you can enter it based on the pattern 'time min/hour/day'.
 
-</details>
+## 👨🏻‍💻 Admins
 
-<details  markdown="1"> <summary>نسخه‌ی 3.0</summary>
+You can fully manage the panel admins in this section. You can add admins, remove admins, change admin passwords, and modify admin permissions. Just note that for removing sudo admins, it can only be done from the master server using the CLI command. APIs do not allow us access to this capability.
 
-  - امکان مانیتورینگ لحظه ای نود ها
-  - ارسال نوتیف هنگام قطع شدن نودها
-  - امکان انتخاب اینباند‌ هنگام ساخت یوزر
-  - امکان دریافت آمار کلی کاربران پنل تعداد و لیست‌شون 
-  - (مخصوصا کاربران آنلاین و آفلاین در 24 ساعت اخیر)
-  - امکان دریافت آمار تکی کاربر با اسم یا لینک ساب 
-  - (مخصوصا آخرین تایم آپدیت ساب و آنلاینی)
-  - امکان دریافت آمار با لینک ساب توسط کاربر از بات
-  - رفع باگ اذیت کننده‌ی credentials
-</details>
+## 🎗 Nodes
 
-<details  markdown="1"> <summary>نسخه‌ی 4.0</summary>
-    
-- امکان مدیریت ادمین‌های پنل (تغییر رمز و یا sudo)
-- امکان حذف و اضافه ادمین برای پنل
-- امکان تعیین ضریب مصرف نود
-- امکان مدیریت‌ نودها (غیرفعال‌سازی/فعال‌سازی/ری‌کانکت)
-- امکان مانیتورینگ و اطلاع‌رسانی قطعی نودها
-- امکان غیرفعالسازی/فعالسازی مانیتورینگ
-- امکان تغییر تایمر مانیتورینگ نودها
-- امکان ساخت کاربر به صورت گروهی/تکی (on_hold)
-- امکان ساخت کاربر از طریق تمپلیت‌ها
-- امکان ساخت تمپلیت‌ها (حجم، زمان، اینباندها)
-- امکان دریافت لیست کاربران آنلاین/آفلاین (از 1 دقیقه تا 60 روز اخیر به صورت جدول و PDF)
-- امکان دریافت لیست کاربران آپدیت‌شده/نشده ساب (از 1 دقیقه تا 60 روز اخیر به صورت جدول و PDF)
-- امکان دریافت آخرین‌تایم آنلاینی، آپدیت‌ساب کاربر (تکی)
-- امکان دریافت مستقیم بارکد و متن لینک‌ساب یا حذف کاربر
-- امکان دریافت نرم‌افزار مورد استفاده‌ی کاربر
-- امکان دریافت بارکد لینک ارسالی دلخواه
-- امکان سرچ و دریافت کاربرهای مشابه (مثل Did you Mean گوگل)
-- رابط کاربری ساده و شیک جدید
+You can also manage your servers here, reconnect, deactivate, activate, or set the consumption coefficient for your desired server. For monitoring and receiving server disconnection notifications, refer to the monitoring section on this page.
 
-</details>
+## 🗃 Templates
 
+By creating templates, you can easily manage repetitive tasks, such as specifying volume, duration, and inbounds. In the templates section, you can create a new template or delete existing ones. To create a new template, simply click on "➕ Add new template." In the first step, enter the name without spaces, numbers, or icons. Then enter the volume (in gigabytes) and duration (in days), and finally select the inbounds. Each selected inbound marked with ➕ is included, while those marked with ➖ are not. After completing your selection, click "✅ finish" to save the template. To delete a template, simply click on it, and you'll be asked for confirmation. Once confirmed, it will be deleted.
 
-# چجوری استفاده کنیم؟ 
+> [!NOTE]
+> You add/remove templates in this section, but you only use them in the "🚀 Create User" section.
 
-چنل [@ErfjabHolderbot](https://t.me/ErfjabHolderbot) جهت ارائه آموزش ها ، اطلاع رسانی های آپدیت ها ، نظرسنجی ها برای اضافه شدن ویژگی های جدید و از این قبیل تشکیل شده است.
+## 🎛 Monitoring
 
+Monitoring for your servers is enabled by default during the installation of HolderBot. You can enable/disable it from this section. You can also set the server check interval for monitoring and specify the waiting time for the next check when receiving a server disconnection notification.
+
+## 🔍 Search
+
+Sometimes you may not remember the username completely but want to input a few letters for the bot to find it easily and tell you. Is this what you mean? This capability is specifically designed for searches of this nature, where the bot can list the usernames similar to your input and send them to you.
+
+> [!NOTE]
+> This section is not for receiving user statistics. For that purpose, you can refer to the homepage tutorial.
+
+## 💬 Help
+
+A guide on solving problems, requesting assistance, reporting bugs, contacting the developer, and similar matters will be sent to you. Additionally, a file containing Holder Bot logs will be sent to you, which you can share with the developer if needed for debugging and problem-solving.
+
+## 🖼 QR Code
+
+You can receive its barcode by sending any link or text. This feature is not exclusive to v2ray links, and it can provide you with its barcode in code form for any received link. It's quick and simple!
+
+> [!TIP]
+> You can modify the barcode color in the "qr.py" file in the "Function" folder using line 8 (fill_color) with options like red, pink, blue, yellow.
 <p align="center">
   <a target="_blank" href="https://t.me/ErfjabHolderbot">
     <img alt="Telegram Badge" src="https://img.shields.io/badge/holderbotchanel-Telegramlink?style=for-the-badge&logo=telegram&logoColor=white&color=blue&link=https%3A%2F%2Ft.me%2FErfjabHolderbot&link=https%3A%2F%2Ft.me%2FErfjabHolderbot">
