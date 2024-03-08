@@ -83,7 +83,7 @@ Welcome to the Messages section! This feature has been added with sponsorship th
 ```
 {
   "tag": "Holderbot",
-  "listen": "127.0.0.1",
+  "listen": "0.0.0.0",
   "port": 2222,
   "protocol": "shadowsocks",
   "settings": {
