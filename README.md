@@ -78,7 +78,21 @@ If you want to do this manually, you will be asked for inbounds, volume, and tim
 
 ## 🎖 Message
 
-coming soon!
+Welcome to the Messages section! This feature has been added with sponsorship the [Gray](https://t.me/GrayServer) collection.❤️ You can visit the Gray collection channel and bot for purchasing servers on an hourly and monthly basis, with a wide variety of locations and specifications, accompanied by clean IPs at the lowest prices. Before activating the Messages, you need to create an inbound Shadowsocks with the name "Holderbot" inside the panel:
+
+```
+{
+  "tag": "Holderbot",
+  "listen": "127.0.0.1",
+  "port": 2222,
+  "protocol": "shadowsocks",
+  "settings": {
+    "clients": [],
+    "network": "tcp,udp"
+  }
+}
+```
+Then, inside the host settings of the inbound, we put our desired messages. After applying the changes, inside the Holderbot, we click on the "Change Status" option in the Messages section, and this feature becomes active. Holderbot checks users every 5 seconds and activates the messages for completed users, notifying you accordingly.
 
 ## 👤 Users
 
