@@ -76,6 +76,10 @@ You have two options for creating a user: either through templates or manually. 
 
 If you want to do this manually, you will be asked for inbounds, volume, and time, which is more suitable for specific cases. Templates speed up your work and allow you to create hundreds of users in a fraction of a second.
 
+## 🎖 Message
+
+coming soon!
+
 ## 👤 Users
 
 In the Users section, you receive general statistics of your panel. The number of users "all," "activated," "disabled," "on_hold," "limited," and "expired," along with the count of users who were online or offline in the last 24 hours, and whether their links have been updated or not, are provided.
