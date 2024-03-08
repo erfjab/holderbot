@@ -115,3 +115,31 @@ def DEF_TEMPLATES_DATA_ALL(TEXT):
     result = cursor.fetchone()    
     conn.close()
     return result
+
+def DEF_MESSAGER_IMPORT_DATA():
+    conn = sqlite3.connect('holder.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT * FROM messages''')
+    USER_DATA = cursor.fetchone()
+    conn.close()
+    return USER_DATA
+
+def DEF_GET_MESSAGE_STATUS(CHATID):
+    conn = sqlite3.connect('holder.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT status FROM messages WHERE chatid = ?''', (CHATID,))
+    USER_DATA = cursor.fetchone()
+    conn.close()
+    if USER_DATA:
+        return USER_DATA[0]
+    else:
+        return None
+
+def DEF_CHANGE_MESSAGER_STATUS(CHATID):
+    OLD_STATUS = DEF_GET_MESSAGE_STATUS(CHATID)
+    NEW_STATUS = "off" if OLD_STATUS == "on" else "on"
+    conn = sqlite3.connect('holder.db')
+    cursor = conn.cursor()
+    cursor.execute('''UPDATE messages SET status = ? WHERE chatid = ?''', (NEW_STATUS, CHATID))
+    conn.commit()
+    conn.close()
