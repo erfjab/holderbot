@@ -53,7 +53,6 @@ if [ -d "holderbeta" ]; then
     rm -rf holderbeta
 fi
 
-
 if [ -d "holder" ]; then
     echo "Removing existing holder directory..."
     rm -rf holder
@@ -62,7 +61,7 @@ fi
 mkdir holderbot
 cd holderbot
 
-git clone -b main https://github.com/erfjab/holderbot.git .
+git clone -b beta https://github.com/erfjab/holderbot.git .
 
 sudo apt install -y python3.10-venv
 python3 -m venv hold
@@ -117,6 +116,10 @@ EOF
 
 chmod +x monitoring.py
 chmod +x holder.py
+chmod +x expired.py
+chmod +x limiteder.py
 nohup python3 monitoring.py & disown
 nohup python3 holder.py & disown
+nohup python3 expired.py & disown
+nohup python3 limiteder.py & disown
 
