@@ -458,8 +458,7 @@ async def holderbot(client: Client, message: Message) :
                 
                 if CHECK_STEP == "message | wait to select command" :
                     if MESSAGE_TEXT == "👀 change status" :
-                        DEF_CHANGE_MESSAGER_STATUS(MESSAGE_CHATID)
-                        await client.send_message(chat_id=MESSAGE_CHATID , text="<b>✅ Your status is changed.</b>" , reply_markup=KEYBOARD_HOME , parse_mode=enums.ParseMode.HTML , disable_web_page_preview=True )
+                        await client.send_message(chat_id=MESSAGE_CHATID , text=DEF_CHANGE_MESSAGER_STATUS(MESSAGE_CHATID) , reply_markup=KEYBOARD_HOME , parse_mode=enums.ParseMode.HTML , disable_web_page_preview=True )
                         UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,"None")
 
 
