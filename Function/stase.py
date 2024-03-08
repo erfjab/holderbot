@@ -61,12 +61,12 @@ def DEF_STASE_USER (CHATID , MESSAGE_TEXT , KEYBOARD_HOME):
         RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
         if RESPONCE.status_code == 200 :
             RESPONCE_DATA = RESPONCE.json()
-            USERS = [user.get('username').lower() for user in RESPONCE_DATA.get('users', [])]
-            similarity_scores = [(user, SequenceMatcher(None, MESSAGE_TEXT.lower(), user).ratio()) for user in USERS]
+            USERS = [user.get('username') for user in RESPONCE_DATA.get('users', [])]
+            similarity_scores = [(user, SequenceMatcher(None, MESSAGE_TEXT, user).ratio()) for user in USERS]
             similar_users = sorted(similarity_scores, key=lambda x: x[1], reverse=True)
             similar_users = [user for user, score in similar_users if score > 0.55]
             if similar_users:
-                similar_users_text = " <b>|</b> ".join([f"<code>{user}</code>" for user in similar_users])
+                similar_users_text = "<b>,</b> ".join([f"<code>{user}</code>" for user in similar_users])
                 TEXT = f"<b>Did you mean :</b> {similar_users_text}"
             else :
                 TEXT = "<b>I can't find user.</b>"

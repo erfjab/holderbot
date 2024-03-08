@@ -1,7 +1,7 @@
 from pyrogram.types import *
 from Function.db import *
 
-KEYBOARD_HOME = ReplyKeyboardMarkup([[KeyboardButton("🚀 Create User")],
+KEYBOARD_HOME = ReplyKeyboardMarkup([[KeyboardButton("🚀 Create User"),KeyboardButton("🎖 Notice")],
     [KeyboardButton("👤 Users"), KeyboardButton("👨🏻‍💻 Admins"), KeyboardButton("🎗 Nodes")],
     [KeyboardButton("🗃 Templates"),KeyboardButton("🎛 Monitoring")],
     [KeyboardButton("🔍 Search"), KeyboardButton("💬 Help"), KeyboardButton("🖼 QR Code")]], resize_keyboard=True)
@@ -60,13 +60,13 @@ def DEF_NODES_LIST(CHATID) :
         KEYBOARD_NODES_LIST = ReplyKeyboardMarkup(KEYBOARD_NODES_LIST, resize_keyboard=True)
         return KEYBOARD_NODES_LIST
     
-KEYBOARD_NODE = ReplyKeyboardMarkup([[KeyboardButton("🔏 Usage Coefficient"),KeyboardButton("📊 Stase")],
-    [KeyboardButton("✅ Active"), KeyboardButton("⚡️ Reconnect"), KeyboardButton("❌ Disabled")],
+KEYBOARD_NODE = ReplyKeyboardMarkup([[KeyboardButton("🔏 Usage Coefficient"),KeyboardButton("📊 Status")],
+    [KeyboardButton("✅ Activate"), KeyboardButton("⚡️ Reconnect"), KeyboardButton("❌ Disable")],
     [KeyboardButton("🔙 cancel")]] , resize_keyboard=True)
 
 
 KEYBOARD_ON_MONITORING = ReplyKeyboardMarkup([[KeyboardButton("🔴 Disable monitoring")],
-        [KeyboardButton("⏱ error timer"), KeyboardButton("⏱ normal timer")],
+        [KeyboardButton("⏱ Error timer"), KeyboardButton("⏱ Normal timer")],
         [KeyboardButton("🔙 cancel")]] , resize_keyboard=True)
 
 
@@ -84,7 +84,7 @@ def KEYBOARD_TEMPLATES_LIST() :
     return KEYBOARD_TEMPLATES_LIST 
 
 
-KEYBOARD_TEMPLATE = ReplyKeyboardMarkup([[KeyboardButton("🗑 Delete emplate")],
+KEYBOARD_TEMPLATE = ReplyKeyboardMarkup([[KeyboardButton("🗑 Delete Template")],
         [KeyboardButton("🔙 cancel")]] , resize_keyboard=True)
 
 
@@ -133,8 +133,10 @@ def KEYBOARD_CREATE_LIST() :
     KEYBOARD_TEMPLATES_LIST = ReplyKeyboardMarkup(KEYBOARD_TEMPLATES_LIST, resize_keyboard=True)
     return KEYBOARD_TEMPLATES_LIST
 
-KEYBOARD_CREATE_MUCH = ReplyKeyboardMarkup([[KeyboardButton("1"), KeyboardButton("2"), KeyboardButton("3"), KeyboardButton("4")],
-    [KeyboardButton("5"), KeyboardButton("6"), KeyboardButton("7"), KeyboardButton("8")],
-    [KeyboardButton("9"), KeyboardButton("10"), KeyboardButton("11"), KeyboardButton("12")],
-    [KeyboardButton("13"), KeyboardButton("14"), KeyboardButton("15"), KeyboardButton("20")],
+KEYBOARD_CREATE_MUCH = ReplyKeyboardMarkup([[KeyboardButton("1"), KeyboardButton("2"), KeyboardButton("3"), KeyboardButton("4"), KeyboardButton("5"), KeyboardButton("6")],
+    [KeyboardButton("7"), KeyboardButton("8"), KeyboardButton("9"), KeyboardButton("10"), KeyboardButton("11"), KeyboardButton("12")],
+    [KeyboardButton("13"), KeyboardButton("14"), KeyboardButton("15"), KeyboardButton("16"), KeyboardButton("17"), KeyboardButton("18")],
+    [KeyboardButton("20"), KeyboardButton("25"), KeyboardButton("30"), KeyboardButton("35"), KeyboardButton("40"), KeyboardButton("50")],
     [KeyboardButton("🔙 cancel")]] , resize_keyboard=True)
+
+KEYBOARD_MESSAGES = ReplyKeyboardMarkup([[KeyboardButton("👀 change status") , KeyboardButton("🔙 cancel")]] , resize_keyboard=True)

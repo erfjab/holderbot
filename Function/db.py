@@ -115,3 +115,57 @@ def DEF_TEMPLATES_DATA_ALL(TEXT):
     result = cursor.fetchone()    
     conn.close()
     return result
+
+def DEF_MESSAGER_IMPORT_DATA():
+    conn = sqlite3.connect('holder.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT * FROM messages''')
+    USER_DATA = cursor.fetchone()
+    conn.close()
+    return USER_DATA
+
+def DEF_GET_MESSAGE_STATUS(CHATID):
+    conn = sqlite3.connect('holder.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT status FROM messages WHERE chatid = ?''', (CHATID,))
+    USER_DATA = cursor.fetchone()
+    conn.close()
+    if USER_DATA:
+        return USER_DATA[0]
+    else:
+        return None
+
+def DEF_CHANGE_MESSAGER_STATUS(CHATID):
+    OLD_STATUS = DEF_GET_MESSAGE_STATUS(CHATID)
+    conn = sqlite3.connect('holder.db')
+    cursor = conn.cursor()
+    if OLD_STATUS == "on" :    
+        cursor.execute('''UPDATE messages SET status = ? WHERE chatid = ?''', ("off", CHATID))
+        conn.commit()
+        conn.close()
+        TEXT = "<b>✅ Your status is off.</b>"
+    else :
+        PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
+        PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
+        URL = f"https://{PANEL_DOMAIN}/api/inbounds"
+        RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+        if RESPONCE.status_code == 200:
+            INBOUNDS = json.loads(RESPONCE.text)
+            FOUND = False
+            if "shadowsocks" in INBOUNDS :
+                for ITEM in INBOUNDS["shadowsocks"]:
+                    if "Holderbot" in ITEM["tag"]:
+                        FOUND = True
+                        break
+            else :
+                FOUND = False
+            if FOUND :
+                cursor.execute('''UPDATE messages SET status = ? WHERE chatid = ?''', ("on", CHATID))
+                conn.commit()
+                conn.close()
+                TEXT = "<b>✅ Your status is on.</b>"
+            else :
+                TEXT = "<b>❌ Your status is not change.\nyou don't have Holderbot inbounds!</b>"
+        else :
+            TEXT = "<b>❌ i can't check inbounds!</b>"
+    return TEXT
