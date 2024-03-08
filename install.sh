@@ -22,9 +22,9 @@ if ! command -v pip3 &> /dev/null; then
 fi
 
 
-if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
-    echo "Stopping existing holderbot process..."
-    pkill -f "python3 monitoringbeta.py"
+if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
+    echo "Stopping existing holder process..."
+    pkill -f "python3 holder.py"
 fi
 
 if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
@@ -32,15 +32,35 @@ if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
     pkill -f "python3 holderbeta.py"
 fi
 
-pkill -x "python3 holderbeta.py"
+
+if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
+    echo "Stopping existing node_status_checker process..."
+    pkill -f "python3 node_status_checker.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
+    echo "Stopping existing monitoringbeta process..."
+    pkill -f "python3 monitoringbeta.py"
+fi
+
+if [ -d "holderbot" ]; then
+    echo "Removing existing holderbeta directory..."
+    rm -rf holderbot
+fi
 
 if [ -d "holderbeta" ]; then
     echo "Removing existing holderbeta directory..."
     rm -rf holderbeta
 fi
 
-mkdir holderbeta
-cd holderbeta
+
+if [ -d "holder" ]; then
+    echo "Removing existing holder directory..."
+    rm -rf holder
+fi
+
+mkdir holderbot
+cd holderbot
 
 git clone -b main https://github.com/erfjab/holderbot.git .
 
@@ -51,14 +71,13 @@ source hold/bin/activate
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab
 sudo apt-get install sqlite3
 
-read -p "Please enter telegram chatid : " chatid
 read -p "Please enter name (nickname) : " name
-read -p "Please enter panel username : " user
-read -p "Please enter panel password : " password
-read -p "Please enter panel domain (like : sub.domian.com:port ) : " domain
+read -p "Please enter telegram chatid : " chatid
 read -p "Please enter telegram bot token: " token
+read -p "Please enter panel sudo username : " user
+read -p "Please enter panel sudo password : " password
+read -p "Please enter panel domain (like: sub.domian.com:port) : " domain
 
-# Create SQLite database
 sqlite3 holder.db <<EOF
 CREATE TABLE bot
     (chatid INTEGER PRIMARY KEY,
@@ -86,13 +105,18 @@ CREATE TABLE users
      domain TEXT,
      step TEXT);
 
+CREATE TABLE IF NOT EXISTS messages
+    (chatid INTEGER PRIMARY KEY,
+    status TEXT);
+
+INSERT INTO messages (chatid, status) VALUES ('$chatid', 'off');
 INSERT INTO users (chatid, role, name, username, password, domain, step) VALUES ('$chatid', 'boss', '$name', '$user', '$password', '$domain', 'None');
 INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$chatid', 'on', '10', '100');
 INSERT INTO bot (chatid, token) VALUES ("$chatid", "$token");
 EOF
 
-chmod +x monitoringbeta.py
-chmod +x holderbeta.py
-nohup python3 monitoringbeta.py & disown
-nohup python3 holderbeta.py & disown
+chmod +x monitoring.py
+chmod +x holder.py
+nohup python3 monitoring.py & disown
+nohup python3 holder.py & disown
 
