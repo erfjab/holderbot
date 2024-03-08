@@ -43,6 +43,11 @@ if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
     pkill -f "python3 monitoringbeta.py"
 fi
 
+if ps aux | grep -v grep | grep "python3 monitoring.py" &> /dev/null; then
+    echo "Stopping existing monitoring process..."
+    pkill -f "python3 monitoring.py"
+fi
+
 if [ -d "holderbot" ]; then
     echo "Removing existing holderbeta directory..."
     rm -rf holderbot
