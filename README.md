@@ -76,7 +76,7 @@ You have two options for creating a user: either through templates or manually. 
 
 If you want to do this manually, you will be asked for inbounds, volume, and time, which is more suitable for specific cases. Templates speed up your work and allow you to create hundreds of users in a fraction of a second.
 
-## 🎖 Message
+## 🎖 Notice
 
 Welcome to the Messages section! This feature has been added with sponsorship the [Gray](https://t.me/GrayServer) collection.❤️ You can visit the Gray collection channel and bot for purchasing servers on an hourly and monthly basis, with a wide variety of locations and specifications, accompanied by clean IPs at the lowest prices. Before activating the Messages, you need to create an inbound Shadowsocks with the name "Holderbot" inside the panel:
 
