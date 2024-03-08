@@ -66,20 +66,15 @@ def DEF_CREATE_USER(CHATID , USERNAME , DATA , DATE , PROXIES , INBOUNDS) :
     return TEXT
 
 
-def DEF_USERNAME_STARTER(TEXT , MUCH_NUMBER):
-    LETTERS = re.findall(r'[a-zA-Z]+', TEXT)
-    DIGIT = re.findall(r'\d+', TEXT)
-    if LETTERS and not DIGIT:
-        START_NUMBER = 1
-        RESULT = ''.join(LETTERS) + str(START_NUMBER)
-    elif DIGIT and not LETTERS:
-        START_NUMBER = int(DIGIT[0])
-        RESULT = ''.join(LETTERS) + str(START_NUMBER)
+def DEF_USERNAME_STARTER(TEXT, MUCH_NUMBER):
+    LETTERS_MATCH = re.sub(r'\d+', '', TEXT)
+    DIGIT_MATCH = re.search(r'\d+$', TEXT)
+    if DIGIT_MATCH:
+        START_NUMBER = int(DIGIT_MATCH.group()) + 1
     else:
-        START_NUMBER = int(DIGIT[0])
-        RESULT = ''.join(LETTERS) + str(START_NUMBER)
-    RESULT_LIST = [RESULT]
-    for _ in range(int(MUCH_NUMBER) - 1 ):
+        START_NUMBER = 1
+    RESULT_LIST = []
+    for _ in range(int(MUCH_NUMBER)):
+        RESULT_LIST.append(LETTERS_MATCH + str(START_NUMBER))
         START_NUMBER += 1
-        RESULT_LIST.append(''.join(LETTERS) + str(START_NUMBER))
     return RESULT_LIST
