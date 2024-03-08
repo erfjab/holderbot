@@ -14,8 +14,8 @@ app = Client(
 with app :
 
     while True :
-        BOSS_CHATID , NODE_STATUS , CHECK_NORMAL , CHECK_ERROR = DEF_MONITORING_DATA ()
         try :
+            BOSS_CHATID , NODE_STATUS , CHECK_NORMAL , CHECK_ERROR = DEF_MONITORING_DATA ()
             PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (BOSS_CHATID)
             if NODE_STATUS == "on" :
                 
@@ -32,7 +32,7 @@ with app :
                         if NODE.get("status") == "error" or NODE.get("status") == "connecting" :
                             
                             app.send_message(chat_id=BOSS_CHATID , text="🧨" , parse_mode=enums.ParseMode.HTML)
-                            TEXT = f"<b>boss of one of the servers crashed. To prevent spamming, server monitoring has been stopped and will be restarted after <code>{CHECK_ERROR}</code> seconds.</b>"
+                            TEXT = f"<b>❗ boss of one of the servers crashed. To prevent spamming, server monitoring has been stopped and will be restarted after <code>{CHECK_ERROR}</code> seconds.</b>"
                             TEXT += f"\n\n<b>NODE NAME : </b><code>{NODE.get('name')}</code>\n<b>NODE ID : </b><code>{NODE.get('id')}</code>\n<b>NODE IP : </b><code>{NODE.get('address')}</code>\n<b>ERROR MESSAGE : </b><code>{NODE.get('message')}</code>"
                             NODE_HAVE_A_PROBLEM = True
                             app.send_message(chat_id=BOSS_CHATID , text=TEXT , parse_mode=enums.ParseMode.HTML)
