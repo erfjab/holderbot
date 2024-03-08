@@ -108,7 +108,7 @@ async def holderbot(client: Client, message: Message) :
                 UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,"message | wait to select command")
                                 
             else :
-                if MESSAGE_TEXT == "🧨" or MESSAGE_TEXT.startswith("boss of one") :
+                if MESSAGE_TEXT == "🧨" or MESSAGE_TEXT.startswith("boss of one") or "set the messages." in MESSAGE_TEXT :
                     return
                 TEXT , KEYBOARD_UPDATE_STASE = DEF_STASE_USER (MESSAGE_CHATID , MESSAGE_TEXT , KEYBOARD_HOME)
                 await client.send_message(chat_id=MESSAGE_CHATID , text=TEXT , reply_markup=KEYBOARD_UPDATE_STASE , parse_mode=enums.ParseMode.HTML)
