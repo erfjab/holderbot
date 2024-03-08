@@ -51,7 +51,7 @@ Ubuntu servers, and any responsibility for other setups is your own.
 Please use the following command to install on your server:
 
 ```
-cd && cd .. && rm installbeta.sh* && sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/installbeta.sh && chmod +x installbeta.sh && ./installbeta.sh
+cd && cd .. && rm install.sh* && sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/beta/install.sh && chmod +x install.sh && ./install.sh
 ```
 
 # How to use the bot? # 
