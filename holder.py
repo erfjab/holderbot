@@ -43,8 +43,6 @@ async def holderbot(client: Client, message: Message) :
             UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,"None")
             return
         
-        if MESSAGE_TEXT.startswith("❗ Boss" , "✅ Boss" ) :
-            return
         
         CHECK_STEP = DEF_CHECK_STEP(MESSAGE_CHATID)
         if CHECK_STEP == "None" :
