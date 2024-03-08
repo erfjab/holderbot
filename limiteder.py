@@ -31,7 +31,7 @@ with app :
                             else :
                                 app.send_message(chat_id=BOSS_CHATID , text=f"<b>❗ Boss! user <code>{USERNAME}</code> is limited, but I can't set the messages.\n\n<pre>{RESPONCE.text}</pre></b>" , parse_mode=enums.ParseMode.HTML)                                
                         time.sleep(0.5)
-                time.sleep(10)
+                time.sleep(5)
             else :
                 time.sleep(60)
         except Exception as e :
