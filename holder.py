@@ -103,12 +103,12 @@ async def holderbot(client: Client, message: Message) :
                 await client.send_message(chat_id=MESSAGE_CHATID , text=f"<b>Please select a template or create user manually.</b>" , reply_markup=KEYBOARD_TEMPLATES , parse_mode=enums.ParseMode.HTML , disable_web_page_preview=True )
                 UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,"create | wait to select command")
 
-            elif MESSAGE_TEXT == "🎖 Message" :
+            elif MESSAGE_TEXT == "🎖 Notice" :
                 await client.send_message(chat_id=MESSAGE_CHATID , text=f"<b>Welcome to the Messages section! This feature has been added with sponsorship the <a href='https://t.me/GrayServer'>Gray</a> collection.❤️ You can visit the Gray collection channel and bot for purchasing servers on an hourly and monthly basis, with a wide variety of locations and specifications, accompanied by clean IPs at the lowest prices.\n\nTo utilize this feature, you first need to create an inbound according to the tutorial on GitHub Wiki or the Telegram channel tutorial for Holderbot. Then, in the host setting section of that inbound, write down the texts you desire to be displayed to the user upon completion of the configuration update.\n\nYour Messages is <code>{DEF_GET_MESSAGE_STATUS(MESSAGE_CHATID)}</code></b>" , reply_markup=KEYBOARD_MESSAGES , parse_mode=enums.ParseMode.HTML , disable_web_page_preview=True )
                 UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID,"message | wait to select command")
                                 
             else :
-                if MESSAGE_TEXT == "🧨" or MESSAGE_TEXT.startswith("boss of one") or "set the messages." in MESSAGE_TEXT :
+                if MESSAGE_TEXT == "🧨" or ("boss of one") in MESSAGE_TEXT or "set the messages." in MESSAGE_TEXT :
                     return
                 TEXT , KEYBOARD_UPDATE_STASE = DEF_STASE_USER (MESSAGE_CHATID , MESSAGE_TEXT , KEYBOARD_HOME)
                 await client.send_message(chat_id=MESSAGE_CHATID , text=TEXT , reply_markup=KEYBOARD_UPDATE_STASE , parse_mode=enums.ParseMode.HTML)
