@@ -137,9 +137,35 @@ def DEF_GET_MESSAGE_STATUS(CHATID):
 
 def DEF_CHANGE_MESSAGER_STATUS(CHATID):
     OLD_STATUS = DEF_GET_MESSAGE_STATUS(CHATID)
-    NEW_STATUS = "off" if OLD_STATUS == "on" else "on"
     conn = sqlite3.connect('holder.db')
     cursor = conn.cursor()
-    cursor.execute('''UPDATE messages SET status = ? WHERE chatid = ?''', (NEW_STATUS, CHATID))
-    conn.commit()
-    conn.close()
+    if OLD_STATUS == "on" :    
+        cursor.execute('''UPDATE messages SET status = ? WHERE chatid = ?''', ("off", CHATID))
+        conn.commit()
+        conn.close()
+        TEXT = "<b>✅ Your status is off.</b>"
+    else :
+        PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
+        PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
+        URL = f"https://{PANEL_DOMAIN}/api/inbounds"
+        RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+        if RESPONCE.status_code == 200:
+            INBOUNDS = json.loads(RESPONCE.text)
+            FOUND = False
+            if "shadowsocks" in INBOUNDS :
+                for ITEM in INBOUNDS["shadowsocks"]:
+                    if "Holderbot" in ITEM["tag"]:
+                        FOUND = True
+                        break
+            else :
+                FOUND = False
+            if FOUND :
+                cursor.execute('''UPDATE messages SET status = ? WHERE chatid = ?''', ("on", CHATID))
+                conn.commit()
+                conn.close()
+                TEXT = "<b>✅ Your status is on.</b>"
+            else :
+                TEXT = "<b>❌ Your status is not change.\nyou don't have Holderbot inbounds!</b>"
+        else :
+            TEXT = "<b>❌ i can't check inbounds!</b>"
+    return TEXT
