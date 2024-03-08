@@ -36,4 +36,5 @@ with app :
                 time.sleep(60)
         except Exception as e :
             app.send_message(chat_id=BOSS_CHATID , text=f"<b>❌ Exoirider Error :</b>\n<pre>{str(e)}</pre>" , parse_mode=enums.ParseMode.HTML)
+            time.sleep(60)
             pass
