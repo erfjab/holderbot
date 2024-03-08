@@ -78,7 +78,7 @@ fi
 mkdir holderbot
 cd holderbot
 
-git clone -b beta https://github.com/erfjab/holderbot.git .
+git clone -b main https://github.com/erfjab/holderbot.git .
 
 sudo apt install -y python3.10-venv
 python3 -m venv hold
