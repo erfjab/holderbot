@@ -27,9 +27,9 @@ with app :
                             DATA = {"proxies":{"shadowsocks":{}},"inbounds" : {'shadowsocks': ['Holderbot']}}
                             RESPONCE = requests.put(url=URL , json=DATA , headers=PANEL_TOKEN)
                             if RESPONCE.status_code == 200 :
-                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>✅ Boss! user <code>{USERNAME}</code> is expired, I have set the messages.</b>" , parse_mode=enums.ParseMode.HTML)
+                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>✅ Boss! user <code>{USERNAME}</code> is expired,\nI have set the messages.</b>" , parse_mode=enums.ParseMode.HTML)
                             else :
-                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>❗ Boss! user <code>{USERNAME}</code> is expired, but I can't set the messages.\n\n<pre>{RESPONCE.text}</pre></b>" , parse_mode=enums.ParseMode.HTML)                                
+                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>❗ Boss! user <code>{USERNAME}</code> is expired,\nbut I can't set the messages.\n\n<pre>{RESPONCE.text}</pre></b>" , parse_mode=enums.ParseMode.HTML)                                
                         time.sleep(0.5)
                 time.sleep(5)
             else :
