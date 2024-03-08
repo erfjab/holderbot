@@ -48,6 +48,17 @@ if ps aux | grep -v grep | grep "python3 monitoring.py" &> /dev/null; then
     pkill -f "python3 monitoring.py"
 fi
 
+if ps aux | grep -v grep | grep "python3 expired.py" &> /dev/null; then
+    echo "Stopping existing expired process..."
+    pkill -f "python3 expired.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 limiteder.py" &> /dev/null; then
+    echo "Stopping existing limiteder process..."
+    pkill -f "python3 limiteder.py"
+fi
+
+
 if [ -d "holderbot" ]; then
     echo "Removing existing holderbeta directory..."
     rm -rf holderbot
