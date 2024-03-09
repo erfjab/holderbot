@@ -57,7 +57,7 @@ cd && cd .. && rm -f install.sh* || true && sudo apt install && sudo apt-get ins
 
 # How to use the bot? # 
 
-Please return to the main GitHub page of Holder Bot for installation. This page is only for tutorials. All explanations are complete and clear, but if you still notice any deficiencies or shortcomings in the explanations, please create an issue, and we will address it. Thank you for your cooperation.
+All explanations are complete and clear, but if you still notice any deficiencies or shortcomings in the explanations, please create an issue, and we will address it. Thank you for your cooperation.
 
 > [!WARNING]
 > These tutorials are exclusively for version 4. Previous versions are no longer supported.
