@@ -47,4 +47,5 @@ with app :
 
         except Exception as e :
             app.send_message(chat_id=BOSS_CHATID , text=f"<b>❌ Monitoring Error :</b>\n<pre>{str(e)}</pre>" , parse_mode=enums.ParseMode.HTML)
+            time.sleep(60)
             pass
