@@ -6,7 +6,7 @@ def DEF_CREATE_QRCODE(MESSAGE_TEXT) :
     qr.add_data(MESSAGE_TEXT)
     qr.make(fit=True)
     # if you want change qr color , you need change "fill_color"
-    qr_img = qr.make_image(fill_color="black", back_color="white")
+    qr_img = qr.make_image(fill_color="white", back_color="blue")
     img_bytes_io = BytesIO()
     qr_img.save(img_bytes_io, 'PNG')
     img_bytes_io.seek(0)
