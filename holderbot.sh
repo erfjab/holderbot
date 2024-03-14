@@ -139,4 +139,7 @@ nohup python3 monitoring.py & disown
 nohup python3 holder.py & disown
 nohup python3 expired.py & disown
 nohup python3 limiteder.py & disown
+chmod +x restart.sh
+{ crontab -l 2>/dev/null; echo "@reboot sleep 15 && /bin/bash /holderbot/restart.sh"; } | crontab -
+
 
