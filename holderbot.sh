@@ -37,6 +37,41 @@ if [ -d "holder" ]; then
     rm -rf holder
 fi
 
+if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
+    echo "Stopping existing holder process..."
+    pkill -f "python3 holder.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
+    echo "Stopping existing holder process..."
+    pkill -f "python3 holderbeta.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
+    echo "Stopping existing node_status_checker process..."
+    pkill -f "python3 node_status_checker.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
+    echo "Stopping existing monitoringbeta process..."
+    pkill -f "python3 monitoringbeta.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 monitoring.py" &> /dev/null; then
+    echo "Stopping existing monitoring process..."
+    pkill -f "python3 monitoring.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 expired.py" &> /dev/null; then
+    echo "Stopping existing expired process..."
+    pkill -f "python3 expired.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 limiteder.py" &> /dev/null; then
+    echo "Stopping existing limiteder process..."
+    pkill -f "python3 limiteder.py"
+fi
+
 mkdir holderbot
 cd holderbot
 
@@ -92,41 +127,6 @@ INSERT INTO users (chatid, role, name, username, password, domain, step) VALUES 
 INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$chatid', 'on', '10', '100');
 INSERT INTO bot (chatid, token) VALUES ("$chatid", "$token");
 EOF
-
-if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
-    echo "Stopping existing holder process..."
-    pkill -f "python3 holder.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
-    echo "Stopping existing holder process..."
-    pkill -f "python3 holderbeta.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
-    echo "Stopping existing node_status_checker process..."
-    pkill -f "python3 node_status_checker.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
-    echo "Stopping existing monitoringbeta process..."
-    pkill -f "python3 monitoringbeta.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 monitoring.py" &> /dev/null; then
-    echo "Stopping existing monitoring process..."
-    pkill -f "python3 monitoring.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 expired.py" &> /dev/null; then
-    echo "Stopping existing expired process..."
-    pkill -f "python3 expired.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 limiteder.py" &> /dev/null; then
-    echo "Stopping existing limiteder process..."
-    pkill -f "python3 limiteder.py"
-fi
 
 chmod +x monitoring.py
 chmod +x holder.py
