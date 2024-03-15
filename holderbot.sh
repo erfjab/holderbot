@@ -141,3 +141,5 @@ cronjob="@reboot sleep 20 && /bin/bash /holderbot/restart.sh"
 if ! crontab -l | grep -Fq "$cronjob"; then
   (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
 fi
+
+echo "Holderbot is run!"
