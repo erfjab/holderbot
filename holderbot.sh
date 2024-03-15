@@ -23,42 +23,6 @@ if ! command -v pip3 &> /dev/null; then
 fi
 
 
-if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
-    echo "Stopping existing holder process..."
-    pkill -f "python3 holder.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
-    echo "Stopping existing holder process..."
-    pkill -f "python3 holderbeta.py"
-fi
-
-
-if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
-    echo "Stopping existing node_status_checker process..."
-    pkill -f "python3 node_status_checker.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
-    echo "Stopping existing monitoringbeta process..."
-    pkill -f "python3 monitoringbeta.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 monitoring.py" &> /dev/null; then
-    echo "Stopping existing monitoring process..."
-    pkill -f "python3 monitoring.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 expired.py" &> /dev/null; then
-    echo "Stopping existing expired process..."
-    pkill -f "python3 expired.py"
-fi
-
-if ps aux | grep -v grep | grep "python3 limiteder.py" &> /dev/null; then
-    echo "Stopping existing limiteder process..."
-    pkill -f "python3 limiteder.py"
-fi
-
 
 if [ -d "holderbot" ]; then
     echo "Removing existing holderbeta directory..."
@@ -131,6 +95,42 @@ INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$cha
 INSERT INTO bot (chatid, token) VALUES ("$chatid", "$token");
 EOF
 
+if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
+    echo "Stopping existing holder process..."
+    pkill -f "python3 holder.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
+    echo "Stopping existing holder process..."
+    pkill -f "python3 holderbeta.py"
+fi
+
+
+if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
+    echo "Stopping existing node_status_checker process..."
+    pkill -f "python3 node_status_checker.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
+    echo "Stopping existing monitoringbeta process..."
+    pkill -f "python3 monitoringbeta.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 monitoring.py" &> /dev/null; then
+    echo "Stopping existing monitoring process..."
+    pkill -f "python3 monitoring.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 expired.py" &> /dev/null; then
+    echo "Stopping existing expired process..."
+    pkill -f "python3 expired.py"
+fi
+
+if ps aux | grep -v grep | grep "python3 limiteder.py" &> /dev/null; then
+    echo "Stopping existing limiteder process..."
+    pkill -f "python3 limiteder.py"
+fi
+
 chmod +x monitoring.py
 chmod +x holder.py
 chmod +x expired.py
@@ -140,6 +140,6 @@ nohup python3 holder.py & disown
 nohup python3 expired.py & disown
 nohup python3 limiteder.py & disown
 chmod +x restart.sh
-{ crontab -l 2>/dev/null; echo "@reboot sleep 15 && /bin/bash /holderbot/restart.sh"; } | crontab -
+{ crontab -l 2>/dev/null; echo "@reboot sleep 25 && /bin/bash /holderbot/restart.sh"; } | crontab -
 
 
