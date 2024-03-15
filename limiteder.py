@@ -27,14 +27,14 @@ with app :
                             DATA = {"proxies":{"shadowsocks":{}},"inbounds" : {'shadowsocks': ['Holderbot']}}
                             RESPONCE = requests.put(url=URL , json=DATA , headers=PANEL_TOKEN)
                             if RESPONCE.status_code == 200 :
-                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>✅ Boss! user <code>{USERNAME}</code> is limited,\nI have set the messages.</b>" , parse_mode=enums.ParseMode.HTML)
+                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>✅ (Checker) Boss! user <code>{USERNAME}</code> is limited,\nI have set the messages.</b>" , parse_mode=enums.ParseMode.HTML , disable_notification=True)
                             else :
-                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>❗ Boss! user <code>{USERNAME}</code> is limited,\nbut I can't set the messages.\n\n<pre>{RESPONCE.text}</pre></b>" , parse_mode=enums.ParseMode.HTML)                                
+                                app.send_message(chat_id=BOSS_CHATID , text=f"<b>❗ (Checker) Boss! user <code>{USERNAME}</code> is limited,\nbut I can't set the messages.\n\n<pre>{RESPONCE.text}</pre></b>" , parse_mode=enums.ParseMode.HTML , disable_notification=True)                                
                         time.sleep(0.5)
                 time.sleep(5)
             else :
                 time.sleep(60)
         except Exception as e :
-            app.send_message(chat_id=BOSS_CHATID , text=f"<b>❌ limiteder Error :</b>\n<pre>{str(e)}</pre>" , parse_mode=enums.ParseMode.HTML)
+            app.send_message(chat_id=BOSS_CHATID , text=f"<b>❌ (Checker) limiteder Error :</b>\n<pre>{str(e)}</pre>" , parse_mode=enums.ParseMode.HTML , disable_notification=True)
             time.sleep(60)
             pass
