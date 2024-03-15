@@ -22,8 +22,6 @@ if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi
 
-
-
 if [ -d "holderbot" ]; then
     echo "Removing existing holderbeta directory..."
     rm -rf holderbot
@@ -105,7 +103,6 @@ if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
     pkill -f "python3 holderbeta.py"
 fi
 
-
 if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
     echo "Stopping existing node_status_checker process..."
     pkill -f "python3 node_status_checker.py"
@@ -140,8 +137,7 @@ nohup python3 holder.py & disown
 nohup python3 expired.py & disown
 nohup python3 limiteder.py & disown
 chmod +x restart.sh
-cronjob="@reboot sleep 25 && /bin/bash /holderbot/restart.sh"
+cronjob="@reboot sleep 20 && /bin/bash /holderbot/restart.sh"
 if ! crontab -l | grep -Fq "$cronjob"; then
   (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
 fi
-
