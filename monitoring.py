@@ -31,8 +31,7 @@ with app :
 
                         if NODE.get("status") == "error" or NODE.get("status") == "connecting" :
                             
-                            app.send_message(chat_id=BOSS_CHATID , text="🧨" , parse_mode=enums.ParseMode.HTML)
-                            TEXT = f"<b>❗ boss of one of the servers crashed. To prevent spamming, server monitoring has been stopped and will be restarted after <code>{CHECK_ERROR}</code> seconds.</b>"
+                            TEXT = f"<b>❗ (Checker) boss of one of the servers crashed. To prevent spamming, server monitoring has been stopped and will be restarted after <code>{CHECK_ERROR}</code> seconds.</b>"
                             TEXT += f"\n\n<b>NODE NAME : </b><code>{NODE.get('name')}</code>\n<b>NODE ID : </b><code>{NODE.get('id')}</code>\n<b>NODE IP : </b><code>{NODE.get('address')}</code>\n<b>ERROR MESSAGE : </b><code>{NODE.get('message')}</code>"
                             NODE_HAVE_A_PROBLEM = True
                             app.send_message(chat_id=BOSS_CHATID , text=TEXT , parse_mode=enums.ParseMode.HTML)
@@ -46,6 +45,6 @@ with app :
                 time.sleep(60)
 
         except Exception as e :
-            app.send_message(chat_id=BOSS_CHATID , text=f"<b>❌ Monitoring Error :</b>\n<pre>{str(e)}</pre>" , parse_mode=enums.ParseMode.HTML)
+            app.send_message(chat_id=BOSS_CHATID , text=f"<b>❌ (Checker) Monitoring Error :</b>\n<pre>{str(e)}</pre>" , parse_mode=enums.ParseMode.HTML)
             time.sleep(60)
             pass
