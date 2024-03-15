@@ -140,6 +140,8 @@ nohup python3 holder.py & disown
 nohup python3 expired.py & disown
 nohup python3 limiteder.py & disown
 chmod +x restart.sh
-{ crontab -l 2>/dev/null; echo "@reboot sleep 25 && /bin/bash /holderbot/restart.sh"; } | crontab -
-
+cronjob="@reboot sleep 25 && /bin/bash /holderbot/restart.sh"
+if ! crontab -l | grep -Fq "$cronjob"; then
+  (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
+fi
 
