@@ -1,5 +1,16 @@
 ![Example Image](holderbotcover.png)
 
+<p align="center">
+  <a href="./README.md">
+	English
+	</a>
+	|
+	<a href="./README_ru.md">
+	Русский
+	</a>
+
+</p>
+
 # What is Holderbot? #
 
 Holder Bot is a quick and simple bot designed to address the issue of the lack of a timer start option after the initial connection in the "Marzban Panel" user interface. Utilizing the programming interfaces of Marzban Panel, Holder Bot provided users with the ability to easily utilize this feature on Telegram. However, after the 3.0 update, Holder Bot has enhanced its capabilities with the introduction of special features, reaching its peak in subsequent versions. Now, Holder Bot serves as a professional assistant for Marzban users. For more information, you can refer to the update section or join the Telegram channel.
