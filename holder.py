@@ -16,6 +16,9 @@ from Function.stase import *
 from datetime import datetime
 import re , os
 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 
 app = Client( 
     "holder",      
@@ -559,7 +562,7 @@ async def handle_callback_user_info(client: Client, query: CallbackQuery):
         
         if CALLBACK_DATA.startswith("user info QRCODE") :
             URL = f"https://{PANEL_DOMAIN}/api/user/{CB_USERNAME}"
-            RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+            RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
             if RESPONCE.status_code == 200 :
                 RESPONCE_DATA = json.loads(RESPONCE.text)
             else :
@@ -582,7 +585,7 @@ async def handle_callback_user_info(client: Client, query: CallbackQuery):
         elif CALLBACK_DATA.startswith("user info DELETE") :
             if CALLBACK_DATA.startswith("user info DELETE_SURE") :
                 URL = f"https://{PANEL_DOMAIN}/api/user/{CB_USERNAME}"
-                RESPONCE = requests.delete(url=URL , headers=PANEL_TOKEN)
+                RESPONCE = requests.delete(url=URL , headers=PANEL_TOKEN , verify=False)
                 if RESPONCE.status_code == 200 :
                     RESPONCE_DATA = json.loads(RESPONCE.text)
                 else :

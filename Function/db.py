@@ -1,4 +1,6 @@
 import sqlite3 , requests , json
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 def DEF_GET_BOT_TOKEN():
     conn = sqlite3.connect('holder.db')
@@ -44,7 +46,7 @@ def DEF_IMPORT_DATA (CHATID) :
 
 def DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN) :
     PANEL_TOKEN_DATA = {"username" : PANEL_USER , "password" : PANEL_PASS }
-    PANEL_TOKEN = requests.post(url=f"https://{PANEL_DOMAIN}/api/admin/token" , data=PANEL_TOKEN_DATA)
+    PANEL_TOKEN = requests.post(url=f"https://{PANEL_DOMAIN}/api/admin/token" , data=PANEL_TOKEN_DATA , verify=False)
     if PANEL_TOKEN.status_code == 200 :
         PANEL_TOKEN_BACK = json.loads(PANEL_TOKEN.text)
         PANEL_HEADERS = {
@@ -148,7 +150,7 @@ def DEF_CHANGE_MESSAGER_STATUS(CHATID):
         PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
         PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
         URL = f"https://{PANEL_DOMAIN}/api/inbounds"
-        RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+        RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False )
         if RESPONCE.status_code == 200:
             INBOUNDS = json.loads(RESPONCE.text)
             FOUND = False

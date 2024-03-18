@@ -4,6 +4,8 @@ from persiantools.jdatetime import JalaliDateTime
 from difflib import SequenceMatcher
 from datetime import datetime, timezone
 from pyrogram.types import *
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def DEF_SUB_LINK_FIND_FROM_USER_MESSAGE (LINK) :
@@ -53,12 +55,12 @@ def DEF_STASE_USER (CHATID , MESSAGE_TEXT , KEYBOARD_HOME):
         URL = f"https://{PANEL_DOMAIN}/sub/{SUB_TOKEN}/info"
     else :
         URL = f"https://{PANEL_DOMAIN}/api/user/{MESSAGE_TEXT}"
-    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200 :
         RESPONCE_DATA = json.loads(RESPONCE.text)
     else :
         URL = f"https://{PANEL_DOMAIN}/api/users"
-        RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+        RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
         if RESPONCE.status_code == 200 :
             RESPONCE_DATA = RESPONCE.json()
             USERS = [user.get('username') for user in RESPONCE_DATA.get('users', [])]

@@ -1,5 +1,7 @@
 from Function.db import *
 import requests , json
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 
@@ -19,14 +21,14 @@ def DEF_RECONNECT_NODE(CHATID , NODE_ID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/node/{NODE_ID}"
-    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200 :
         RESPONCE_DATA = RESPONCE.json()
         if RESPONCE_DATA.get("status") == "disabled" :
             TEXT = "<b>❌ Your node is disabled\nplease first active node.</b>"
         else :
             URL = f"https://{PANEL_DOMAIN}/api/node/{NODE_ID}/reconnect"                
-            RESPONCE = requests.post(url=URL , headers=PANEL_TOKEN)
+            RESPONCE = requests.post(url=URL , headers=PANEL_TOKEN , verify=False)
             if RESPONCE.status_code == 200 :
                 TEXT = "<b>✅ Your node is reconnected.</b>" 
             else :
@@ -41,7 +43,7 @@ def DEF_ACTIVE_NODE(CHATID  , NODE_ID) :
     NODE_EDIT_DATA = {"status" : "connected"}
     NODE_EDIT_DATA = json.dumps(NODE_EDIT_DATA)
     URL = f"https://{PANEL_DOMAIN}/api/node/{NODE_ID}"
-    RESPONCE = requests.put(url=URL , headers=PANEL_TOKEN , data=NODE_EDIT_DATA)
+    RESPONCE = requests.put(url=URL , headers=PANEL_TOKEN , data=NODE_EDIT_DATA , verify=False)
     if RESPONCE.status_code == 200 :
         TEXT = "<b>✅ Your node is active.</b>"
     else :
@@ -54,7 +56,7 @@ def DEF_DISABLED_NODE(CHATID  , NODE_ID) :
     NODE_EDIT_DATA = {"status" : "disabled"}
     NODE_EDIT_DATA = json.dumps(NODE_EDIT_DATA)
     URL = f"https://{PANEL_DOMAIN}/api/node/{NODE_ID}"
-    RESPONCE = requests.put(url=URL , headers=PANEL_TOKEN , data=NODE_EDIT_DATA)
+    RESPONCE = requests.put(url=URL , headers=PANEL_TOKEN , data=NODE_EDIT_DATA , verify=False)
     if RESPONCE.status_code == 200 :
         TEXT = "<b>✅ Your node is disabled.</b>"
     else :
@@ -67,7 +69,7 @@ def DEF_USAGE_COEFFICIENT(USAGE_NUMBER , CHATID , NODE_ID) :
     NODE_EDIT_DATA = {"usage_coefficient" : USAGE_NUMBER}
     NODE_EDIT_DATA = json.dumps(NODE_EDIT_DATA)
     URL = f"https://{PANEL_DOMAIN}/api/node/{NODE_ID}"
-    RESPONCE = requests.put(url=URL , headers=PANEL_TOKEN , data=NODE_EDIT_DATA)
+    RESPONCE = requests.put(url=URL , headers=PANEL_TOKEN , data=NODE_EDIT_DATA , verify=False)
     if RESPONCE.status_code == 200 :
         TEXT = "<b>✅ Your node usage_coefficient is changed.</b>"
     else :

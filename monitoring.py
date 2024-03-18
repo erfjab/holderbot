@@ -3,6 +3,8 @@ from pyrogram.types import *
 from pyrogram.errors.exceptions import *
 from Function.db import *
 import time , requests , json
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 app = Client( 
     "noder",      
@@ -22,7 +24,7 @@ with app :
                 NODE_HAVE_A_PROBLEM = False
                 PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
                 URL = f"https://{PANEL_DOMAIN}/api/nodes"
-                RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+                RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
                 
                 if RESPONCE.status_code == 200 :
                     RESPONCE_DATA = RESPONCE.json()

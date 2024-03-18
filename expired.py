@@ -1,6 +1,8 @@
 from pyrogram import *
 from Function.db import *
 import time
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 app = Client( 
     "expired",      
@@ -16,7 +18,7 @@ with app :
                 PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (BOSS_CHATID)
                 PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
                 URL = f"https://{PANEL_DOMAIN}/api/users?status=expired"
-                RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+                RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
                 
                 if RESPONCE.status_code == 200 :
                     RESPONCE_DATA = RESPONCE.json()

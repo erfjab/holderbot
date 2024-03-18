@@ -4,6 +4,8 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from Function.db import *
 from datetime import datetime
 import requests , pytz , uuid
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 def DEF_PATCH_TO_SECEND(TIME) :
     ONLINE_PATCH = "%Y-%m-%dT%H:%M:%S.%f" if '.' in TIME else "%Y-%m-%dT%H:%M:%S"
@@ -18,7 +20,7 @@ def DEF_ALL_USERS(CHATID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/users"
-    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
     LEN_ALL_USERS = LEN_ALL_ACTIVE_USERS = LEN_ALL_DISABLED_USERS = LEN_ALL_EXPIRED_USERS = LEN_ALL_LIMITED_USERS = LEN_ALL_ON_HOLD_USERS = LEN_ALL_ONLINE_USERS = LEN_ALL_OFFLINE_USERS = LEN_ALL_IS_UPDATE_USERS = LEN_ALL_NOT_UPDATE_USERS = 0
     if RESPONCE.status_code == 200 :
         RESPONCE_DATA = RESPONCE.json()
@@ -67,7 +69,7 @@ def DEF_USERS_LIST_STATUS(MESSAGE_TEXT , CHATID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/users"
-    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200:
         RESPONCE_DATA = RESPONCE.json()
         LIST = []
@@ -110,7 +112,7 @@ def DEF_USERS_TIME_LIST (CHATID , CATAGORY , TIME) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/users"
-    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200:
         RESPONCE_DATA = RESPONCE.json()
         USERS_LIST = []
