@@ -6,7 +6,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 def DEF_GET_INBOUNDS(CHATID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
-    URL = f"https://{PANEL_DOMAIN}/api/inbounds"
+    URL = f"{PANEL_DOMAIN}/api/inbounds"
     RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200:
         RESPONCE_DATA = RESPONCE.json()
@@ -51,11 +51,11 @@ def DEF_CREATE_USER(CHATID , USERNAME , DATA , DATE , PROXIES , INBOUNDS) :
         "note": "by holderbot",
         "on_hold_timeout": "2024-11-03T20:30:00",
         "on_hold_expire_duration": DATE_TO_SECOND} 
-    URL = f"https://{PANEL_DOMAIN}/api/user"
+    URL = f"{PANEL_DOMAIN}/api/user"
     POST_DATA = json.dumps(DATA)
     RESPONCE = requests.post(url=URL , headers=PANEL_TOKEN , data=POST_DATA , verify=False)
     if RESPONCE.status_code == 200 :
-        URL = f"https://{PANEL_DOMAIN}/api/user/{USERNAME}"
+        URL = f"{PANEL_DOMAIN}/api/user/{USERNAME}"
         RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
         if RESPONCE.status_code == 200 :
             RESPONCE_DATA = json.loads(RESPONCE.text)
