@@ -14,7 +14,7 @@ def KEYBOARD_ADMINS_LIST(CHATID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/admins"
-    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200:
         RESPONCE_DATA = RESPONCE.json()
         KEYBOARD_ADMINS_LIST = []
@@ -50,7 +50,7 @@ def DEF_NODES_LIST(CHATID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/nodes"
-    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200:
         RESPONCE_DATA = RESPONCE.json()
         KEYBOARD_NODES_LIST = []

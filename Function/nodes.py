@@ -19,7 +19,7 @@ def DEF_RECONNECT_NODE(CHATID , NODE_ID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/node/{NODE_ID}"
-    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200 :
         RESPONCE_DATA = RESPONCE.json()
         if RESPONCE_DATA.get("status") == "disabled" :

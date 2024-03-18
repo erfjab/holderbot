@@ -6,7 +6,7 @@ def DEF_GET_INBOUNDS(CHATID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"https://{PANEL_DOMAIN}/api/inbounds"
-    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200:
         RESPONCE_DATA = RESPONCE.json()
         INBOUNDS = json.loads(RESPONCE.text)
@@ -55,7 +55,7 @@ def DEF_CREATE_USER(CHATID , USERNAME , DATA , DATE , PROXIES , INBOUNDS) :
     RESPONCE = requests.post(url=URL , headers=PANEL_TOKEN , data=POST_DATA)
     if RESPONCE.status_code == 200 :
         URL = f"https://{PANEL_DOMAIN}/api/user/{USERNAME}"
-        RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+        RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
         if RESPONCE.status_code == 200 :
             RESPONCE_DATA = json.loads(RESPONCE.text)
             TEXT = RESPONCE_DATA.get("subscription_url")

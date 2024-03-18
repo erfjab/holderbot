@@ -148,7 +148,7 @@ def DEF_CHANGE_MESSAGER_STATUS(CHATID):
         PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
         PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
         URL = f"https://{PANEL_DOMAIN}/api/inbounds"
-        RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN)
+        RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
         if RESPONCE.status_code == 200:
             INBOUNDS = json.loads(RESPONCE.text)
             FOUND = False

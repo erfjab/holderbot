@@ -559,7 +559,7 @@ async def handle_callback_user_info(client: Client, query: CallbackQuery):
         
         if CALLBACK_DATA.startswith("user info QRCODE") :
             URL = f"https://{PANEL_DOMAIN}/api/user/{CB_USERNAME}"
-            RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+            RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
             if RESPONCE.status_code == 200 :
                 RESPONCE_DATA = json.loads(RESPONCE.text)
             else :
