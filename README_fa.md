@@ -51,32 +51,32 @@
 
 # چگونه Holderbot نصب کنیم؟ #
 
-To use the holderbot , you will need the following information:
-1. **Name:** You can enter any name you prefer.
-2. **Chat ID:** You need to obtain this from the [@chatIDrobot](https://t.me/chatIDrobot).
-3. **Bot Token:** You need to obtain this from the [@botfather](https://t.me/BotFather).
-4. **Panel Username:** Enter your panel sudo admin username.
-5. **Panel Password:** Enter your panel sudo admin password.
-6. **Panel Domain:** Enter your panel domain in this format (sub.domain.com:port).
+برای استفاده از هولدر بات، شما به اطلاعات زیر نیاز دارید:
+۱- نام : می‌توانید هر نامی که ترجیح می‌دهید وارد کنید.
+۲- شما میتوانید چت آیدی را از @chatIDrobot بدست آورید.
+۳- شما میتوانید بات توکن را از @botfather بدست آورید.
+۴- نام کاربری پنل: نام کاربری ادمین سودو پنل خود را وارد کنید.
+۵- رمز عبور پنل: رمز عبور ادمین سودو پنل خود را وارد کنید.
+۶- دامنه پنل: دامنه پنل خود را به این شکل وارد کنید (sub.domain.com:port).
+
 
 > [!WARNING]
-> Please note that HolderBot is currently only supported for installation and use on 
-Ubuntu servers, and any responsibility for other setups is your own.
+> لطفاً توجه داشته باشید که هولدر بات در حال حاضر تنها برای نصب و استفاده بر روی سرورهای اوبونتو پشتیبانی می‌شود، و هرگونه مسئولیتی در مورد راه‌اندازی‌های دیگر با شما خواهد بود.
 
-Please use the following command to install on your server:
+لطفاً برای نصب روی سرور خود از دستور زیر استفاده کنید
 
 ```
 cd && cd .. && rm -f holderbot.sh* || true && sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/holderbot.sh && chmod +x holderbot.sh && ./holderbot.sh
 ```
 
-# How to use the bot? # 
+# چگونه از ربات استفاده کنیم؟ # 
 
-All explanations are complete and clear, but if you still notice any deficiencies or shortcomings in the explanations, please create an issue, and we will address it. Thank you for your cooperation.
+تمام توضیحات کامل و واضح است، اما اگر هنوز نقص یا کوتاهی‌هایی در توضیحات مشاهده می‌کنید، لطفاً یک مشکل ایجاد کنید و ما آن را برطرف خواهیم کرد. از همکاری شما متشکریم.
 
 > [!WARNING]
-> These tutorials are exclusively for version 4. Previous versions are no longer supported.
+> این آموزش‌ها به صورت اختصاصی برای نسخه 4 می‌باشند. نسخه‌های قبلی دیگر پشتیبانی نمی‌شوند.
 
-## 🏛 Home Page
+## 🏛 صفحه اصلی
 
 about the homepage, you'll find all the necessary commands listed, with detailed explanations provided further down the page. Here, besides entering commands, you can also send the username or link of your subscription. If the user exists, you'll receive their statistics, and if they don't , with Holder Bot's search feature to receive a list of similar users.
 
