@@ -38,7 +38,7 @@ Note
 
 برای استفاده از هولدر بات، شما به اطلاعات زیر نیاز دارید:
 
-- نام : می‌توانید هر نامی که ترجیح می‌دهید وارد کنید.
+-- نام : می‌توانید هر نامی که ترجیح می‌دهید وارد کنید.
 ۲- شما میتوانید چت آیدی را از @chatIDrobot بدست آورید.
 ۳- شما میتوانید بات توکن را از @botfather بدست آورید.
 ۴- نام کاربری پنل: نام کاربری ادمین سودو پنل خود را وارد کنید.
@@ -46,28 +46,33 @@ Note
 ۶- دامنه پنل: دامنه پنل خود را به این شکل وارد کنید (sub.domain.com:port).
 .
 
+
 Warning
 
-Please note that HolderBot is currently only supported for installation and use on Ubuntu servers, and any responsibility for other setups is your own.
-Please use the following command to install on your server:
+لطفاً توجه داشته باشید که هولدر بات در حال حاضر تنها برای نصب و استفاده بر روی سرورهای اوبونتو پشتیبانی می‌شود، و هرگونه مسئولیتی در مورد راه‌اندازی‌های دیگر با شما خواهد بود.
+
+لطفاً برای نصب روی سرور خود از دستور زیر استفاده کنید:
 
 cd && cd .. && rm -f holderbot.sh* || true && sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/holderbot.sh && chmod +x holderbot.sh && ./holderbot.sh
-How to use the bot?
 
-All explanations are complete and clear, but if you still notice any deficiencies or shortcomings in the explanations, please create an issue, and we will address it. Thank you for your cooperation.
+چگونه از ربات استفاده کنیم؟
+
+تمام توضیحات کامل و واضح است، اما اگر هنوز نقص یا کوتاهی‌هایی در توضیحات مشاهده می‌کنید، لطفاً یک مشکل ایجاد کنید و ما آن را برطرف خواهیم کرد. از همکاری شما متشکریم.
 
 Warning
 
-These tutorials are exclusively for version 4. Previous versions are no longer supported.
-🏛 Home Page
+این آموزش‌ها به صورت اختصاصی برای نسخه 4 می‌باشند. نسخه‌های قبلی دیگر پشتیبانی نمی‌شوند.
 
-about the homepage, you'll find all the necessary commands listed, with detailed explanations provided further down the page. Here, besides entering commands, you can also send the username or link of your subscription. If the user exists, you'll receive their statistics, and if they don't , with Holder Bot's search feature to receive a list of similar users.
+🏛صفحه اصلی
 
-When user statistics are sent to you, you'll see three options: "Update," "Qrcode," and "Delete." To update the user's statistics, use the "Update" button. To receive the barcode for the user's subscription link, use the "Barcode" button. And to delete the user, use the "Delete" button.
+درباره صفحه اصلی، شما تمام دستورات لازم را لیست شده مشاهده خواهید کرد، همراه با توضیحات دقیقی که در پایین صفحه ارائه شده‌اند. در اینجا، علاوه بر وارد کردن دستورات، می‌توانید نام کاربری یا لینک اشتراک خود را نیز ارسال کنید. اگر کاربر وجود داشته باشد، آمار آن‌ها را دریافت خواهید کرد و اگر وجود نداشته باشد، می‌توانید با ویژگی جستجوی Holder Bot یک لیست از کاربران مشابه دریافت کنید.
+
+وقتی آمار کاربر به شما ارسال می‌شود، سه گزینه مشاهده می‌کنید: "به‌روزرسانی"، "بارکد" و "حذف". برای به‌روزرسانی آمار کاربر، از دکمه "به‌روزرسانی" استفاده کنید. برای دریافت بارکد لینک اشتراک کاربر، از دکمه "بارکد" استفاده کنید. و برای حذف کاربر، از دکمه "حذف" استفاده کنید.
 
 Note
 
-Don't worry, before carrying out the deletion operation, you will be asked for confirmation.
+نگران نباشید، قبل از انجام عملیات حذف، از شما درخواست تأیید خواهد شد.
+
 🚀 Create User
 
 You have two options for creating a user: either through templates or manually. You can create ready-made templates by referring to the 'templates' section in this tutorial and creating your templates. When creating a user, if you click on one of your templates, the inbounds, volume, and time are pre-selected, and you will be asked for your username and the desired number. The bot automatically numbers the usernames and creates the users.
