@@ -90,6 +90,14 @@ read -p "Please enter telegram bot token: " token
 read -p "Please enter panel sudo username : " user
 read -p "Please enter panel sudo password : " password
 read -p "Please enter panel domain (like: sub.domian.com:port) : " domain
+read -p "Please enter panel domain (like: sub.domian.com:port) : " domain
+read -p "Do you have SSL? (y/n): " ssl_response
+
+if [[ $ssl_response == "y" ]]; then
+    domain="https://$domain"
+else
+    domain="http://$domain"
+fi
 
 sqlite3 holder.db <<EOF
 CREATE TABLE bot
