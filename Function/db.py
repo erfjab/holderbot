@@ -1,4 +1,6 @@
 import sqlite3 , requests , json
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 def DEF_GET_BOT_TOKEN():
     conn = sqlite3.connect('holder.db')

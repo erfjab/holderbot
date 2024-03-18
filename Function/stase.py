@@ -4,6 +4,8 @@ from persiantools.jdatetime import JalaliDateTime
 from difflib import SequenceMatcher
 from datetime import datetime, timezone
 from pyrogram.types import *
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def DEF_SUB_LINK_FIND_FROM_USER_MESSAGE (LINK) :

@@ -3,6 +3,8 @@ from pyrogram.types import *
 from pyrogram.errors.exceptions import *
 from Function.db import *
 import time , requests , json
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 app = Client( 
     "noder",      

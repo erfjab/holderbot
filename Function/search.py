@@ -1,6 +1,8 @@
 from Function.db import *
 from difflib import SequenceMatcher
 import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def DEF_SEARCH_USERS (CHATID , MESSAGE_TEXT):
