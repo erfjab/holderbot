@@ -49,17 +49,17 @@ def DEF_KEYBOARD_UPDATE_STASE(RD_USERNAME) :
 def DEF_STASE_USER (CHATID , MESSAGE_TEXT , KEYBOARD_HOME):
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
-    SUB_LINK_FINDER = re.findall(r'https://[^/]+/sub/([^/]+)', MESSAGE_TEXT)
+    SUB_LINK_FINDER = re.findall(r'https?://[^/]+/sub/([^/]+)', MESSAGE_TEXT)
     if SUB_LINK_FINDER :
         SUB_TOKEN = DEF_SUB_LINK_FIND_FROM_USER_MESSAGE(SUB_LINK_FINDER[0])
-        URL = f"https://{PANEL_DOMAIN}/sub/{SUB_TOKEN}/info"
+        URL = f"{PANEL_DOMAIN}/sub/{SUB_TOKEN}/info"
     else :
-        URL = f"https://{PANEL_DOMAIN}/api/user/{MESSAGE_TEXT}"
+        URL = f"{PANEL_DOMAIN}/api/user/{MESSAGE_TEXT}"
     RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
     if RESPONCE.status_code == 200 :
         RESPONCE_DATA = json.loads(RESPONCE.text)
     else :
-        URL = f"https://{PANEL_DOMAIN}/api/users"
+        URL = f"{PANEL_DOMAIN}/api/users"
         RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
         if RESPONCE.status_code == 200 :
             RESPONCE_DATA = RESPONCE.json()
