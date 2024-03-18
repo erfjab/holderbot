@@ -2,14 +2,12 @@
 
 cd /app
 
-# Set SSL prefix based on user input
 if [[ "$SSL_RESPONSE" == "y" ]]; then
     DOMAIN="https://$PANEL_DOMAIN"
 else
     DOMAIN="http://$PANEL_DOMAIN"
 fi
 
-# Create SQLite DB and insert data using environment variables
 sqlite3 holder.db <<EOF
 CREATE TABLE bot
     (chatid INTEGER PRIMARY KEY,
@@ -47,14 +45,12 @@ INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$CHA
 INSERT INTO bot (chatid, token) VALUES ("$CHATID", "$TOKEN");
 EOF
 
-# Make necessary files executable
 chmod +x monitoring.py
 chmod +x holder.py
 chmod +x expired.py
 chmod +x limiteder.py
 chmod +x restart.sh
 
-# Run processes
 nohup python3 monitoring.py & disown
 nohup python3 holder.py & disown
 nohup python3 expired.py & disown
