@@ -34,16 +34,17 @@ Note
 
 ما به ‌طور مداوم در حال کار بر روی بروزرسانی‌های جدید هستیم. آیا ایده‌ها یا پیشنهاداتی دارید؟ لطفاً آن‌ها را به عنوان مسایل مطرح کنید، ما در بروزرسانی‌های آینده ، آنها را در نظر خواهیم گرفت.
 
-How to install Holderbot?
+چگونه Holderbot نصب کنیم؟
 
-To use the holderbot , you will need the following information:
+برای استفاده از هولدر بات، شما به اطلاعات زیر نیاز دارید:
 
-Name: You can enter any name you prefer.
-Chat ID: You need to obtain this from the @chatIDrobot.
-Bot Token: You need to obtain this from the @botfather.
-Panel Username: Enter your panel sudo admin username.
-Panel Password: Enter your panel sudo admin password.
-Panel Domain: Enter your panel domain in this format (sub.domain.com:port).
+1 نام : می‌توانید هر نامی که ترجیح می‌دهید وارد کنید.
+2 شما میتوانید چت آیدی را از @chatIDrobot بدست آورید.
+3 شما میتوانید بات توکن را از @botfather بدست آورید.
+4 نام کاربری پنل: نام کاربری ادمین سودو پنل خود را وارد کنید.
+5 رمز عبور پنل: رمز عبور ادمین سودو پنل خود را وارد کنید.
+6 دامنه پنل: دامنه پنل خود را به این شکل وارد کنید (sub.domain.com:port).
+
 Warning
 
 Please note that HolderBot is currently only supported for installation and use on Ubuntu servers, and any responsibility for other setups is your own.
