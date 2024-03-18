@@ -78,22 +78,22 @@ cd && cd .. && rm -f holderbot.sh* || true && sudo apt install && sudo apt-get i
 
 ## 🏛 صفحه اصلی
 
-about the homepage, you'll find all the necessary commands listed, with detailed explanations provided further down the page. Here, besides entering commands, you can also send the username or link of your subscription. If the user exists, you'll receive their statistics, and if they don't , with Holder Bot's search feature to receive a list of similar users.
+درباره صفحه اصلی، شما تمام دستورات لازم را لیست شده مشاهده خواهید کرد، همراه با توضیحات دقیقی که در پایین صفحه ارائه شده‌اند. در اینجا، علاوه بر وارد کردن دستورات، می‌توانید نام کاربری یا لینک اشتراک خود را نیز ارسال کنید. اگر کاربر وجود داشته باشد، آمار آن‌ها را دریافت خواهید کرد و اگر وجود نداشته باشد، می‌توانید با ویژگی جستجوی Holder Bot یک لیست از کاربران مشابه دریافت کنید.
 
-When user statistics are sent to you, you'll see three options: "Update," "Qrcode," and "Delete." To update the user's statistics, use the "Update" button. To receive the barcode for the user's subscription link, use the "Barcode" button. And to delete the user, use the "Delete" button. 
+وقتی آمار کاربر به شما ارسال می‌شود، سه گزینه مشاهده می‌کنید: "به‌روزرسانی"، "بارکد" و "حذف". برای به‌روزرسانی آمار کاربر، از دکمه "به‌روزرسانی" استفاده کنید. برای دریافت بارکد لینک اشتراک کاربر، از دکمه "بارکد" استفاده کنید. و برای حذف کاربر، از دکمه "حذف" استفاده کنید. 
 
 > [!NOTE]
-> Don't worry, before carrying out the deletion operation, you will be asked for confirmation.
+>نگران نباشید، قبل از انجام عملیات حذف، از شما درخواست تأیید خواهد شد.
 
-## 🚀 Create User
+## 🚀 ایجاد کاربر
 
-You have two options for creating a user: either through templates or manually. You can create ready-made templates by referring to the 'templates' section in this tutorial and creating your templates. When creating a user, if you click on one of your templates, the inbounds, volume, and time are pre-selected, and you will be asked for your username and the desired number. The bot automatically numbers the usernames and creates the users.
+شما دو گزینه برای ایجاد کاربر دارید: از طریق الگوها یا به صورت دستی. شما می‌توانید الگوهای آماده را با مراجعه به بخش 'الگوها' در این آموزش ایجاد کنید. وقتی کاربری ایجاد می‌کنید، اگر روی یکی از الگوهای خود کلیک کنید، ورودی، حجم و زمان پیش‌فرض انتخاب می‌شوند و از شما نام کاربری و تعداد مورد نظر خواسته خواهد شد. ربات به صورت خودکار نام‌های کاربری را شماره‌گذاری کرده و کاربران را ایجاد می‌کند.
 
-If you want to do this manually, you will be asked for inbounds, volume, and time, which is more suitable for specific cases. Templates speed up your work and allow you to create hundreds of users in a fraction of a second.
+اگر می‌خواهید این کار را به صورت دستی انجام دهید، از شما ورودی، حجم و زمان خواسته خواهد شد که برای موارد خاص مناسب‌تر است. الگوها کارتان را سریع‌تر انجام می‌دهند و به شما امکان ایجاد صدها کاربر در یک دهم ثانیه را می‌دهند.
 
-## 🎖 Notice
+## 🎖 اطلاع
 
-Welcome to the Messages section! This feature has been added with sponsorship the [Gray](https://t.me/GrayServer) collection.❤️ You can visit the Gray collection channel and bot for purchasing servers on an hourly and monthly basis, with a wide variety of locations and specifications, accompanied by clean IPs at the lowest prices. Before activating the Notice, you need to create an inbound Shadowsocks with the name "Holderbot" inside the panel:
+به بخش پیام‌ها خوش آمدید! این ویژگی با حمایت مجموعه [Gray](https://t.me/GrayServer) اضافه شده است. ❤️  شما می‌توانید به کانال و ربات Gray collection برای خرید سرورها به صورت ساعتی و ماهانه، با تنوع گسترده‌ای از مکان‌ها و مشخصات، همراه با IP‌های تمیز با کمترین قیمت‌ها مراجعه کنید. قبل از فعال کردن اعلان، شما باید یک ورودی(Inbound) Shadowsocks با نام "Holderbot" در داخل پنل ایجاد کنید:
 
 ```
 {
