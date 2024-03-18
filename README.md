@@ -8,6 +8,10 @@
 	<a href="./README_ru.md">
 	Русский
 	</a>
+	|
+	<a href="./README_fa.md">
+	فارسی
+	</a>
 
 </p>
 
