@@ -73,15 +73,15 @@ Note
 
 نگران نباشید، قبل از انجام عملیات حذف، از شما درخواست تأیید خواهد شد.
 
-🚀 Create User
+🚀ایجاد کاربر
 
-You have two options for creating a user: either through templates or manually. You can create ready-made templates by referring to the 'templates' section in this tutorial and creating your templates. When creating a user, if you click on one of your templates, the inbounds, volume, and time are pre-selected, and you will be asked for your username and the desired number. The bot automatically numbers the usernames and creates the users.
+شما دو گزینه برای ایجاد کاربر دارید: از طریق الگوها یا به صورت دستی. شما می‌توانید الگوهای آماده را با مراجعه به بخش 'الگوها' در این آموزش ایجاد کنید. وقتی کاربری ایجاد می‌کنید، اگر روی یکی از الگوهای خود کلیک کنید، ورودی، حجم و زمان پیش‌فرض انتخاب می‌شوند و از شما نام کاربری و تعداد مورد نظر خواسته خواهد شد. ربات به صورت خودکار نام‌های کاربری را شماره‌گذاری کرده و کاربران را ایجاد می‌کند.
 
-If you want to do this manually, you will be asked for inbounds, volume, and time, which is more suitable for specific cases. Templates speed up your work and allow you to create hundreds of users in a fraction of a second.
+اگر می‌خواهید این کار را به صورت دستی انجام دهید، از شما ورودی، حجم و زمان خواسته خواهد شد که برای موارد خاص مناسب‌تر است. الگوها کارتان را سریع‌تر انجام می‌دهند و به شما امکان ایجاد صدها کاربر در یک دهم ثانیه را می‌دهند.
 
-🎖 Notice
+🎖اطلاع
 
-Welcome to the Messages section! This feature has been added with sponsorship the Gray collection.❤️ You can visit the Gray collection channel and bot for purchasing servers on an hourly and monthly basis, with a wide variety of locations and specifications, accompanied by clean IPs at the lowest prices. Before activating the Notice, you need to create an inbound Shadowsocks with the name "Holderbot" inside the panel:
+به بخش پیام‌ها خوش آمدید! این ویژگی با حمایت مجموعه Gray اضافه شده است ❤️.  شما می‌توانید به کانال و ربات Gray collection برای خرید سرورها به صورت ساعتی و ماهانه، با تنوع گسترده‌ای از مکان‌ها و مشخصات، همراه با IP‌های تمیز با کمترین قیمت‌ها مراجعه کنید. قبل از فعال کردن اعلان، شما باید یک ورودی(Inbound) Shadowsocks با نام "Holderbot" در داخل پنل ایجاد کنید:
 
 {
   "tag": "Holderbot",
@@ -93,51 +93,55 @@ Welcome to the Messages section! This feature has been added with sponsorship th
     "network": "tcp,udp"
   }
 }
-Then, inside the host settings of the inbound, we put our desired messages. After applying the changes, inside the Holderbot, we click on the "Change Status" option in the Notice section, and this feature becomes active. Holderbot checks users every 5 seconds and activates the messages for completed users, notifying you accordingly.
 
-👤 Users
+سپس، در تنظیمات میزبان ورودی، پیام‌های مورد نظر خود را قرار می‌دهیم. پس از اعمال تغییرات، در داخل Holderbot، بر روی گزینه "تغییر وضعیت" در بخش اعلان کلیک می‌کنیم و این ویژگی فعال می‌شود. Holderbot هر 5 ثانیه یکبار کاربران را بررسی کرده و پیام‌ها را برای کاربران تکمیل شده فعال کرده و شما را بابت آن مطلع می‌سازد.
 
-In the Users section, you receive general statistics of your panel. The number of users "all," "activated," "disabled," "on_hold," "limited," and "expired," along with the count of users who were online or offline in the last 24 hours, and whether their links have been updated or not, are provided.
+👤 کاربران
 
-Below, you'll find options where clicking on them will provide you with a list of user names in PDF format. If you click on the last two options, you'll be prompted for your desired timeframe, and based on that, you'll receive the statistics.
+در بخش کاربران، شما آمارهای عمومی پنل خود را دریافت می‌کنید. تعداد کاربران "همه"، "فعال شده"، "غیرفعال شده"، "در انتظار"، "محدود شده" و "منقضی شده"، همراه با تعداد کاربران آنلاین یا آفلاین در طی 24 ساعت گذشته، و اینکه لینک‌های آن‌ها به‌روز شده است یا خیر، ارائه می‌شود.
 
-Tip
-
-If you have a specific timeframe in mind, you can enter it based on the pattern 'time min/hour/day'.
-👨🏻‍💻 Admins
-
-You can fully manage the panel admins in this section. You can add admins, remove admins, change admin passwords, and modify admin permissions. Just note that for removing sudo admins, it can only be done from the master server using the CLI command. APIs do not allow us access to this capability.
-
-🎗 Nodes
-
-You can also manage your servers here, reconnect, deactivate, activate, or set the consumption coefficient for your desired server. For monitoring and receiving server disconnection notifications, refer to the monitoring section on this page.
-
-🗃 Templates
-
-By creating templates, you can easily manage repetitive tasks, such as specifying volume, duration, and inbounds. In the templates section, you can create a new template or delete existing ones. To create a new template, simply click on "➕ Add new template." In the first step, enter the name without spaces, numbers, or icons. Then enter the volume (in gigabytes) and duration (in days), and finally select the inbounds. Each selected inbound marked with ➕ is included, while those marked with ➖ are not. After completing your selection, click "✅ finish" to save the template. To delete a template, simply click on it, and you'll be asked for confirmation. Once confirmed, it will be deleted.
-
-Note
-
-You add/remove templates in this section, but you only use them in the "🚀 Create User" section.
-🎛 Monitoring
-
-Monitoring for your servers is enabled by default during the installation of HolderBot. You can enable/disable it from this section. You can also set the server check interval for monitoring and specify the waiting time for the next check when receiving a server disconnection notification.
-
-🔍 Search
-
-Sometimes you may not remember the username completely but want to input a few letters for the bot to find it easily and tell you. Is this what you mean? This capability is specifically designed for searches of this nature, where the bot can list the usernames similar to your input and send them to you.
-
-Note
-
-This section is not for receiving user statistics. For that purpose, you can refer to the homepage tutorial.
-💬 Help
-
-A guide on solving problems, requesting assistance, reporting bugs, contacting the developer, and similar matters will be sent to you. Additionally, a file containing Holder Bot logs will be sent to you, which you can share with the developer if needed for debugging and problem-solving.
-
-🖼 QR Code
-
-You can receive its barcode by sending any link or text. This feature is not exclusive to v2ray links, and it can provide you with its barcode in code form for any received link. It's quick and simple!
+در پایین، گزینه‌هایی وجود دارد که با کلیک بر روی آن‌ها، یک لیست از نام‌های کاربری را به صورت فایل PDF ارائه می‌دهد. اگر بر روی دو گزینه آخر کلیک کنید، از شما پرسیده می‌شود که محدوده زمانی مورد نظر خود را وارد کنید، و بر اساس آن، آمارها را دریافت خواهید کرد.
 
 Tip
 
-You can modify the barcode color in the "qr.py" file in the "Function" folder using line 8 (fill_color) with options like red, pink, blue, yellow.
+اگر یک محدوده زمانی خاص در ذهن دارید، می‌توانید آن را بر اساس الگوی 'زمان دقیق/ساعت/روز' وارد کنید.
+
+👨🏻‍💻 ادمین‌ها
+
+شما می‌توانید در این بخش به صورت کامل مدیران پنل خود را مدیریت کنید. شما می‌توانید مدیران جدید اضافه کنید، مدیران را حذف کنید، رمز عبور مدیر را تغییر دهید و مجوزهای مدیر را تغییر دهید. فقط توجه داشته باشید که برای حذف مدیران sudo، تنها می‌توان آن را از سرور اصلی با استفاده از دستور CLI انجام داد. API‌ها اجازه دسترسی به این قابلیت را به ما نمی‌دهند.
+
+🎗 سرورها
+
+شما همچنین می‌توانید از اینجا سرورهای خود را مدیریت کنید، اتصال مجدد، غیرفعال‌سازی، فعال‌سازی یا تنظیم ضریب مصرف برای سرور مورد نظر خود را انجام دهید. برای مانیتورینگ و دریافت اعلان‌های قطع اتصال سرور، به بخش مانیتورینگ در این صفحه مراجعه کنید.
+
+🗃 الگوها
+
+با ایجاد الگوها، می‌توانید به راحتی وظایف تکراری را مدیریت کنید، مانند مشخص کردن حجم، مدت زمان و ورودی‌ها. در بخش الگوها، می‌توانید یک الگوی جدید ایجاد یا الگوهای موجود را حذف کنید. برای ایجاد یک الگوی جدید، به سادگی بر روی "➕ اضافه کردن الگو جدید" کلیک کنید. در مرحله اول، نام را بدون فاصله، عدد یا نماد وارد کنید. سپس حجم (به گیگابایت) و مدت زمان (به روز) را وارد کنید، و در نهایت ورودی‌ها را انتخاب کنید. هر ورودی انتخاب شده با علامت ➕ درگرفته شده است، در حالی که آن‌هایی که با علامت ➖ مشخص شده‌اند، شامل نمی‌شوند. پس از انجام انتخاب های خود، بر روی "✅ پایان" کلیک کنید تا الگو را ذخیره کنید. برای حذف یک الگو، به سادگی بر روی آن کلیک کنید، و از شما برای تأیید سوال خواهد شد. پس از تأیید، حذف خواهد شد.
+
+Note
+
+شما می‌توانید الگوها را در این بخش اضافه یا حذف کنید، اما فقط در بخش "🚀 ایجاد کاربر" از آن‌ها استفاده می‌کنید.
+
+🎛 مانیتورینگ
+
+مانیتورینگ برای سرورهای شما به صورت پیش‌فرض هنگام نصب HolderBot فعال است. شما می‌توانید آن را از این بخش فعال یا غیرفعال کنید. همچنین می‌توانید فاصله زمانی برای بررسی سرور را تعیین کنید و زمان انتظار برای بررسی بعدی را هنگام دریافت یک اعلان قطع اتصال سرور مشخص کنید.
+
+🔍 جستجو
+
+گاهی اوقات ممکن است که نام کاربری را به طور کامل یاد نداشته باشید اما می‌خواهید چند حرف وارد کنید تا ربات بتواند به راحتی پیدا کند و به شما ارسال کند. آیا منظور شما همین است؟ این قابلیت به‌طور خاص برای جستجوهای این نوع طراحی شده است، جایی که ربات می‌تواند لیستی از نام‌های کاربری مشابه با ورودی شما را لیست کند و به شما ارسال کند.
+
+Note
+
+این بخش برای دریافت آمارهای کاربر نیست. برای این منظور، می‌توانید به آموزش صفحه اصلی مراجعه کنید.
+
+💬 راهنما
+
+راهنمایی در حل مشکلات، درخواست کمک، گزارش باگ، تماس با توسعه‌دهنده و موارد مشابه به شما ارسال می‌شود. علاوه بر این، یک فایل حاوی لاگ‌های Holder Bot به شما ارسال خواهد شد که در صورت نیاز برای اشکال‌زدایی و حل مشکل، می‌توانید آن را با توسعه‌دهنده به اشتراک بگذارید.
+
+🖼 بارکد QR
+
+شما می‌توانید با ارسال هر لینک یا متن بارکد آن را دریافت کنید. این ویژگی مختص به لینک‌های v2ray نیست و شما می‌تواند بارکد آن را در قالب کد ، برای هر لینکی دریافت کنید. این کار سریع و ساده است!
+
+Tip
+
+شما می‌توانید رنگ بارکد را در فایل "qr.py" در پوشه "Function" با استفاده از خط 8 (fill_color) با گزینه‌های مانند قرمز، صورتی، آبی، زرد و غیره تغییر دهید.
