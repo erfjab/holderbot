@@ -47,9 +47,9 @@
 
 
 > [!NOTE]
-> We are constantly working on new updates. Do you have any ideas or suggestions? Please raise them as issues, and we will consider adding them in future updates.
+> ما به ‌طور مداوم در حال کار بر روی بروزرسانی‌های جدید هستیم. آیا ایده‌ها یا پیشنهاداتی دارید؟ لطفاً آن‌ها را به عنوان مسایل مطرح کنید، ما در بروزرسانی‌های آینده ، آنها را در نظر خواهیم گرفت.
 
-# How to install Holderbot? #
+# چگونه Holderbot نصب کنیم؟ #
 
 To use the holderbot , you will need the following information:
 1. **Name:** You can enter any name you prefer.
