@@ -27,7 +27,7 @@ with app :
                             USERNAME = USER["username"]
                             URL = f"https://{PANEL_DOMAIN}/api/user/{USERNAME}"
                             DATA = {"proxies":{"shadowsocks":{}},"inbounds" : {'shadowsocks': ['Holderbot']}}
-                            RESPONCE = requests.put(url=URL , json=DATA , headers=PANEL_TOKEN)
+                            RESPONCE = requests.put(url=URL , json=DATA , headers=PANEL_TOKEN , verify=False)
                             if RESPONCE.status_code == 200 :
                                 app.send_message(chat_id=BOSS_CHATID , text=f"<b>✅ (Checker) Boss! user <code>{USERNAME}</code> is limited,\nI have set the messages.</b>" , parse_mode=enums.ParseMode.HTML , disable_notification=True)
                             else :

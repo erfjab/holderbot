@@ -53,7 +53,7 @@ def DEF_CREATE_USER(CHATID , USERNAME , DATA , DATE , PROXIES , INBOUNDS) :
         "on_hold_expire_duration": DATE_TO_SECOND} 
     URL = f"https://{PANEL_DOMAIN}/api/user"
     POST_DATA = json.dumps(DATA)
-    RESPONCE = requests.post(url=URL , headers=PANEL_TOKEN , data=POST_DATA)
+    RESPONCE = requests.post(url=URL , headers=PANEL_TOKEN , data=POST_DATA , verify=False)
     if RESPONCE.status_code == 200 :
         URL = f"https://{PANEL_DOMAIN}/api/user/{USERNAME}"
         RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
