@@ -1,7 +1,7 @@
 from pyrogram import *
 from Function.db import *
 import time
-from requests
+import requests
 
 app = Client( 
     "limiteder",      
