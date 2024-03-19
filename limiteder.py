@@ -1,7 +1,8 @@
 from pyrogram import *
 from Function.db import *
 import time
-import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 app = Client( 
     "limiteder",      
@@ -17,7 +18,7 @@ with app :
                 PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (BOSS_CHATID)
                 PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
                 URL = f"{PANEL_DOMAIN}/api/users?status=limited"
-                RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN )
+                RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN , verify=False)
                 
                 if RESPONCE.status_code == 200 :
                     RESPONCE_DATA = RESPONCE.json()
@@ -26,7 +27,7 @@ with app :
                             USERNAME = USER["username"]
                             URL = f"{PANEL_DOMAIN}/api/user/{USERNAME}"
                             DATA = {"proxies":{"shadowsocks":{}},"inbounds" : {'shadowsocks': ['Holderbot']}}
-                            RESPONCE = requests.put(url=URL , json=DATA , headers=PANEL_TOKEN)
+                            RESPONCE = requests.put(url=URL , json=DATA , headers=PANEL_TOKEN , verify=False)
                             if RESPONCE.status_code == 200 :
                                 app.send_message(chat_id=BOSS_CHATID , text=f"<b>✅ (Checker) Boss! user <code>{USERNAME}</code> is limited,\nI have set the messages.</b>" , parse_mode=enums.ParseMode.HTML , disable_notification=True)
                             else :
