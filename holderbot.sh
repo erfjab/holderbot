@@ -84,7 +84,7 @@ source hold/bin/activate
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab
 sudo apt-get install sqlite3
 
-read -p "Please enter name (nickname) : " name
+read -p "\n\n\nPlease enter name (nickname) : " name
 read -p "Please enter telegram chatid : " chatid
 read -p "Please enter telegram bot token: " token
 read -p "Please enter panel sudo username : " user
@@ -149,4 +149,4 @@ if ! crontab -l | grep -Fq "$cronjob"; then
   (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
 fi
 
-echo "Holderbot is run!"
+echo "\n\n\nHolderbot is run!\n\n\n"
