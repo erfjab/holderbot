@@ -142,7 +142,7 @@ def DEF_GET_CLIENTS(CHATID) :
     if RESPONCE.status_code == 200:
         RESPONCE_DATA = RESPONCE.json()
         USERS_LIST = {}
-        USERS_LIST["no_data"] = 0
+        USERS_LIST["NO Data"] = 0
         for USER in RESPONCE_DATA["users"] :
             USER_CLIENTS = USER.get("sub_last_user_agent")
             if USER_CLIENTS :
@@ -154,7 +154,7 @@ def DEF_GET_CLIENTS(CHATID) :
                 USERS_LIST["no_data"] += 1
         TEXT = ""
         for KEY , VAULE in USERS_LIST.items() :
-            TEXT += f"{KEY} : {VAULE}\n\n"
+            TEXT += f"<b>{KEY} :</b> <code>{VAULE}</code>\n"
     else :
         TEXT = f"<b>❌ I can't check users.</b>\n<pre>{str(RESPONCE.text)}</pre>"
     return TEXT
