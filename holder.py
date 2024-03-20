@@ -232,7 +232,10 @@ async def holderbot(client: Client, message: Message) :
                         await client.send_message(chat_id=MESSAGE_CHATID , text="<b>Please select time.</b>" , reply_markup=KEYBOARD_LIST_TIMES)
                         CATAGORY = {"📡 Sub Update list": "sub_updated_at", "👀 Online time list": "online_at"}.get(MESSAGE_TEXT)
                         UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID, f"users | wait to time {CATAGORY}")                
-                
+
+                    elif MESSAGE_TEXT in ["💻 Clients"] :
+                        await client.send_message(chat_id=MESSAGE_CHATID , text=DEF_GET_CLIENTS(MESSAGE_CHATID) , reply_markup=KEYBOARD_USERS)
+                        return   
                 else :
 
                     if CHECK_STEP.startswith("users | wait to time") :
