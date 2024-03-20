@@ -132,3 +132,29 @@ def DEF_USERS_TIME_LIST (CHATID , CATAGORY , TIME) :
         USERS_LIST = []
         NOT_USER_LIST = []
     return USERS_LIST , NOT_USER_LIST
+
+
+def DEF_GET_CLIENTS(CHATID) :
+    PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
+    PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
+    URL = f"{PANEL_DOMAIN}/api/users"
+    RESPONCE = requests.get(url=URL, headers=PANEL_TOKEN , verify=False)
+    if RESPONCE.status_code == 200:
+        RESPONCE_DATA = RESPONCE.json()
+        USERS_LIST = {}
+        USERS_LIST["no_data"] = 0
+        for USER in RESPONCE_DATA["users"] :
+            USER_CLIENTS = USER.get("sub_last_user_agent")
+            if USER_CLIENTS :
+                if USER_CLIENTS in USERS_LIST :
+                    USERS_LIST[USER_CLIENTS] += 1
+                else :
+                    USERS_LIST[USER_CLIENTS] = 1
+            else :
+                USERS_LIST["no_data"] += 1
+        TEXT = ""
+        for KEY , VAULE in USERS_LIST.items() :
+            TEXT += f"{KEY} : {VAULE}\n\n"
+    else :
+        TEXT = f"<b>❌ I can't check users.</b>\n<pre>{str(RESPONCE.text)}</pre>"
+    return TEXT
