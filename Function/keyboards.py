@@ -37,7 +37,7 @@ KEYBOARD_YES_OR_NOO = ReplyKeyboardMarkup([[KeyboardButton("✅ YES , sure!"),Ke
 KEYBOARD_SUDO = ReplyKeyboardMarkup([[KeyboardButton("✅ YES , is sudo!"),KeyboardButton("❌ NO , not sudo.")],
     [KeyboardButton("🔙 cancel")]] , resize_keyboard=True)
 
-KEYBOARD_USERS = ReplyKeyboardMarkup([[KeyboardButton("✅ Active"),KeyboardButton["💻 Clients"], KeyboardButton("❌ Disabled")],
+KEYBOARD_USERS = ReplyKeyboardMarkup([[KeyboardButton("✅ Active"),KeyboardButton("💻 Clients"), KeyboardButton("❌ Disabled")],
     [KeyboardButton("🕰 Expired"), KeyboardButton("🪫 Limited"), KeyboardButton("🔌 On Hold")],
     [KeyboardButton("👀 Online time list"), KeyboardButton("📡 Sub Update list")],
     [KeyboardButton("🔙 cancel")]] , resize_keyboard=True)
