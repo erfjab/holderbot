@@ -9,7 +9,7 @@ def DEF_STASE_NODE(CHATID  , NODE_ID) :
     PANEL_USER, PANEL_PASS, PANEL_DOMAIN = DEF_IMPORT_DATA (CHATID)
     PANEL_TOKEN = DEF_PANEL_ACCESS(PANEL_USER, PANEL_PASS, PANEL_DOMAIN)
     URL = f"{PANEL_DOMAIN}/api/node/{NODE_ID}"
-    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN)
+    RESPONCE = requests.get(url=URL , headers=PANEL_TOKEN  , verify=False)
     if RESPONCE.status_code == 200 :
         RESPONCE_DATA = RESPONCE.json()
         TEXT = f"<b>Node name :</b> {RESPONCE_DATA.get('name')}\n<b>Node status :</b> {RESPONCE_DATA.get('status')}\n<b>Node IP :</b> <code>{RESPONCE_DATA.get('address')}</code>\n<b>Node ID :</b> <code>{RESPONCE_DATA.get('id')}</code>\n<b>usage_coefficient :</b> <code>{RESPONCE_DATA.get('usage_coefficient')}</code>"
