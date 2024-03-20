@@ -234,7 +234,9 @@ async def holderbot(client: Client, message: Message) :
                         UPDATE_STEP = DEF_UPDATE_STEP(MESSAGE_CHATID, f"users | wait to time {CATAGORY}")                
 
                     elif MESSAGE_TEXT in ["💻 Clients"] :
-                        await client.send_message(chat_id=MESSAGE_CHATID , text=DEF_GET_CLIENTS(MESSAGE_CHATID) , reply_markup=KEYBOARD_USERS)
+                        WAIT_MESSGAE = await client.send_message(chat_id=MESSAGE_CHATID, text=f"<b>⏳️ in progress...</b>" , reply_markup=ReplyKeyboardRemove() ,  parse_mode=enums.ParseMode.HTML)
+                        await client.send_message(chat_id=MESSAGE_CHATID , text=DEF_GET_CLIENTS(MESSAGE_CHATID) , reply_markup=KEYBOARD_USERS , parse_mode=enums.ParseMode.HTML)
+                        await WAIT_MESSGAE.delete()
                         return   
                 else :
 
