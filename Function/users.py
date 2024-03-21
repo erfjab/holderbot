@@ -151,7 +151,7 @@ def DEF_GET_CLIENTS(CHATID) :
                 else :
                     USERS_LIST[USER_CLIENTS] = 1
             else :
-                USERS_LIST["no_data"] += 1
+                USERS_LIST["NO Data"] += 1
         TEXT = ""
         for KEY , VAULE in USERS_LIST.items() :
             TEXT += f"<b>{KEY} :</b> <code>{VAULE}</code>\n"
