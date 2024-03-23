@@ -155,9 +155,30 @@ You can receive its barcode by sending any link or text. This feature is not exc
 
 > [!TIP]
 > You can modify the barcode color in the "qr.py" file in the "Function" folder using line 8 (fill_color) with options like red, pink, blue, yellow.
+
 <p align="center">
   <a target="_blank" href="https://t.me/ErfjabHolderbot">
     <img alt="Telegram Badge" src="https://img.shields.io/badge/holderbotchanel-Telegramlink?style=for-the-badge&logo=telegram&logoColor=white&color=blue&link=https%3A%2F%2Ft.me%2FErfjabHolderbot&link=https%3A%2F%2Ft.me%2FErfjabHolderbot">
   </a>
 </p>
 
+<p align="center">
+	<picture>
+	  <source
+	    media="(prefers-color-scheme: dark)"
+	    srcset="
+	      https://api.star-history.com/svg?repos=erfjab/holderbot&type=Date&theme=dark
+	    "
+	  />
+	  <source
+	    media="(prefers-color-scheme: light)"
+	    srcset="
+	      https://api.star-history.com/svg?repos=erfjab/holderbot&type=Date
+	    "
+	  />
+	  <img
+	    alt="Star History Chart"
+	    src="https://api.star-history.com/svg?repos=erfjab/holderbot&type=Date"
+	  />
+	</picture>
+</p>
