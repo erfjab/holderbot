@@ -79,3 +79,8 @@ def DEF_USERNAME_STARTER(TEXT, MUCH_NUMBER):
         RESULT_LIST.append(LETTERS_MATCH + str(START_NUMBER))
         START_NUMBER += 1
     return RESULT_LIST
+
+def DEF_SEND_QR_TEXT(USER_SUB , USERNAME , DATA , DATE) :
+    TEXT = f"<pre>{USER_SUB}</pre>"
+    return TEXT
+    
