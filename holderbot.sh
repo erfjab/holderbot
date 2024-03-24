@@ -37,10 +37,7 @@ clear && echo -e "\n      Checking python library...      \n\n" && yes '-' | hea
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab && \
 sudo apt-get install -y sqlite3
 
-clear && echo -e "\n      Everything is ok!      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
-
 while true; do
-    
     clear && echo -e "\n      Complete the information.      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
     
     name=""
@@ -52,7 +49,6 @@ while true; do
             echo "Name must contain only English letters. Please enter a valid name."
         fi
     done
-
 
     chatid=""
     while [[ ! "$chatid" =~ ^[0-9]+$ ]]; do
