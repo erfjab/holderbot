@@ -191,7 +191,7 @@ while true; do
     echo "wait..."
     sleep 3
 
-    if ! pgrep -f "monitoring.py" && ! pgrep -f "holder.py" && ! pgrep -f "expired.py" && ! pgrep -f "limiteder.py"; then
+    if ! pgrep -x "monitoring.py" && ! pgrep -x "holder.py" && ! pgrep -x "expired.py" && ! pgrep -x "limiteder.py"; then
         echo "Scripts are running successfully."
         break
     else
