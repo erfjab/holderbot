@@ -6,7 +6,7 @@ clear && echo -e "\n      Checking update and upgrade packages....\n\n" && yes '
 
 clear && echo -e "\n      Checking required packages....\n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1 && apt install python3 python3-pip git python3-dev python3-venv build-essential libsqlite3-dev -y || { echo -e "\n\nFailed to install required packages. Exiting...\n\n"; exit 1; }
 
-clear && echo -e "\n      Checking directories...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+clear && echo -e "\n      Checking directories...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
 
 directories=("holderbot" "holderbeta" "holder")
 for dir in "${directories[@]}"; do
@@ -16,7 +16,7 @@ for dir in "${directories[@]}"; do
     fi
 done
 
-clear && echo -e "\n      Checking processes...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+clear && echo -e "\n      Checking processes...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
 
 processes=("python3 holder.py" "python3 holderbeta.py" "python3 node_status_checker.py" "python3 monitoringbeta.py" "python3 monitoring.py" "python3 expired.py" "python3 limiteder.py")
 for proc in "${processes[@]}"; do
@@ -27,18 +27,18 @@ for proc in "${processes[@]}"; do
     fi
 done
 
-clear && echo -e "\n      Checking hold venv...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+clear && echo -e "\n      Checking hold venv...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
 
 mkdir -p holderbot && cd holderbot && git clone -b main https://github.com/erfjab/holderbot.git .
 python3 -m venv hold && source hold/bin/activate
 
-clear && echo -e "\n      Checking python library...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+clear && echo -e "\n      Checking python library...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
 
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab && \
 sudo apt-get install -y sqlite3
 
 while true; do
-    clear && echo -e "\n      Complete the information.      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+    clear && echo -e "\n      Complete the information.      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
     
     name=""
     while [[ -z "$name" || ! "$name" =~ ^[a-zA-Z]+$ ]]; do
@@ -110,7 +110,7 @@ while true; do
         domain="http://$domain"
     fi
 
-    clear && echo -e "\n      Checking information...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+    clear && echo -e "\n      Checking information...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
     echo "Name: $name"
     echo "Telegram Chat ID: $chatid"
     echo "Telegram Bot Token: $token"
@@ -131,7 +131,7 @@ while true; do
     fi
 done
 
-clear && echo -e "\n      Creating database...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+clear && echo -e "\n      Creating database...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
 
 while true; do
     sqlite3 holder.db <<EOF
@@ -179,7 +179,7 @@ EOF
     fi
 done
 
-clear && echo -e "\n      Running the bot...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+clear && echo -e "\n      Running the bot...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
 
 count=0
 while true; do
@@ -210,4 +210,4 @@ if ! crontab -l | grep -Fq "$cronjob" >/dev/null 2>&1; then
   (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
 fi
 
-clear && echo -e "\n      Holderbot is run, Enjoy! You can find us in telegram with <a href='https://t.me/ErfjabHolderbot'>@ErfjabHolderbot</a>\n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+clear && echo -e "\n      Holderbot is run, Enjoy! You can find us in telegram with <a href='https://t.me/ErfjabHolderbot'>@ErfjabHolderbot</a>\n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 2
