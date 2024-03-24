@@ -86,7 +86,7 @@ while true; do
 
     password=""
     while [[ -z "$password" ]]; do
-        read -p -p "Please enter panel sudo password : " password
+        read -p "Please enter panel sudo password : " password
         if [[ -z "$password" ]]; then
             echo "Password cannot be empty. Please enter a valid password."
         fi
