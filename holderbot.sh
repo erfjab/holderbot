@@ -40,14 +40,19 @@ sudo apt-get install -y sqlite3
 clear && echo -e "\n      Everything is ok!      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
 
 while true; do
+    
     clear && echo -e "\n      Complete the information.      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+    
     name=""
-    while [[ -z "$name" ]]; do
+    while [[ -z "$name" || ! "$name" =~ ^[a-zA-Z]+$ ]]; do
         read -p "Please enter name (nickname) : " name
         if [[ -z "$name" ]]; then
             echo "Name cannot be empty. Please enter a valid name."
+        elif [[ ! "$name" =~ ^[a-zA-Z]+$ ]]; then
+            echo "Name must contain only English letters. Please enter a valid name."
         fi
     done
+
 
     chatid=""
     while [[ ! "$chatid" =~ ^[0-9]+$ ]]; do
@@ -58,12 +63,12 @@ while true; do
     done
 
     token=""
-    while [[ -z "$token" || ! "$token" =~ ^[0-9A-Za-z_-]+$ ]]; do
+    while [[ -z "$token" || ! "$token" =~ ^[A-Za-z0-9_-]{45}$ ]]; do
         read -p "Please enter telegram bot token: " token
         if [[ -z "$token" ]]; then
             echo "Token cannot be empty. Please enter a valid token."
-        elif [[ ! "$token" =~ ^[0-9A-Za-z_-]+$ ]]; then
-            echo "Token must contain only alphanumeric characters, underscores, or dashes. Please enter a valid token."
+        elif [[ ! "$token" =~ ^[A-Za-z0-9_-]{45}$ ]]; then
+            echo "Token must contain only alphanumeric characters, underscores, or dashes and must be 45 characters long. Please enter a valid token."
         fi
     done
 
@@ -77,7 +82,7 @@ while true; do
 
     password=""
     while [[ -z "$password" ]]; do
-        read -s -p "Please enter panel sudo password : " password
+        read -p -p "Please enter panel sudo password : " password
         if [[ -z "$password" ]]; then
             echo "Password cannot be empty. Please enter a valid password."
         fi
