@@ -1,122 +1,153 @@
 #!/bin/bash
 
-cd && cd .. && clear
+clear && echo -e "\n\n\n      Start installing the Holderbot!     \n\n\n\n\n\n" && sleep 3
 
-sudo apt-get update
-sudo apt-get install -y python3-dev
-sudo apt-get install -y libsqlite3-dev
-sudo apt install build-essential
+clear && echo -e "\n      Checking update and upgrade packages....\n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1 && apt update && apt upgrade -y || { echo -e "\n\nFailed to update and upgrade packages. Exiting...\n\n"; exit 1; }
 
-if ! command -v python3 &> /dev/null; then
-    echo "Python not found. Installing..."
-    sudo apt-get install -y python3
-fi
+clear && echo -e "\n      Checking required packages....\n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1 && apt install python3 python3-pip git python3-dev python3-venv build-essential libsqlite3-dev -y || { echo -e "\n\nFailed to install required packages. Exiting...\n\n"; exit 1; }
 
-if ! command -v git &> /dev/null; then
-    echo "Git not found. Installing..."
-    sudo apt-get install -y git
-fi
+clear && echo -e "\n      Checking directories...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
 
-if ! command -v pip3 &> /dev/null; then
-    echo "pip3 not found. Installing..."
-    sudo apt-get install -y python3-pip
-fi
+directories=("holderbot" "holderbeta" "holder")
+for dir in "${directories[@]}"; do
+    if [ -d "$dir" ]; then
+        echo -e "Removing existing $dir directory...\n"
+        rm -rf "$dir"
+    fi
+done
 
-if [ -d "holderbot" ]; then
-    echo "Removing existing holderbeta directory..."
-    rm -rf holderbot
-fi
+clear && echo -e "\n      Checking processes...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
 
-if [ -d "holderbeta" ]; then
-    echo "Removing existing holderbeta directory..."
-    rm -rf holderbeta
-fi
+processes=("python3 holder.py" "python3 holderbeta.py" "python3 node_status_checker.py" "python3 monitoringbeta.py" "python3 monitoring.py" "python3 expired.py" "python3 limiteder.py")
+for proc in "${processes[@]}"; do
+    if ps aux | grep -v grep | grep "$proc" &> /dev/null; then
+        proc_name=$(echo "$proc" | cut -d ' ' -f 2)
+        echo -e "Stopping existing $proc_name process...\n"
+        pkill -f "$proc"
+    fi
+done
 
-if [ -d "holder" ]; then
-    echo "Removing existing holder directory..."
-    rm -rf holder
-fi
+clear && echo -e "\n      Checking hold venv...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
 
-if ps aux | grep -v grep | grep "python3 holder.py" &> /dev/null; then
-    echo "Stopping existing holder process..."
-    pkill -f "python3 holder.py"
-fi
+mkdir -p holderbot && cd holderbot && git clone -b main https://github.com/erfjab/holderbot.git .
+python3 -m venv hold && source hold/bin/activate
 
-if ps aux | grep -v grep | grep "python3 holderbeta.py" &> /dev/null; then
-    echo "Stopping existing holder process..."
-    pkill -f "python3 holderbeta.py"
-fi
+clear && echo -e "\n      Checking python library...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
 
-if ps aux | grep -v grep | grep "python3 node_status_checker.py" &> /dev/null; then
-    echo "Stopping existing node_status_checker process..."
-    pkill -f "python3 node_status_checker.py"
-fi
+pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab && \
+sudo apt-get install -y sqlite3
 
-if ps aux | grep -v grep | grep "python3 monitoringbeta.py" &> /dev/null; then
-    echo "Stopping existing monitoringbeta process..."
-    pkill -f "python3 monitoringbeta.py"
-fi
+clear && echo -e "\n      Everything is ok!      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
 
-if ps aux | grep -v grep | grep "python3 monitoring.py" &> /dev/null; then
-    echo "Stopping existing monitoring process..."
-    pkill -f "python3 monitoring.py"
-fi
+while true; do
+    clear && echo -e "\n      Complete the information.      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+    name=""
+    while [[ -z "$name" ]]; do
+        read -p "Please enter name (nickname) : " name
+        if [[ -z "$name" ]]; then
+            echo "Name cannot be empty. Please enter a valid name."
+        fi
+    done
 
-if ps aux | grep -v grep | grep "python3 expired.py" &> /dev/null; then
-    echo "Stopping existing expired process..."
-    pkill -f "python3 expired.py"
-fi
+    chatid=""
+    while [[ ! "$chatid" =~ ^[0-9]+$ ]]; do
+        read -p "Please enter telegram chatid : " chatid
+        if [[ ! "$chatid" =~ ^[0-9]+$ ]]; then
+            echo "Chat ID must be a number. Please enter a valid number."
+        fi
+    done
 
-if ps aux | grep -v grep | grep "python3 limiteder.py" &> /dev/null; then
-    echo "Stopping existing limiteder process..."
-    pkill -f "python3 limiteder.py"
-fi
+    token=""
+    while [[ -z "$token" || ! "$token" =~ ^[0-9A-Za-z_-]+$ ]]; do
+        read -p "Please enter telegram bot token: " token
+        if [[ -z "$token" ]]; then
+            echo "Token cannot be empty. Please enter a valid token."
+        elif [[ ! "$token" =~ ^[0-9A-Za-z_-]+$ ]]; then
+            echo "Token must contain only alphanumeric characters, underscores, or dashes. Please enter a valid token."
+        fi
+    done
 
-mkdir holderbot
-cd holderbot
+    user=""
+    while [[ -z "$user" ]]; do
+        read -p "Please enter panel sudo username : " user
+        if [[ -z "$user" ]]; then
+            echo "Username cannot be empty. Please enter a valid username."
+        fi
+    done
 
-git clone -b main https://github.com/erfjab/holderbot.git .
+    password=""
+    while [[ -z "$password" ]]; do
+        read -s -p "Please enter panel sudo password : " password
+        if [[ -z "$password" ]]; then
+            echo "Password cannot be empty. Please enter a valid password."
+        fi
+    done
 
-sudo apt install -y python3.10-venv
-python3 -m venv hold
-source hold/bin/activate
+    domain=""
+    while [[ ! "$domain" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; do
+        read -p "Please enter panel domain (like: sub.domain.com:port) : " domain
+        if [[ ! "$domain" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; then
+            echo "Invalid domain format. Please enter a valid domain in the format sub.domain.com:port."
+        fi
+    done
 
-pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab
-sudo apt-get install sqlite3
+    ssl_response=""
+    while [[ ! "$ssl_response" =~ ^[ynYN]$ ]]; do
+        read -p "Do you have SSL? (y/n): " ssl_response
+        if [[ ! "$ssl_response" =~ ^[ynYN]$ ]]; then
+            echo "Please enter 'y' for Yes or 'n' for No."
+        fi
+    done
 
-read -p "Please enter name (nickname) : " name
-read -p "Please enter telegram chatid : " chatid
-read -p "Please enter telegram bot token: " token
-read -p "Please enter panel sudo username : " user
-read -p "Please enter panel sudo password : " password
-read -p "Please enter panel domain (like: sub.domian.com:port) : " domain
-read -p "Do you have SSL? (y/n): " ssl_response
+    if [[ $ssl_response == "y" || $ssl_response == "Y" ]]; then
+        domain="https://$domain"
+    else
+        domain="http://$domain"
+    fi
 
-if [[ $ssl_response == "y" ]]; then
-    domain="https://$domain"
-else
-    domain="http://$domain"
-fi
+    clear && echo -e "\n      Checking information...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+    echo "Name: $name"
+    echo "Telegram Chat ID: $chatid"
+    echo "Telegram Bot Token: $token"
+    echo "Panel Sudo Username: $user"
+    echo "Panel Sudo Password: $password"
+    echo "Panel Domain: $domain"
 
-sqlite3 holder.db <<EOF
-CREATE TABLE bot
+    read -p "Are these information correct? (y/n): " correct
+    if [[ $correct == "y" || $correct == "Y" ]]; then
+        clear && echo -e "\n      Checking panel...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+        response=$(curl -s -o /dev/null -w "%{http_code}" -u "$user:$password" "$domain/api/admin")
+        if [[ $response -eq 200 ]]; then
+            echo "Authentication successful." && sleep 1
+            break
+        else
+            echo "Authentication failed. Please check your information and try again." && sleep 2
+        fi
+    fi
+done
+
+clear && echo -e "\n      Creating database...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+
+while true; do
+    sqlite3 holder.db <<EOF
+CREATE TABLE IF NOT EXISTS bot
     (chatid INTEGER PRIMARY KEY,
      token TEXT);
 
-CREATE TABLE monitoring
+CREATE TABLE IF NOT EXISTS monitoring
     (chatid INTEGER PRIMARY KEY,
      status TEXT,
      check_normal INTEGER,
      check_error INTEGER);
 
-CREATE TABLE templates
+CREATE TABLE IF NOT EXISTS templates
     (name TEXT PRIMARY KEY,
      data INTEGER,
      date INTEGER,
      proxies TEXT,
      inbounds TEXT);
 
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
     (chatid INTEGER PRIMARY KEY,
      role TEXT,
      name TEXT,
@@ -135,18 +166,43 @@ INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$cha
 INSERT INTO bot (chatid, token) VALUES ("$chatid", "$token");
 EOF
 
-chmod +x monitoring.py
-chmod +x holder.py
-chmod +x expired.py
-chmod +x limiteder.py
-nohup python3 monitoring.py & disown
-nohup python3 holder.py & disown
-nohup python3 expired.py & disown
-nohup python3 limiteder.py & disown
-chmod +x restart.sh
+    if [[ $? -eq 0 ]]; then
+        echo "Database setup successful."
+        break
+    else
+        echo "Error: Database setup failed. Retrying..."
+    fi
+done
+
+clear && echo -e "\n      Running the bot...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
+
+count=0
+while true; do
+    chmod +x monitoring.py holder.py expired.py limiteder.py restart.sh
+    nohup python3 monitoring.py & disown
+    nohup python3 holder.py & disown
+    nohup python3 expired.py & disown
+    nohup python3 limiteder.py & disown
+    echo "wait..."
+    sleep 3
+
+    if ! pgrep -f "monitoring.py" && ! pgrep -f "holder.py" && ! pgrep -f "expired.py" && ! pgrep -f "limiteder.py"; then
+        echo "Scripts are running successfully."
+        break
+    else
+        ((count++))
+        if (( count > 3 )); then
+            echo "Error: Scripts could not be started after multiple attempts."
+            exit 1
+        fi
+        echo "Scripts are still running. Retrying..."
+    fi
+done
+
+crontab -l | grep -vF "/bin/bash /holderbot/restart.sh" | crontab -
 cronjob="@reboot sleep 20 && /bin/bash /holderbot/restart.sh"
-if ! crontab -l | grep -Fq "$cronjob"; then
+if ! crontab -l | grep -Fq "$cronjob" >/dev/null 2>&1; then
   (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
 fi
 
-echo "Holderbot is run!"
+clear && echo -e "\n      Holderbot is run, Enjoy! You can find us in telegram with <a href='https://t.me/ErfjabHolderbot'>@ErfjabHolderbot</a>\n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
