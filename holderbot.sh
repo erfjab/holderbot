@@ -188,7 +188,8 @@ while true; do
     nohup python3 holder.py & disown
     nohup python3 expired.py & disown
     nohup python3 limiteder.py & disown
-    echo "please wait..."
+    sleep 1
+    echo -e "\n\nplease wait...\n\n"
     sleep 7
 
     if ! pgrep -x "monitoring.py" && ! pgrep -x "holder.py" && ! pgrep -x "expired.py" && ! pgrep -x "limiteder.py"; then
@@ -210,4 +211,4 @@ if ! crontab -l | grep -Fq "$cronjob" >/dev/null 2>&1; then
   (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
 fi
 
-clear && echo -e "\n      Holderbot is run, Enjoy! You can find us in telegram with <a href='https://t.me/ErfjabHolderbot'>@ErfjabHolderbot</a>\n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 2
+clear && echo -e "\n      Holderbot is run, Enjoy! \n        You can find us in telegram with https://t.me/ErfjabHolderbot" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 2
