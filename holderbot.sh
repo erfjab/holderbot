@@ -188,8 +188,8 @@ while true; do
     nohup python3 holder.py & disown
     nohup python3 expired.py & disown
     nohup python3 limiteder.py & disown
-    echo "wait..."
-    sleep 3
+    echo "please wait..."
+    sleep 7
 
     if ! pgrep -x "monitoring.py" && ! pgrep -x "holder.py" && ! pgrep -x "expired.py" && ! pgrep -x "limiteder.py"; then
         echo "Scripts are running successfully."
