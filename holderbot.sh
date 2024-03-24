@@ -63,12 +63,16 @@ while true; do
     done
 
     token=""
-    while [[ -z "$token" || ! "$token" =~ ^[A-Za-z0-9_-]{45}$ ]]; do
+    while [[ -z "$token" || ! "$token" =~ ^[0-9]+:.+$ ]]; do
         read -p "Please enter telegram bot token: " token
-        if [[ -z "$token" ]]; then
-            echo "Token cannot be empty. Please enter a valid token."
-        elif [[ ! "$token" =~ ^[A-Za-z0-9_-]{45}$ ]]; then
-            echo "Token must contain only alphanumeric characters, underscores, or dashes and must be 45 characters long. Please enter a valid token."
+        if [[ ! "$token" =~ ^[0-9]+:.+$ ]]; then
+            echo "Invalid token format. Please enter a valid token."
+        else
+            response=$(curl -s "https://api.telegram.org/bot$token/getMe")
+            if [[ "$response" != *"ok\":true"* ]]; then
+                echo "Invalid token. Please enter a valid token."
+                token=""
+            fi
         fi
     done
 
