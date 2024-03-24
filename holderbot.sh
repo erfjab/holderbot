@@ -116,12 +116,12 @@ while true; do
     echo "Telegram Bot Token: $token"
     echo "Panel Sudo Username: $user"
     echo "Panel Sudo Password: $password"
-    echo "Panel Domain: $domain"
+    echo -e "Panel Domain: $domain\n\n"
 
     read -p "Are these information correct? (y/n): " correct
     if [[ $correct == "y" || $correct == "Y" ]]; then
-        clear && echo -e "\n      Checking panel...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 1
-        response=$(curl -s -o /dev/null -w "%{http_code}" -u "$user:$password" "$domain/api/admin")
+        clear && echo -e "\n      Checking panel...      \n\n" && printf "%0.s-" {1..50} && echo && sleep 1
+        response=$(curl -s -o /dev/null -w "%{http_code}" -u "$user:$password" "$domain/api/admin/token")
         if [[ $response -eq 200 ]]; then
             echo "Authentication successful." && sleep 1
             break
