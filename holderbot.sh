@@ -88,10 +88,10 @@ while true; do
         fi
     done
 
-    domain=""
-    while [[ ! "$domain" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; do
-        read -p "Please enter panel domain (like: sub.domain.com:port) : " domain
-        if [[ ! "$domain" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; then
+    domain_simple=""
+    while [[ ! "$domain_simple" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; do
+        read -p "Please enter panel domain (like: sub.domain.com:port) : " domain_simple
+        if [[ ! "$domain_simple" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; then
             echo "Invalid domain format. Please enter a valid domain in the format sub.domain.com:port."
         fi
     done
@@ -105,9 +105,9 @@ while true; do
     done
 
     if [[ $ssl_response == "y" || $ssl_response == "Y" ]]; then
-        domain="https://$domain"
+        domain="https://$domain_simple"
     else
-        domain="http://$domain"
+        domain="http://$domain_simple"
     fi
 
     clear && echo -e "\n      Checking information...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
