@@ -211,4 +211,4 @@ if ! crontab -l | grep -Fq "$cronjob" >/dev/null 2>&1; then
   (crontab -l 2>/dev/null; echo "$cronjob") | crontab -
 fi
 
-clear && echo -e "\n      Holderbot is run, Enjoy! \n        You can find us in telegram with https://t.me/ErfjabHolderbot" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 2
+clear && echo -e "\n      Holderbot is run, Enjoy! \n        You can find us in telegram with @ErfJabHolderbot" && yes '-' | head -n 50 | tr -d '\n\n' && echo && sleep 2
