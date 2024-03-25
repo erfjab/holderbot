@@ -70,7 +70,7 @@ Please use the following command to install on your server:
 cd && cd .. && rm -f holderbot.sh* || true && clear && wget https://raw.githubusercontent.com/erfjab/holderbot/main/holderbot.sh && chmod +x holderbot.sh && ./holderbot.sh
 ```
 
-# How to use the bot? # 
+# How to use the bot? (video) # 
 
 [![click me](https://github.com/erfjab/holderbot/blob/main/tumb.jpg)](https://www.youtube.com/watch?v=BqZvKV17uq0)
 
