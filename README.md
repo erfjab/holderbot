@@ -72,7 +72,7 @@ cd && cd .. && rm -f holderbot.sh* || true && clear && wget https://raw.githubus
 
 # How to use the bot? # 
 
-[![click me](https://github.com/erfjab/holderbot/blob/main/tumb.jpg)](https://www.youtube.com/watch?v=BqZvKV17uq0))
+[![click me](https://github.com/erfjab/holderbot/blob/main/tumb.jpg)](https://www.youtube.com/watch?v=BqZvKV17uq0)
 
 All explanations are complete and clear, but if you still notice any deficiencies or shortcomings in the explanations, please create an issue, and we will address it. Thank you for your cooperation.
 
