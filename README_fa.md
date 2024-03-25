@@ -58,7 +58,8 @@
 cd && cd .. && rm -f holderbot.sh* || true && sudo apt install && sudo apt-get install libjpeg-dev && wget https://raw.githubusercontent.com/erfjab/holderbot/main/holderbot.sh && chmod +x holderbot.sh && ./holderbot.sh
 ```
 
-# چگونه از هولدربات استفاده کنیم؟ # 
+# چگونه از هولدربات استفاده کنیم؟ (ویدیو) # 
+[![click me](https://github.com/erfjab/holderbot/blob/main/tumb.jpg)](https://www.youtube.com/watch?v=BqZvKV17uq0)
 
 تمام توضیحات کامل و واضح است، اما اگر هنوز نقص یا کوتاهی‌هایی در توضیحات مشاهده می‌کنید، لطفاً یک مشکل ایجاد کنید و ما آن را برطرف خواهیم کرد. از همکاری شما متشکریم.
 
