@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS messages
 INSERT INTO messages (chatid, status) VALUES ('$chatid', 'off');
 INSERT INTO users (chatid, role, name, username, password, domain, step) VALUES ('$chatid', 'boss', '$name', '$user', '$password', '$domain', 'None');
 INSERT INTO monitoring (chatid, status, check_normal, check_error) VALUES ('$chatid', 'on', '10', '100');
-INSERT INTO bot (chatid, token) VALUES ("$chatid", "$token");
+INSERT INTO bot (chatid, token) VALUES ('$chatid', '$token');
 EOF
 
     if [[ $? -eq 0 ]]; then
