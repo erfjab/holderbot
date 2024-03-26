@@ -59,8 +59,8 @@ def DEF_ALL_USERS(CHATID) :
 
 def DEF_USERS_LIST_STATUS(MESSAGE_TEXT , CHATID) :
     USERS_LIST = {
-        "✅ Active list": "active",
-        "❌ Disabled list": "disabled",
+        "✅ Active": "active",
+        "❌ Disabled": "disabled",
         "🕰 Expired": "expired",
         "🪫 Limited": "limited",
         "🔌 On Hold": "on_hold"
