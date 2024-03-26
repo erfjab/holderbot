@@ -212,7 +212,7 @@ async def holderbot(client: Client, message: Message) :
 
                 if CHECK_STEP == "users | wait to select list" :
                 
-                    if MESSAGE_TEXT in ["✅ Active list" , "❌ Disabled list" , "🕰 Expired" , "🪫 Limited" , "🔌 On Hold"] :
+                    if MESSAGE_TEXT in ["✅ Active" , "❌ Disabled" , "🕰 Expired" , "🪫 Limited" , "🔌 On Hold"] :
                         WAIT_MESSGAE = await client.send_message(chat_id=MESSAGE_CHATID, text=f"<b>⏳️ in progress...</b>" , reply_markup=ReplyKeyboardRemove())
                         USERS_LIST = DEF_USERS_LIST_STATUS(MESSAGE_TEXT , MESSAGE_CHATID)
                 
