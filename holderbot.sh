@@ -36,88 +36,121 @@ clear && echo -e "\n      Checking python library...      \n\n" && yes '-' | hea
 
 pip install -U pyrogram tgcrypto requests Pillow qrcode[pil] persiantools pytz python-dateutil pysqlite3 cdifflib reportlab && \
 sudo apt-get install -y sqlite3
-
-clear && echo -e "\n      Complete the information.      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
-    
+#defining variables
 name=""
-while [[ -z "$name" || ! "$name" =~ ^[a-zA-Z]+$ ]]; do
-    read -p "Please enter name (nickname) : " name
-    if [[ -z "$name" ]]; then
-        echo "Name cannot be empty. Please enter a valid name."
-    elif [[ ! "$name" =~ ^[a-zA-Z]+$ ]]; then
-        echo "Name must contain only English letters. Please enter a valid name."
-    fi
-done
-
 chatid=""
-while [[ ! "$chatid" =~ ^[0-9]+$ ]]; do
-    read -p "Please enter telegram chatid : " chatid
-    if [[ ! "$chatid" =~ ^[0-9]+$ ]]; then
-        echo "Chat ID must be a number. Please enter a valid number."
-    fi
-done
-
 token=""
-while [[ -z "$token" || ! "$token" =~ ^[0-9]+:.+$ ]]; do
-    read -p "Please enter telegram bot token: " token
-    if [[ ! "$token" =~ ^[0-9]+:.+$ ]]; then
-        echo "Invalid token format. Please enter a valid token."
+user=""
+password=""
+domain_simple=""
+ssl_response=""
+domain=""
+function getinfo() {
+    clear && echo -e "\\n      Complete the information.      \\n\\n"
+    
+
+    
+    while [[ -z "$name" || ! "$name" =~ ^[a-zA-Z]+$ ]]; do
+        read -p "Please enter name (nickname) : " name
+        if [[ -z "$name" ]]; then
+            echo "Name cannot be empty. Please enter a valid name."
+        elif [[ ! "$name" =~ ^[a-zA-Z]+$ ]]; then
+            echo "Name must contain only English letters. Please enter a valid name."
+        fi
+    done
+    
+
+    chatid=""
+    while [[ ! "$chatid" =~ ^[0-9]+$ ]]; do
+        read -p "Please enter telegram chatid : " chatid
+        if [[ ! "$chatid" =~ ^[0-9]+$ ]]; then
+            echo "Chat ID must be a number. Please enter a valid number."
+        fi
+    done
+
+    token=""
+    while [[ -z "$token" || ! "$token" =~ ^[0-9]+:.+$ ]]; do
+        read -p "Please enter telegram bot token: " token
+        if [[ ! "$token" =~ ^[0-9]+:.+$ ]]; then
+            echo "Invalid token format. Please enter a valid token."
+        else
+            response=$(curl -s "https://api.telegram.org/bot$token/getMe")
+            if [[ "$response" != *"ok\":true"* ]]; then
+                echo "Invalid token. Please enter a valid token."
+                token=""
+            fi
+        fi
+    done
+
+    user=""
+    while [[ -z "$user" ]]; do
+        read -p "Please enter panel sudo username : " user
+        if [[ -z "$user" ]]; then
+            echo "Username cannot be empty. Please enter a valid username."
+        fi
+    done
+
+    password=""
+    while [[ -z "$password" ]]; do
+        read -p "Please enter panel sudo password : " password
+        if [[ -z "$password" ]]; then
+            echo "Password cannot be empty. Please enter a valid password."
+        fi
+    done
+
+    domain_simple=""
+    while [[ ! "$domain_simple" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; do
+        read -p "Please enter panel domain (like: sub.domain.com:port) : " domain_simple
+        if [[ ! "$domain_simple" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; then
+            echo "Invalid domain format. Please enter a valid domain in the format sub.domain.com:port."
+        fi
+    done
+
+    ssl_response=""
+    while [[ ! "$ssl_response" =~ ^[ynYN]$ ]]; do
+        read -p "Do you have SSL? (y/n): " ssl_response
+        if [[ ! "$ssl_response" =~ ^[ynYN]$ ]]; then
+            echo "Please enter 'y' for Yes or 'n' for No."
+        fi
+    done
+
+    if [[ $ssl_response == "y" || $ssl_response == "Y" ]]; then
+        domain="https://$domain_simple"
     else
-        response=$(curl -s "https://api.telegram.org/bot$token/getMe")
-        if [[ "$response" != *"ok\":true"* ]]; then
-            echo "Invalid token. Please enter a valid token."
-            token=""
+        domain="http://$domain_simple"
+    fi
+
+}
+function checkinfo() {
+    clear && echo -e "\\n      Checking information...      \\n\\n"
+    echo "Name: $name"
+    echo "Telegram Chat ID: $chatid"
+    echo "Telegram Bot Token: $token"
+    echo "Panel Sudo Username: $user"
+    echo "Panel Sudo Password: $password"
+    echo "Panel Domain: $domain"
+    read -p "Are these information correct? (y/n): " correct
+    if [[ $correct == "y" || $correct == "Y" ]]; then
+        clear && echo -e "\n      Checking panel...      \n\n" && printf "%0.s-" {1..50} && echo && sleep 1
+        response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -d "username=$user&password=$password" "$domain/api/admin/token")
+        if [[ $response -eq 200 ]]; then
+            echo "Authentication successful."
+        else
+            echo "Authentication failed. either HAproxy or Wrong information" 
+            echo "Run this script again if bot doesnt work"
         fi
     fi
-done
+}
 
-user=""
-while [[ -z "$user" ]]; do
-    read -p "Please enter panel sudo username : " user
-    if [[ -z "$user" ]]; then
-        echo "Username cannot be empty. Please enter a valid username."
+while true; do
+    getinfo
+    checkinfo
+    read -p "do you want to continue with this info? (y/n): " response
+    if [[ $response == "y" || $response == "Y" ]]; then
+        break
     fi
-done
-
-password=""
-while [[ -z "$password" ]]; do
-    read -p "Please enter panel sudo password : " password
-    if [[ -z "$password" ]]; then
-        echo "Password cannot be empty. Please enter a valid password."
-    fi
-done
-
-domain_simple=""
-while [[ ! "$domain_simple" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; do
-    read -p "Please enter panel domain (like: sub.domain.com:port) : " domain_simple
-    if [[ ! "$domain_simple" =~ ^[a-zA-Z0-9.-]+\:[0-9]+$ ]]; then
-        echo "Invalid domain format. Please enter a valid domain in the format sub.domain.com:port."
-    fi
-done
-
-ssl_response=""
-while [[ ! "$ssl_response" =~ ^[ynYN]$ ]]; do
-    read -p "Do you have SSL? (y/n): " ssl_response
-    if [[ ! "$ssl_response" =~ ^[ynYN]$ ]]; then
-        echo "Please enter 'y' for Yes or 'n' for No."
-    fi
-done
-
-if [[ $ssl_response == "y" || $ssl_response == "Y" ]]; then
-    domain="https://$domain_simple"
-else
-    domain="http://$domain_simple"
-fi
-
-clear && echo -e "\n      Checking information...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
-echo "Name: $name"
-echo "Telegram Chat ID: $chatid"
-echo "Telegram Bot Token: $token"
-echo "Panel Sudo Username: $user"
-echo "Panel Sudo Password: $password"
-echo "Panel Domain: $domain"
     
-sleep 2
+done
 
 clear && echo -e "\n      Creating database...      \n\n" && yes '-' | head -n 50 | tr -d '\n\n' && echo
 
