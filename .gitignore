@@ -1,0 +1,9 @@
+# Ignore .env file
+.env
+
+# Ignore __pycache__ directories
+__pycache__/
+
+# Ignore any other files or directories that you don't want to track
+*.log
+*.tmp
