@@ -5,6 +5,7 @@ from aiogram.filters import StateFilter
 
 from marzban import ProxyInbound
 
+from utils.config import MARZBAN_USERNAME
 from utils.lang import MessageTexts
 from utils.keys import BotKeyboards
 from utils.statedb import storage
@@ -16,6 +17,7 @@ from models import (
     UserCreateForm,
     UserStatusCallbacks,
     UserInboundsCallbacks,
+    AdminSelectCallbacks,
 )
 
 
@@ -115,6 +117,18 @@ async def user_create_status(
     callback: CallbackQuery, callback_data: UserStatusCallbacks, state: FSMContext
 ):
     await state.update_data(status=callback_data.status)
+    admins = await panel.admins()
+    return await callback.message.edit_text(
+        text=MessageTexts.AskCreateAdminUsername,
+        reply_markup=BotKeyboards.admins(admins),
+    )
+
+
+@router.callback_query(AdminSelectCallbacks.filter())
+async def user_create_owner_select(
+    callback: CallbackQuery, callback_data: AdminSelectCallbacks, state: FSMContext
+):
+    await state.update_data(admin=callback_data.username)
     inbounds = await panel.inbounds()
     await state.update_data(inbounds=inbounds)
     return await callback.message.edit_text(
@@ -191,6 +205,8 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
         )
 
         if new_user:
+            if data["admin"] != MARZBAN_USERNAME:
+                await panel.set_owner(data['admin'], new_user.username)
             qr_bytes = await helpers.create_qr(new_user.subscription_url)
             await callback.message.answer_photo(
                 caption=text_info.user_info(new_user),

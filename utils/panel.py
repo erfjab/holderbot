@@ -1,6 +1,4 @@
-import json
-
-from marzban import MarzbanAPI, ProxyInbound, UserResponse, UserCreate
+from marzban import MarzbanAPI, ProxyInbound, UserResponse, UserCreate, Admin
 from datetime import datetime, timedelta
 from utils.config import MARZBAN_ADDRESS
 from db import TokenManager
@@ -54,4 +52,26 @@ async def create_user(
         return user or None
     except Exception as e:
         logger.error(f"Error create user: {e}")
+        return False
+
+
+async def admins() -> list[Admin]:
+    try:
+        get_token = await TokenManager.get()
+        admins = await marzban_panel.get_admins(get_token.token)
+        return admins or False
+    except Exception as e:
+        logger.error(f"Error getting token: {e}")
+        return False
+
+
+async def set_owner(admin: str, user: str) -> bool:
+    try:
+        get_token = await TokenManager.get()
+        user = await marzban_panel.set_owner(
+            username=user, admin_username=admin, token=get_token.token
+        )
+        return user or False
+    except Exception as e:
+        logger.error(f"Error getting token: {e}")
         return False

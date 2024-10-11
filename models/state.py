@@ -8,4 +8,5 @@ class UserCreateForm(StatesGroup):
     data_limit = State()
     date_limit = State()
     status = State()
+    admin = State()
     inbounds = State()

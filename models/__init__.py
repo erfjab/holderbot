@@ -7,4 +7,5 @@ from .callback import (
     ConfirmCallbacks,
     UserStatusCallbacks,
     UserInboundsCallbacks,
+    AdminSelectCallbacks,
 )

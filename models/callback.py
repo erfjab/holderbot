@@ -35,3 +35,7 @@ class UserInboundsCallbacks(CallbackData, prefix="user_inbounds"):
     is_selected: bool | None = None
     action: AdminActions
     is_done: bool = False
+
+
+class AdminSelectCallbacks(CallbackData, prefix="admin_select"):
+    username: str

@@ -21,6 +21,7 @@ class MessageTexts(str, Enum):
     AskCreateUserDataLimit = "📊 Please enter the <b>data limit</b> in GB"
     AskCreateUserDateLimit = "📅 Please enter the <b>date limit</b> in days"
     AskCreateUserStatus = "🔄 Select the <b>user status</b>"
+    AskCreateAdminUsername = "👤 Select the <b>owner admin</b>"
     AskCreateUserInbouds = "🌐 Select the <b>user inbounds</b>"
     JustNumber = "🔢 Please enter <b>numbers only</b>"
     NoneUserInbounds = "⚠️ Please select an <b>inbound</b> first"

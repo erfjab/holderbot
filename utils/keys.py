@@ -1,14 +1,14 @@
 from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton
 
-from marzban import ProxyInbound
+from marzban import ProxyInbound, Admin
 
 from utils.lang import KeyboardTexts
 from models import (
     PagesActions,
     PagesCallbacks,
     AdminActions,
-    ConfirmCallbacks,
+    AdminSelectCallbacks,
     UserStatusCallbacks,
     UserInboundsCallbacks,
 )
@@ -85,6 +85,24 @@ class BotKeyboards:
                 text=KeyboardTexts.Finish,
                 callback_data=UserInboundsCallbacks(action=action, is_done=True).pack(),
             ),
+            InlineKeyboardButton(
+                text=KeyboardTexts.Home,
+                callback_data=PagesCallbacks(page=PagesActions.Home).pack(),
+            ),
+        )
+        return kb.adjust(2).as_markup()
+
+    @staticmethod
+    def admins(admins: list[Admin]) -> InlineKeyboardMarkup:
+        kb = InlineKeyboardBuilder()
+
+        for admin in admins:
+            kb.button(
+                text=admin.username,
+                callback_data=AdminSelectCallbacks(username=admin.username),
+            )
+
+        kb.row(
             InlineKeyboardButton(
                 text=KeyboardTexts.Home,
                 callback_data=PagesCallbacks(page=PagesActions.Home).pack(),
