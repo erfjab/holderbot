@@ -22,10 +22,6 @@ TELEGRAM_ADMINS_ID = config(
 )  # required
 require_setting("TELEGRAM_ADMINS_ID", TELEGRAM_ADMINS_ID)
 
-SQLALCHEMY_DATABASE_URL = config(
-    "SQLALCHEMY_DATABASE_URL", default="sqlite+aiosqlite:///data/db.sqlite3", cast=str
-)
-
 # Marzban Panel Settings
 MARZBAN_USERNAME = config("MARZBAN_USERNAME", default="", cast=str)  # required
 require_setting("MARZBAN_USERNAME", MARZBAN_USERNAME)
