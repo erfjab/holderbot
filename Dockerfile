@@ -12,8 +12,6 @@ RUN pip install alembic
 
 COPY . .
 
-RUN alembic upgrade head
-
 RUN chmod +x main.py
 
-CMD [ "python3", "main.py" ]
+CMD ["sh", "-c", "alembic upgrade head && python3 main.py"]

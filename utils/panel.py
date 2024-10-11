@@ -46,7 +46,9 @@ async def create_user(
 
         elif status == "on_hold":
             new_user.on_hold_expire_duration = int(date_limit) * 86400
-            new_user.on_hold_timeout = (datetime.utcnow() + timedelta(days=365)).strftime('%Y-%m-%d %H:%M:%S')
+            new_user.on_hold_timeout = (
+                datetime.utcnow() + timedelta(days=365)
+            ).strftime("%Y-%m-%d %H:%M:%S")
 
         user = await marzban_panel.add_user(new_user, get_token.token)
         return user or None
