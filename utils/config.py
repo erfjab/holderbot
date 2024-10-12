@@ -31,3 +31,9 @@ require_setting("MARZBAN_PASSWORD", MARZBAN_PASSWORD)
 
 MARZBAN_ADDRESS = config("MARZBAN_ADDRESS", default="", cast=str)  # required
 require_setting("MARZBAN_ADDRESS", MARZBAN_ADDRESS)
+
+EXCLUDED_MONITORINGS = [
+    x.strip()
+    for x in config("EXCLUDED_MONITORINGS", default="", cast=str).split(",")
+    if x.strip()
+]

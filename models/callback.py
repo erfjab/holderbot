@@ -9,9 +9,15 @@ class AdminActions(str, Enum):
     Delete = "delete"
 
 
+class BotActions(str, Enum):
+    NodeChecker = "node_checker"
+    NodeAutoRestart = "node_auto_restart"
+
+
 class PagesActions(str, Enum):
     Home = "home"
     UserCreate = "user_create"
+    NodeMonitoring = "node_monitoring"
 
 
 class PagesCallbacks(CallbackData, prefix="pages"):
@@ -19,7 +25,7 @@ class PagesCallbacks(CallbackData, prefix="pages"):
 
 
 class ConfirmCallbacks(CallbackData, prefix="confim"):
-    page: PagesActions
+    page: BotActions
     action: AdminActions
     is_confirm: bool = False
 

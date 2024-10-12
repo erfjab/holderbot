@@ -11,6 +11,8 @@ from models import (
     AdminSelectCallbacks,
     UserStatusCallbacks,
     UserInboundsCallbacks,
+    ConfirmCallbacks,
+    BotActions,
 )
 
 
@@ -22,6 +24,10 @@ class BotKeyboards:
         kb.button(
             text=KeyboardTexts.UserCreate,
             callback_data=PagesCallbacks(page=PagesActions.UserCreate).pack(),
+        )
+        kb.button(
+            text=KeyboardTexts.NodeMonitoring,
+            callback_data=PagesCallbacks(page=PagesActions.NodeMonitoring).pack(),
         )
         return kb.as_markup()
 
@@ -102,6 +108,32 @@ class BotKeyboards:
                 callback_data=AdminSelectCallbacks(username=admin.username),
             )
 
+        kb.row(
+            InlineKeyboardButton(
+                text=KeyboardTexts.Home,
+                callback_data=PagesCallbacks(page=PagesActions.Home).pack(),
+            ),
+        )
+        return kb.adjust(2).as_markup()
+
+    @staticmethod
+    def node_monitoring() -> InlineKeyboardMarkup:
+        kb = InlineKeyboardBuilder()
+
+        kb.button(
+            text=KeyboardTexts.NodeMonitoringChecker,
+            callback_data=ConfirmCallbacks(
+                page=BotActions.NodeChecker, action=AdminActions.Edit, is_confirm=True
+            ),
+        )
+        kb.button(
+            text=KeyboardTexts.NodeMonitoringAutoRestart,
+            callback_data=ConfirmCallbacks(
+                page=BotActions.NodeAutoRestart,
+                action=AdminActions.Edit,
+                is_confirm=True,
+            ),
+        )
         kb.row(
             InlineKeyboardButton(
                 text=KeyboardTexts.Home,

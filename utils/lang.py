@@ -1,15 +1,18 @@
 from enum import Enum
 
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 OWNER = "@ErfJabs"
 
 
 class KeyboardTexts(str, Enum):
-    Home = "🏠 back to home"
-    UserCreate = "👤 user create"
-    Active = "✅ active"
-    OnHold = "⏸️ on hold"
-    Finish = "✔️ finish"
+    Home = "🏠 Back to home"
+    UserCreate = "👤 User Create"
+    NodeMonitoring = "🗃 Node Monitoring"
+    Active = "✅ Active"
+    OnHold = "⏸️ On hold"
+    Finish = "✔️ Finish"
+    NodeMonitoringChecker = "🧨 Checker"
+    NodeMonitoringAutoRestart = "🔁 AutoRestart"
 
 
 class MessageTexts(str, Enum):
@@ -30,4 +33,15 @@ class MessageTexts(str, Enum):
         "📊 <b>Data limit:</b> <code>{data_limit}</code> GB\n"
         "📅 <b>Date limit:</b> <code>{date_limit}</code> days\n"
         "🔗 <b>Subscription:</b> {subscription}"
+    )
+    NodeError = (
+        "🗃 <b>Node:</b> <code>{name}</code>\n"
+        "📍 <b>IP:</b> <code>{ip}</code>\n"
+        "📪 <b>Message:</b> <code>{message}</code>"
+    )
+    NodeAutoRestartDone = "✅ <code>{name}</code> <b>auto restart is Done!</b>"
+    NodeAutoRestartError = "❌ <code>{name}</code> <b>auto restart is Wrong!</b>"
+    NodeMonitoringMenu = (
+        "🧨 <b>Checker is</b> <code>{checker}</code>\n"
+        "🔁 AutoRestart is <code>{auto_restart}</code>"
     )

@@ -206,7 +206,7 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
 
         if new_user:
             if data["admin"] != MARZBAN_USERNAME:
-                await panel.set_owner(data['admin'], new_user.username)
+                await panel.set_owner(data["admin"], new_user.username)
             qr_bytes = await helpers.create_qr(new_user.subscription_url)
             await callback.message.answer_photo(
                 caption=text_info.user_info(new_user),
