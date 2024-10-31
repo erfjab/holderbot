@@ -124,7 +124,7 @@ async def user_create_status(
     )
 
 
-@router.callback_query(AdminSelectCallbacks.filter())
+@router.callback_query(AdminSelectCallbacks.filter(F.just_one_inbound.is_(False)))
 async def user_create_owner_select(
     callback: CallbackQuery, callback_data: AdminSelectCallbacks, state: FSMContext
 ):
@@ -139,7 +139,11 @@ async def user_create_owner_select(
 
 @router.callback_query(
     UserInboundsCallbacks.filter(
-        (F.action.is_(AdminActions.Add) & (F.is_done.is_(False)))
+        (
+            F.action.is_(AdminActions.Add)
+            & (F.is_done.is_(False))
+            & (F.just_one_inbound.is_(False))
+        )
     )
 )
 async def user_create_inbounds(
@@ -163,7 +167,11 @@ async def user_create_inbounds(
 
 @router.callback_query(
     UserInboundsCallbacks.filter(
-        (F.action.is_(AdminActions.Add) & (F.is_done.is_(True)))
+        (
+            F.action.is_(AdminActions.Add)
+            & (F.is_done.is_(True))
+            & (F.just_one_inbound.is_(False))
+        )
     )
 )
 async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):

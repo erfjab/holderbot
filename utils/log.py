@@ -23,4 +23,4 @@ def setup_logger(bot_name, level=logging.INFO):
     return logger
 
 
-logger = setup_logger("HamedBot")
+logger = setup_logger("HolderBot")

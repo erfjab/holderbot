@@ -1,8 +1,16 @@
-from marzban import MarzbanAPI, ProxyInbound, UserResponse, UserCreate, Admin
+from marzban import (
+    MarzbanAPI,
+    ProxyInbound,
+    UserResponse,
+    UserCreate,
+    Admin,
+    UserModify,
+)
 from datetime import datetime, timedelta
 from utils.config import MARZBAN_ADDRESS
 from db import TokenManager
 from utils.log import logger
+from models.callback import AdminActions
 
 marzban_panel = MarzbanAPI(MARZBAN_ADDRESS)
 
@@ -13,7 +21,7 @@ async def inbounds() -> dict[str, list[ProxyInbound]]:
         inbounds = await marzban_panel.get_inbounds(get_token.token)
         return inbounds or False
     except Exception as e:
-        logger.error(f"Error getting token: {e}")
+        logger.error(f"Error getting panel inbounds: {e}")
         return False
 
 
@@ -61,7 +69,7 @@ async def admins() -> list[Admin]:
         admins = await marzban_panel.get_admins(get_token.token)
         return admins or False
     except Exception as e:
-        logger.error(f"Error getting token: {e}")
+        logger.error(f"Error getting admins list: {e}")
         return False
 
 
@@ -73,5 +81,29 @@ async def set_owner(admin: str, user: str) -> bool:
         )
         return user or False
     except Exception as e:
-        logger.error(f"Error getting token: {e}")
+        logger.error(f"Error set owner: {e}")
+        return False
+
+
+async def user_modify(username: str, data: UserModify) -> bool:
+    try:
+        get_token = await TokenManager.get()
+        user = await marzban_panel.modify_user(
+            username=username, user=data, token=get_token.token
+        )
+        return True if user else False
+    except Exception as e:
+        logger.error(f"Error user modify: {e}")
+        return False
+
+
+async def get_users(offset: int = 0) -> list[UserResponse]:
+    try:
+        get_token = await TokenManager.get()
+        users = await marzban_panel.get_users(
+            token=get_token.token, offset=offset, limit=offset
+        )
+        return users.users if users else False
+    except Exception as e:
+        logger.error(f"Error getting all users: {e}")
         return False

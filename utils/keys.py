@@ -29,7 +29,11 @@ class BotKeyboards:
             text=KeyboardTexts.NodeMonitoring,
             callback_data=PagesCallbacks(page=PagesActions.NodeMonitoring).pack(),
         )
-        return kb.as_markup()
+        kb.button(
+            text=KeyboardTexts.UsersMenu,
+            callback_data=PagesCallbacks(page=PagesActions.UsersMenu).pack(),
+        )
+        return kb.adjust(2).as_markup()
 
     @staticmethod
     def cancel() -> InlineKeyboardMarkup:
@@ -72,18 +76,21 @@ class BotKeyboards:
         inbounds: dict[str, list[ProxyInbound]],
         selected: set[str] = [],
         action: AdminActions = AdminActions.Add,
+        just_one_inbound: bool = False,
     ):
         kb = InlineKeyboardBuilder()
         for protocol_list in inbounds.values():
             for inbound in protocol_list:
                 is_selected = inbound["tag"] in selected
                 kb.button(
-                    text=f"{'✅' if is_selected else '❌'} {inbound['tag']} ({inbound['protocol']})",
+                    text=f"{('✅' if is_selected else '❌') if not just_one_inbound else '🔘'} {inbound['tag']} ({inbound['protocol']})",
                     callback_data=UserInboundsCallbacks(
                         tag=inbound["tag"],
                         protocol=inbound["protocol"],
                         is_selected=is_selected,
                         action=action,
+                        just_one_inbound=just_one_inbound,
+                        is_done=just_one_inbound,
                     ),
                 )
         kb.row(
@@ -132,6 +139,30 @@ class BotKeyboards:
                 page=BotActions.NodeAutoRestart,
                 action=AdminActions.Edit,
                 is_confirm=True,
+            ),
+        )
+        kb.row(
+            InlineKeyboardButton(
+                text=KeyboardTexts.Home,
+                callback_data=PagesCallbacks(page=PagesActions.Home).pack(),
+            ),
+        )
+        return kb.adjust(2).as_markup()
+
+    @staticmethod
+    def users() -> InlineKeyboardMarkup:
+        kb = InlineKeyboardBuilder()
+
+        kb.button(
+            text=KeyboardTexts.UsersAddInbound,
+            callback_data=ConfirmCallbacks(
+                page=BotActions.UsersInbound, action=AdminActions.Add
+            ),
+        )
+        kb.button(
+            text=KeyboardTexts.UsersDeleteInbound,
+            callback_data=ConfirmCallbacks(
+                page=BotActions.UsersInbound, action=AdminActions.Delete
             ),
         )
         kb.row(
