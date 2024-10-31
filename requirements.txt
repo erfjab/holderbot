@@ -5,6 +5,6 @@ pydantic==2.8.2
 qrcode==7.4.2
 aiosqlite==0.20.0
 APScheduler==3.10.4
-marzban==0.2.6
+marzban==0.2.8
 pillow==10.4.0
 alembic==1.13.1

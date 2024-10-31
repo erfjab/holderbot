@@ -11,7 +11,7 @@ from utils.config import MARZBAN_ADDRESS
 from db import TokenManager
 from utils.log import logger
 
-marzban_panel = MarzbanAPI(MARZBAN_ADDRESS)
+marzban_panel = MarzbanAPI(MARZBAN_ADDRESS, timeout=30.0, verify=False)
 
 
 async def inbounds() -> dict[str, list[ProxyInbound]]:
@@ -100,7 +100,7 @@ async def get_users(offset: int = 0, limit: int = 50) -> list[UserResponse]:
     try:
         get_token = await TokenManager.get()
         users = await marzban_panel.get_users(
-            token=get_token.token, offset=offset, limit=offset
+            token=get_token.token, offset=offset, limit=limit
         )
         return users.users if users else False
     except Exception as e:
