@@ -10,7 +10,6 @@ from datetime import datetime, timedelta
 from utils.config import MARZBAN_ADDRESS
 from db import TokenManager
 from utils.log import logger
-from models.callback import AdminActions
 
 marzban_panel = MarzbanAPI(MARZBAN_ADDRESS)
 

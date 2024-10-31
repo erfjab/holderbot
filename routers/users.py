@@ -57,7 +57,10 @@ async def inbound_confirm(
     )
 
     return await working_message.edit_text(
-        text=MessageTexts.UsersInboundSuccessUpdated if result else MessageTexts.UsersInboundErrorUpdated,
-        reply_markup=BotKeyboards.home()
+        text=(
+            MessageTexts.UsersInboundSuccessUpdated
+            if result
+            else MessageTexts.UsersInboundErrorUpdated
+        ),
+        reply_markup=BotKeyboards.home(),
     )
-

@@ -33,51 +33,48 @@ async def process_user(
     tag: str,
     protocol: str,
     action: AdminActions,
-    max_retries: int = 3
+    max_retries: int = 3,
 ) -> bool:
     """Process a single user with semaphore for rate limiting and retry mechanism"""
     async with semaphore:
         current_inbounds = user.inbounds.copy() if user.inbounds else {}
         current_proxies = user.proxies.copy() if user.proxies else {}
-        
+
         needs_update = False
-        
+
         if action == AdminActions.Delete:
             if protocol in current_inbounds and tag in current_inbounds[protocol]:
                 current_inbounds[protocol].remove(tag)
                 needs_update = True
-            
-            
+
             if protocol in current_inbounds and not current_inbounds[protocol]:
                 current_inbounds.pop(protocol, None)
                 current_proxies.pop(protocol, None)
-                    
-                            
+
         elif action == AdminActions.Add:
             if protocol not in current_inbounds:
                 current_inbounds[protocol] = []
                 current_proxies[protocol] = {}
                 needs_update = True
-        
+
         if tag not in current_inbounds.get(protocol, []):
             if protocol not in current_inbounds:
                 current_inbounds[protocol] = []
             current_inbounds[protocol].append(tag)
             needs_update = True
-        
+
         if not needs_update:
             return True
-        
+
         update_data = UserModify(
             proxies=current_proxies,
             inbounds=current_inbounds,
         )
-        
+
         success = await panel.user_modify(user.username, update_data)
-        
+
         if success:
             return True
-                
 
 
 async def process_batch(
@@ -106,7 +103,7 @@ async def manage_panel_inbounds(tag: str, protocol: str, action: AdminActions) -
                 break
 
             await process_batch(users, tag, protocol, action)
-            
+
             if len(users) < batch_size:
                 break
             offset += batch_size
