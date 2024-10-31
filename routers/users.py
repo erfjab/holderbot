@@ -46,23 +46,18 @@ async def inbound_confirm(
     callback: CallbackQuery, callback_data: UserInboundsCallbacks
 ):
     working_message = await callback.message.edit_text(text=MessageTexts.Working)
-    try:
-        result = await helpers.manage_panel_inbounds(
-            callback_data.tag,
-            callback_data.protocol,
-            (
-                AdminActions.Add
-                if callback_data.action.value == AdminActions.Add.value
-                else AdminActions.Delete
-            ),
-        )
+    result = await helpers.manage_panel_inbounds(
+        callback_data.tag,
+        callback_data.protocol,
+        (
+            AdminActions.Add
+            if callback_data.action.value == AdminActions.Add.value
+            else AdminActions.Delete
+        ),
+    )
 
-        return await working_message.edit_text(
-            text=MessageTexts.UsersInboundSuccessUpdated if result else MessageTexts.UsersInboundErrorUpdated,
-            reply_markup=BotKeyboards.home()
-        )
+    return await working_message.edit_text(
+        text=MessageTexts.UsersInboundSuccessUpdated if result else MessageTexts.UsersInboundErrorUpdated,
+        reply_markup=BotKeyboards.home()
+    )
 
-    except Exception as e:
-        return await working_message.edit_text(
-            text=f"{MessageTexts.UsersInboundErrorUpdated}: {str(e)}"
-        )
