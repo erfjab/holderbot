@@ -124,7 +124,7 @@ async def user_create_status(
     )
 
 
-@router.callback_query(AdminSelectCallbacks.filter(F.just_one_inbound.is_(False)))
+@router.callback_query(AdminSelectCallbacks.filter())
 async def user_create_owner_select(
     callback: CallbackQuery, callback_data: AdminSelectCallbacks, state: FSMContext
 ):
