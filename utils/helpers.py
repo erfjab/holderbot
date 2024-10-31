@@ -95,7 +95,7 @@ async def process_batch(
 async def manage_panel_inbounds(tag: str, protocol: str, action: AdminActions) -> bool:
     try:
         offset = 0
-        batch_size = 25
+        batch_size = 50
 
         while True:
             users = await panel.get_users(offset)

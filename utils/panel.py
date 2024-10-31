@@ -96,7 +96,7 @@ async def user_modify(username: str, data: UserModify) -> bool:
         return False
 
 
-async def get_users(offset: int = 0) -> list[UserResponse]:
+async def get_users(offset: int = 0, limit: int = 50) -> list[UserResponse]:
     try:
         get_token = await TokenManager.get()
         users = await marzban_panel.get_users(
