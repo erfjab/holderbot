@@ -1,6 +1,6 @@
 from enum import Enum
 
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 OWNER = "@ErfJabs"
 
 
@@ -13,6 +13,9 @@ class KeyboardTexts(str, Enum):
     Finish = "✔️ Finish"
     NodeMonitoringChecker = "🧨 Checker"
     NodeMonitoringAutoRestart = "🔁 AutoRestart"
+    UsersMenu = "👥 Users"
+    UsersAddInbound = "➕ Add inbound"
+    UsersDeleteInbound = "➖ Delete inbound"
 
 
 class MessageTexts(str, Enum):
@@ -45,3 +48,8 @@ class MessageTexts(str, Enum):
         "🧨 <b>Checker is</b> <code>{checker}</code>\n"
         "🔁 AutoRestart is <code>{auto_restart}</code>"
     )
+    UsersMenu = "👥 What do you need?"
+    UsersInboundSelect = "🌐 Select Your Inbound:"
+    Working = "⏳"
+    UsersInboundSuccessUpdated = "✅ Users Inbounds is Updated!"
+    UsersInboundErrorUpdated = "❌ Users Inbounds not Updated!"

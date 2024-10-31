@@ -12,12 +12,14 @@ class AdminActions(str, Enum):
 class BotActions(str, Enum):
     NodeChecker = "node_checker"
     NodeAutoRestart = "node_auto_restart"
+    UsersInbound = "users_inbound"
 
 
 class PagesActions(str, Enum):
     Home = "home"
     UserCreate = "user_create"
     NodeMonitoring = "node_monitoring"
+    UsersMenu = "users_menu"
 
 
 class PagesCallbacks(CallbackData, prefix="pages"):
@@ -41,6 +43,7 @@ class UserInboundsCallbacks(CallbackData, prefix="user_inbounds"):
     is_selected: bool | None = None
     action: AdminActions
     is_done: bool = False
+    just_one_inbound: bool = False
 
 
 class AdminSelectCallbacks(CallbackData, prefix="admin_select"):

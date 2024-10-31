@@ -20,9 +20,7 @@ class Token(Base):
 class Setting(Base):
     __tablename__ = "settings"
 
-    key: Mapped[str] = mapped_column(
-        String(256), primary_key=True
-    )
+    key: Mapped[str] = mapped_column(String(256), primary_key=True)
     value: Mapped[str] = mapped_column(String(2048))
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=func.now(), nullable=False
