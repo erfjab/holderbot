@@ -1,7 +1,7 @@
-from aiogram.types import InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardMarkup, CopyTextButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton
 
-from marzban import ProxyInbound, Admin
+from marzban import ProxyInbound, Admin, UserResponse
 
 from utils.lang import KeyboardTexts
 from models import (
@@ -172,3 +172,13 @@ class BotKeyboards:
             ),
         )
         return kb.adjust(2).as_markup()
+
+    @staticmethod
+    def user(user: UserResponse) -> InlineKeyboardMarkup:
+        kb = InlineKeyboardBuilder()
+
+        kb.button(
+            text=KeyboardTexts.UserCreateLinkCopy,
+            copy_text=CopyTextButton(text=user.subscription_url)
+        )
+        return kb.as_markup()

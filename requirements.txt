@@ -1,4 +1,4 @@
-aiogram==3.10.0
+aiogram==3.14.0
 python-decouple==3.8
 SQLAlchemy==2.0.31
 pydantic==2.8.2

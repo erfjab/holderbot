@@ -16,7 +16,7 @@ class KeyboardTexts(str, Enum):
     UsersMenu = "👥 Users"
     UsersAddInbound = "➕ Add inbound"
     UsersDeleteInbound = "➖ Delete inbound"
-
+    UserCreateLinkCopy = "To copy the link, please click."
 
 class MessageTexts(str, Enum):
     Start = f"Welcome to <b>HolderBot</b> 🤖 [{VERSION}]\nDeveloped and designed by <b>{OWNER}</b>"

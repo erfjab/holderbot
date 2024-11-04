@@ -219,6 +219,7 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
             await callback.message.answer_photo(
                 caption=text_info.user_info(new_user),
                 photo=BufferedInputFile(qr_bytes, filename="qr_code.png"),
+                reply_markup=BotKeyboards.user(new_user)
             )
         else:
             await callback.message.answer(
