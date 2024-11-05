@@ -11,6 +11,7 @@ OWNER = "@ErfJabs"
 
 class KeyboardTexts(str, Enum):
     """Keyboard texts used in the bot."""
+
     HOME = "🏠 Back to home"
     USER_CREATE = "👤 User Create"
     NODE_MONITORING = "🗃 Node Monitoring"
@@ -27,6 +28,7 @@ class KeyboardTexts(str, Enum):
 
 class MessageTexts(str, Enum):
     """Message texts used in the bot."""
+
     START = f"Welcome to <b>HolderBot</b> 🤖 [{VERSION}]\nDeveloped and designed by <b>{OWNER}</b>"
     VERSION = f"⚡️ <b>Current Version:</b> <code>{VERSION}</code>"
     ASK_CREATE_USER_BASE_USERNAME = "👤 Please enter the <b>user base name</b>"

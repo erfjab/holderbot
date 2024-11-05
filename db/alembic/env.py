@@ -53,8 +53,9 @@ def do_run_migrations(connection: Connection) -> None:
     Configures the context for a migration and executes the migrations.
     """
     context.configure(
-        connection=connection, target_metadata=target_metadata  # pylint: disable=no-member
-    )  
+        connection=connection,
+        target_metadata=target_metadata,  # pylint: disable=no-member
+    )
 
     with context.begin_transaction():  # pylint: disable=no-member
         context.run_migrations()  # pylint: disable=no-member

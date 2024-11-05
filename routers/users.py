@@ -1,6 +1,6 @@
 """
 This module contains the callback functions for managing user actions,
-such as navigating the users menu, adding or deleting inbounds, and updating 
+such as navigating the users menu, adding or deleting inbounds, and updating
 user settings related to inbounds.
 """
 
@@ -59,7 +59,7 @@ async def inbound_confirm(
     callback: CallbackQuery, callback_data: UserInboundsCallbacks
 ):
     """
-    Confirms the addition or deletion of an inbound for the user based on the 
+    Confirms the addition or deletion of an inbound for the user based on the
     selected action. After processing the action, it updates the message with the result.
     """
     working_message = await callback.message.edit_text(text=MessageTexts.WORKING)
@@ -74,8 +74,10 @@ async def inbound_confirm(
     )
 
     return await working_message.edit_text(
-    text=(MessageTexts.USERS_INBOUND_SUCCESS_UPDATED
-          if result
-          else MessageTexts.USERS_INBOUND_ERROR_UPDATED),
-    reply_markup=BotKeyboards.home(),
+        text=(
+            MessageTexts.USERS_INBOUND_SUCCESS_UPDATED
+            if result
+            else MessageTexts.USERS_INBOUND_ERROR_UPDATED
+        ),
+        reply_markup=BotKeyboards.home(),
     )

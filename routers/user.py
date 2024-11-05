@@ -1,5 +1,5 @@
 """
-This module contains the user-related callback functions and their handlers 
+This module contains the user-related callback functions and their handlers
 for user creation and management.
 """
 
@@ -35,7 +35,8 @@ async def user_create(callback: CallbackQuery, state: FSMContext):
     """
     await state.set_state(UserCreateForm.base_username)
     return await callback.message.edit_text(
-        text=MessageTexts.ASK_CREATE_USER_BASE_USERNAME, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_BASE_USERNAME,
+        reply_markup=BotKeyboards.cancel(),
     )
 
 
@@ -47,7 +48,8 @@ async def user_create_base_username(message: Message, state: FSMContext):
     await state.update_data(base_username=message.text)
     await state.set_state(UserCreateForm.start_number)
     new_message = await message.answer(
-        text=MessageTexts.ASK_CREATE_USER_START_NUMBER, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_START_NUMBER,
+        reply_markup=BotKeyboards.cancel(),
     )
     return await storage.clear_and_add_message(new_message)
 
@@ -189,7 +191,6 @@ async def user_create_inbounds(
     await callback.message.edit_reply_markup(
         reply_markup=BotKeyboards.inbounds(inbounds, selected_inbounds)
     )
-
 
 
 @router.callback_query(

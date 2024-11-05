@@ -1,5 +1,5 @@
 """
-This module handles monitoring of nodes in the Marzban panel, including error reporting 
+This module handles monitoring of nodes in the Marzban panel, including error reporting
 and automatic restarts if configured.
 """
 

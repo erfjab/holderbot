@@ -44,7 +44,9 @@ async def node_monitoring_menu(callback: CallbackQuery):
     of node monitoring settings and updates the menu text.
     """
     checker_status = await get_setting_status(SettingKeys.NODE_MONITORING_IS_ACTIVE)
-    auto_restart_status = await get_setting_status(SettingKeys.NODE_MONITORING_AUTO_RESTART)
+    auto_restart_status = await get_setting_status(
+        SettingKeys.NODE_MONITORING_AUTO_RESTART
+    )
 
     text = MessageTexts.NODE_MONITORING_MENU.format(
         checker=checker_status,
@@ -55,7 +57,9 @@ async def node_monitoring_menu(callback: CallbackQuery):
     )
 
 
-@router.callback_query(ConfirmCallbacks.filter(F.page.is_(BotActions.NODE_AUTO_RESTART)))
+@router.callback_query(
+    ConfirmCallbacks.filter(F.page.is_(BotActions.NODE_AUTO_RESTART))
+)
 async def node_monitoring_auto_restart(callback: CallbackQuery):
     """
     Handler for toggling the auto-restart setting for node monitoring.

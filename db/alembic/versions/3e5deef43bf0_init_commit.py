@@ -2,7 +2,7 @@
 """init commit
 
 Revision ID: 3e5deef43bf0
-Revises: 
+Revises:
 Create Date: 2024-10-11 15:47:37.464534
 """
 

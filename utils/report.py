@@ -17,6 +17,7 @@ bot = Bot(
     token=TELEGRAM_BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML)
 )
 
+
 async def send_message(message: str):
     """
     Sends a message to all admins.

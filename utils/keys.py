@@ -54,12 +54,16 @@ class BotKeyboards:
         """
         Generates a cancel button to return to the home screen.
         """
-        return InlineKeyboardBuilder().row(
-            InlineKeyboardButton(
-                text=KeyboardTexts.HOME,
-                callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
+        return (
+            InlineKeyboardBuilder()
+            .row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.HOME,
+                    callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
+                )
             )
-        ).as_markup()
+            .as_markup()
+        )
 
     @staticmethod
     def user_status(action: AdminActions) -> InlineKeyboardMarkup:
@@ -106,14 +110,14 @@ class BotKeyboards:
                 is_selected = inbound["tag"] in selected
                 kb.button(
                     text=f"{('✅' if is_selected else '❌') if not just_one_inbound else '🔘'} "
-                        f"{inbound['tag']} ({inbound['protocol']})",
+                    f"{inbound['tag']} ({inbound['protocol']})",
                     callback_data=UserInboundsCallbacks(
-                    tag=inbound["tag"],
-                    protocol=inbound["protocol"],
-                    is_selected=is_selected,
-                    action=action,
-                    just_one_inbound=just_one_inbound,
-                    is_done=just_one_inbound,
+                        tag=inbound["tag"],
+                        protocol=inbound["protocol"],
+                        is_selected=is_selected,
+                        action=action,
+                        just_one_inbound=just_one_inbound,
+                        is_done=just_one_inbound,
                     ),
                 )
         kb.row(
