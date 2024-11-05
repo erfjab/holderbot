@@ -1,10 +1,17 @@
+"""
+Module docstring: This module contains functions for formatting user information
+for display, including user status, data limit, subscription, etc.
+"""
+from datetime import datetime
 from marzban import UserResponse
 from utils.lang import MessageTexts
-from datetime import datetime
 
 
 def user_info(user: UserResponse) -> str:
-    return (MessageTexts.UserInfo).format(
+    """
+    Formats the user information for display.
+    """
+    return (MessageTexts.USER_INFO).format(
         status_emoji="🟣" if user.status == "on_hold" else "🟢",
         username=user.username,
         data_limit=round((user.data_limit / (1024**3)), 3),

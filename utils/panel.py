@@ -1,3 +1,10 @@
+"""
+This module provides functions to interact with the Marzban API, 
+including user management, retrieving inbounds, and managing admins.
+"""
+
+from datetime import datetime, timedelta
+import httpx
 from marzban import (
     MarzbanAPI,
     ProxyInbound,
@@ -6,24 +13,24 @@ from marzban import (
     Admin,
     UserModify,
 )
-from datetime import datetime, timedelta
-from utils.config import MARZBAN_ADDRESS
 from db import TokenManager
+from utils.config import MARZBAN_ADDRESS
 from utils.log import logger
 
 marzban_panel = MarzbanAPI(MARZBAN_ADDRESS, timeout=30.0, verify=False)
 
-
-async def inbounds() -> dict[str, list[ProxyInbound]]:
+async def get_inbounds() -> dict[str, list[ProxyInbound]]:
+    """
+    Retrieve a list of inbounds from the Marzban panel.
+    """
     try:
         get_token = await TokenManager.get()
-        inbounds = await marzban_panel.get_inbounds(get_token.token)
-        return inbounds or False
-    except Exception as e:
-        logger.error(f"Error getting panel inbounds: {e}")
+        return await marzban_panel.get_inbounds(get_token.token) or False
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("Error getting panel inbounds: %s", e)
         return False
 
-
+# pylint: disable=R0913, R0917
 async def create_user(
     username: str,
     status: str,
@@ -32,6 +39,9 @@ async def create_user(
     data_limit: int,
     date_limit: int,
 ) -> UserResponse:
+    """
+    Create a new user in the Marzban panel.
+    """
     try:
         get_token = await TokenManager.get()
 
@@ -48,61 +58,63 @@ async def create_user(
             new_user.expire = int(
                 (datetime.utcnow() + timedelta(days=date_limit)).timestamp()
             )
-
         elif status == "on_hold":
             new_user.on_hold_expire_duration = int(date_limit) * 86400
             new_user.on_hold_timeout = (
                 datetime.utcnow() + timedelta(days=365)
             ).strftime("%Y-%m-%d %H:%M:%S")
 
-        user = await marzban_panel.add_user(new_user, get_token.token)
-        return user or None
-    except Exception as e:
-        logger.error(f"Error create user: {e}")
+        return await marzban_panel.add_user(new_user, get_token.token) or None
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("Error creating user: %s", e)
         return False
-
-
 async def admins() -> list[Admin]:
+    """
+    Retrieve a list of admins from the Marzban panel.
+    """
     try:
         get_token = await TokenManager.get()
-        admins = await marzban_panel.get_admins(get_token.token)
-        return admins or False
-    except Exception as e:
-        logger.error(f"Error getting admins list: {e}")
+        return await marzban_panel.get_admins(get_token.token) or False
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("Error getting admins list: %s", e)
         return False
-
 
 async def set_owner(admin: str, user: str) -> bool:
+    """
+    Set an admin as the owner of a user.
+    """
     try:
         get_token = await TokenManager.get()
-        user = await marzban_panel.set_owner(
+        return await marzban_panel.set_owner(
             username=user, admin_username=admin, token=get_token.token
-        )
-        return user or False
-    except Exception as e:
-        logger.error(f"Error set owner: {e}")
+        ) is not None
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("Error setting owner: %s", e)
         return False
-
 
 async def user_modify(username: str, data: UserModify) -> bool:
+    """
+    Modify an existing user's details.
+    """
     try:
         get_token = await TokenManager.get()
-        user = await marzban_panel.modify_user(
+        return await marzban_panel.modify_user(
             username=username, user=data, token=get_token.token
-        )
-        return True if user else False
-    except Exception as e:
-        logger.error(f"Error user modify: {e}")
+        ) is not None
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("Error modifying user: %s", e)
         return False
 
-
 async def get_users(offset: int = 0, limit: int = 50) -> list[UserResponse]:
+    """
+    Retrieve a list of users from the Marzban panel.
+    """
     try:
         get_token = await TokenManager.get()
-        users = await marzban_panel.get_users(
+        users_response = await marzban_panel.get_users(
             token=get_token.token, offset=offset, limit=limit
         )
-        return users.users if users else False
-    except Exception as e:
-        logger.error(f"Error getting all users: {e}")
+        return users_response.users if users_response else False
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("Error getting all users: %s", e)
         return False

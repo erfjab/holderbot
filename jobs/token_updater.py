@@ -1,8 +1,14 @@
-from utils.config import MARZBAN_PASSWORD, MARZBAN_USERNAME, MARZBAN_ADDRESS
-from db.crud import TokenManager
-from utils.log import logger
-from models import TokenUpsert
+"""
+This module handles updating the Marzban panel token at regular intervals.
+"""
+
+import httpx
+
 from marzban import MarzbanAPI
+from utils.config import MARZBAN_PASSWORD, MARZBAN_USERNAME, MARZBAN_ADDRESS
+from utils.log import logger
+from db.crud import TokenManager
+from models import TokenUpsert
 
 
 async def token_update() -> bool:
@@ -25,13 +31,13 @@ async def token_update() -> bool:
             if token_data:
                 logger.info("Token updated successfully.")
                 return True
-            else:
-                logger.error("Failed to update token in database.")
-                return False
+
+            logger.error("Failed to update token in database.")
+            return False
 
         logger.error("Failed to retrieve token: No token received.")
         return False
 
-    except Exception as e:
-        logger.error(f"An unexpected TOKEN_UPDATER error occurred: {str(e)}")
+    except (httpx.HTTPStatusError, httpx.RequestError) as e:
+        logger.error("An error occurred during the API request: %s", str(e))
         return False

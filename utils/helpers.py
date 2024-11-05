@@ -1,10 +1,16 @@
-import qrcode
+"""
+This module contains helper functions for processing users' inbound data,
+generating QR codes, and managing user data updates concurrently with rate limiting.
+"""
+
 import asyncio
 from io import BytesIO
+import qrcode
+import httpx
+from marzban import UserModify, UserResponse
 from models import AdminActions
 from utils import panel
 from utils.log import logger
-from marzban import UserModify, UserResponse
 
 
 async def create_qr(text: str) -> bytes:
@@ -33,16 +39,15 @@ async def process_user(
     tag: str,
     protocol: str,
     action: AdminActions,
-    max_retries: int = 3,
 ) -> bool:
-    """Process a single user with semaphore for rate limiting and retry mechanism"""
+    """Process a single user with semaphore for rate limiting and retry mechanism."""
     async with semaphore:
         current_inbounds = user.inbounds.copy() if user.inbounds else {}
         current_proxies = user.proxies.copy() if user.proxies else {}
 
         needs_update = False
 
-        if action == AdminActions.Delete:
+        if action == AdminActions.DELETE:
             if protocol in current_inbounds and tag in current_inbounds[protocol]:
                 current_inbounds[protocol].remove(tag)
                 needs_update = True
@@ -51,7 +56,7 @@ async def process_user(
                 current_inbounds.pop(protocol, None)
                 current_proxies.pop(protocol, None)
 
-        elif action == AdminActions.Add:
+        elif action == AdminActions.ADD:
             if protocol not in current_inbounds:
                 current_inbounds[protocol] = []
                 current_proxies[protocol] = {}
@@ -80,7 +85,7 @@ async def process_user(
 async def process_batch(
     users: list[UserResponse], tag: str, protocol: str, action: AdminActions
 ) -> int:
-    """Process a batch of users concurrently with rate limiting"""
+    """Process a batch of users concurrently with rate limiting."""
     semaphore = asyncio.Semaphore(5)
     tasks = []
 
@@ -93,6 +98,7 @@ async def process_batch(
 
 
 async def manage_panel_inbounds(tag: str, protocol: str, action: AdminActions) -> bool:
+    """Manage inbounds for users, processing them in batches and handling updates."""
     try:
         offset = 0
         batch_size = 50
@@ -112,6 +118,8 @@ async def manage_panel_inbounds(tag: str, protocol: str, action: AdminActions) -
 
         return True
 
-    except Exception as e:
-        logger.error(f"Error in manage panel inbounds: {e}")
-        return False
+    except asyncio.CancelledError:
+        logger.warning("Operation was cancelled.")
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("HTTP error in manage panel inbounds: %s", e)
+    return False

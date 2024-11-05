@@ -1,9 +1,19 @@
+"""
+Logging setup module for the HolderBot.
+
+This module provides a function to set up a logger for the bot,
+allowing logging to both the console and a file.
+"""
+
 import logging
 
 
 def setup_logger(bot_name, level=logging.INFO):
-    logger = logging.getLogger(bot_name)
-    logger.setLevel(level)
+    """
+    Set up a logger for the specified bot.
+    """
+    bot_logger = logging.getLogger(bot_name)
+    bot_logger.setLevel(level)
 
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.DEBUG)
@@ -17,10 +27,11 @@ def setup_logger(bot_name, level=logging.INFO):
     console_handler.setFormatter(formatter)
     file_handler.setFormatter(formatter)
 
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
+    bot_logger.addHandler(console_handler)
+    bot_logger.addHandler(file_handler)
 
-    return logger
+    return bot_logger
 
 
+# Initialize the logger for HolderBot
 logger = setup_logger("HolderBot")

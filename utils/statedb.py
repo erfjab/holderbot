@@ -1,3 +1,6 @@
+# pylint: disable=all
+# because this is a plugin
+
 from typing import Any, Dict, Optional, List, Union
 from sqlalchemy import Column, Integer, String, JSON, and_
 from sqlalchemy.ext.declarative import declarative_base

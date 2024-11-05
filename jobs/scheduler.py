@@ -1,3 +1,7 @@
+"""
+This module handles scheduling jobs for token updates and node monitoring.
+"""
+
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from jobs.token_updater import token_update
@@ -8,6 +12,7 @@ scheduler = AsyncIOScheduler()
 
 
 async def start_scheduler() -> bool:
+    """Start the job scheduler for token updates and node monitoring."""
     logger.info("Trying to start the scheduler.")
 
     try:
@@ -35,18 +40,19 @@ async def start_scheduler() -> bool:
             id="node_monitor",
             replace_existing=True,
         )
-        logger.info("Token update job added to scheduler with ID 'node_monitor'.")
+        logger.info("Node monitoring job added to scheduler with ID 'node_monitor'.")
         return True
 
-    except Exception as e:
-        logger.error(f"An error occurred while starting the scheduler: {e}")
+    except (RuntimeError, ValueError) as e:  # Specify expected exceptions here
+        logger.error("An error occurred while starting the scheduler: %s", e)
         return False
 
 
 async def stop_scheduler() -> None:
+    """Stop the job scheduler."""
     logger.info("Trying to stop the scheduler.")
     try:
         scheduler.shutdown(wait=True)
         logger.info("Scheduler stopped successfully.")
-    except Exception as e:
-        logger.error(f"An error occurred while stopping the scheduler: {e}")
+    except (RuntimeError, ValueError) as e:  # Specify expected exceptions here
+        logger.error("An error occurred while stopping the scheduler: %s", e)

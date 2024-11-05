@@ -1,3 +1,9 @@
+"""
+Main module for the Telegram bot application.
+This module initializes and runs the bot with all necessary configurations,
+including scheduler setup, router configuration, and middleware integration.
+"""
+
 import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
@@ -60,8 +66,10 @@ async def main() -> None:
     # Start polling the bot
     try:
         await dp.start_polling(bot)
-    except Exception as e:
-        logger.error(f"An error occurred while polling: {e}")
+    except (ConnectionError, TimeoutError) as conn_err:
+        logger.error("A connection error occurred while polling: %s", conn_err)
+    except Exception as e:  # pylint: disable=broad-except
+        logger.error("An error occurred while polling: %s", e)
 
 
 if __name__ == "__main__":
@@ -70,5 +78,5 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.warning("Bot stopped by user.")
-    except Exception as e:
-        logger.error(f"An unexpected error occurred: {e}")
+    except Exception as e:  # pylint: disable=broad-except
+        logger.error("An unexpected error occurred: %s", e)

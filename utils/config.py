@@ -1,8 +1,17 @@
+"""
+This module contains configuration settings for the application, including
+Telegram bot settings, Marzban panel settings, and excluded monitorings.
+It ensures that all required settings are provided and checks for missing values.
+"""
+
 from decouple import config
 
 
 # Function to check if a required configuration value is missing
 def require_setting(setting_name, value):
+    """
+    Ensures that a required setting is provided and not empty.
+    """
     if not value:
         raise ValueError(
             f"The '{setting_name}' setting is required and cannot be empty."

@@ -1,9 +1,15 @@
+"""
+Database base module.
+
+This module provides the asynchronous engine, session factory, and base class for
+declarative models.
+"""
+
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncAttrs, AsyncSession, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
-
 
 # Create an asynchronous engine
 engine = create_async_engine(
@@ -21,13 +27,20 @@ AsyncSessionLocal = sessionmaker(
 )
 
 
-# Define a base class for declarative models
 class Base(DeclarativeBase, AsyncAttrs):
-    pass
+    """Base class for declarative models using SQLAlchemy."""
+
+    def save(self, session: AsyncSession) -> None:
+        """Save the current instance to the database."""
+        session.add(self)
+
+    def delete(self, session: AsyncSession) -> None:
+        """Delete the current instance from the database."""
+        session.delete(self)
 
 
 @asynccontextmanager
-async def GetDB() -> AsyncGenerator[AsyncSession, None]:
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Provide an asynchronous database session to the application.
     """

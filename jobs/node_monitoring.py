@@ -1,5 +1,9 @@
-import asyncio
+"""
+This module handles monitoring of nodes in the Marzban panel, including error reporting 
+and automatic restarts if configured.
+"""
 
+import asyncio
 from marzban import MarzbanAPI
 
 from db.crud import SettingManager, TokenManager
@@ -11,8 +15,9 @@ panel = MarzbanAPI(base_url=MARZBAN_ADDRESS)
 
 
 async def node_checker():
+    """Check the status of nodes and perform actions based on their status."""
     node_checker_is_active = await SettingManager.get(
-        SettingKeys.NodeMonitoringIsActive
+        SettingKeys.NODE_MONITORING_IS_ACTIVE
     )
     if not node_checker_is_active:
         return
@@ -24,7 +29,6 @@ async def node_checker():
     nodes = await panel.get_nodes(token.token)
     anti_spam = False
     for node in nodes:
-
         if node.name in EXCLUDED_MONITORINGS:
             continue
 
@@ -33,7 +37,7 @@ async def node_checker():
             await report.node_error(node)
 
             node_auto_restart = await SettingManager.get(
-                SettingKeys.NodeMonitoringAutoRestart
+                SettingKeys.NODE_MONITORING_AUTO_RESTART
             )
             if not node_auto_restart:
                 continue
@@ -43,7 +47,7 @@ async def node_checker():
             try:
                 await panel.reconnect_node(node.id, token.token)
                 await report.node_restart(node, True)
-            except:  # noqa: E722
+            except (ConnectionError, TimeoutError):  # Omit the variable if not used
                 await report.node_restart(node, False)
 
     if anti_spam:

@@ -1,3 +1,8 @@
+"""
+This module contains the user-related callback functions and their handlers 
+for user creation and management.
+"""
+
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message, BufferedInputFile
 from aiogram.fsm.context import FSMContext
@@ -20,35 +25,40 @@ from models import (
     AdminSelectCallbacks,
 )
 
-
 router = Router()
 
 
-@router.callback_query(PagesCallbacks.filter(F.page.is_(PagesActions.UserCreate)))
-async def user_create(
-    callback: CallbackQuery, callback_data: PagesCallbacks, state: FSMContext
-):
+@router.callback_query(PagesCallbacks.filter(F.page.is_(PagesActions.USER_CREATE)))
+async def user_create(callback: CallbackQuery, state: FSMContext):
+    """
+    Initiates the user creation process by asking for the base username.
+    """
     await state.set_state(UserCreateForm.base_username)
     return await callback.message.edit_text(
-        text=MessageTexts.AskCreateUserBaseUsername, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_BASE_USERNAME, reply_markup=BotKeyboards.cancel()
     )
 
 
 @router.message(StateFilter(UserCreateForm.base_username))
 async def user_create_base_username(message: Message, state: FSMContext):
+    """
+    Handles the input for the base username in the user creation process.
+    """
     await state.update_data(base_username=message.text)
     await state.set_state(UserCreateForm.start_number)
     new_message = await message.answer(
-        text=MessageTexts.AskCreateUserStartNumber, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_START_NUMBER, reply_markup=BotKeyboards.cancel()
     )
     return await storage.clear_and_add_message(new_message)
 
 
 @router.message(StateFilter(UserCreateForm.start_number))
 async def user_create_start_number(message: Message, state: FSMContext):
-
+    """
+    Handles the input for the starting number in the user creation process.
+    """
     if not message.text.isdigit():
-        new_message = await message.answer(text=MessageTexts.JustNumber)
+        new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
         return await storage.add_log_message(
             message.from_user.id, new_message.message_id
         )
@@ -56,16 +66,18 @@ async def user_create_start_number(message: Message, state: FSMContext):
     await state.update_data(start_number=int(message.text))
     await state.set_state(UserCreateForm.how_much)
     new_message = await message.answer(
-        text=MessageTexts.AskCreateUserHowMuch, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_HOW_MUCH, reply_markup=BotKeyboards.cancel()
     )
     return await storage.clear_and_add_message(new_message)
 
 
 @router.message(StateFilter(UserCreateForm.how_much))
 async def user_create_how_much(message: Message, state: FSMContext):
-
+    """
+    Handles the input for the 'how much' field in the user creation process.
+    """
     if not message.text.isdigit():
-        new_message = await message.answer(text=MessageTexts.JustNumber)
+        new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
         return await storage.add_log_message(
             message.from_user.id, new_message.message_id
         )
@@ -73,16 +85,18 @@ async def user_create_how_much(message: Message, state: FSMContext):
     await state.update_data(how_much=int(message.text))
     await state.set_state(UserCreateForm.data_limit)
     new_message = await message.answer(
-        text=MessageTexts.AskCreateUserDataLimit, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_DATA_LIMIT, reply_markup=BotKeyboards.cancel()
     )
     return await storage.clear_and_add_message(new_message)
 
 
 @router.message(StateFilter(UserCreateForm.data_limit))
 async def user_create_data_limit(message: Message, state: FSMContext):
-
+    """
+    Handles the input for the data limit in the user creation process.
+    """
     if not message.text.isdigit():
-        new_message = await message.answer(text=MessageTexts.JustNumber)
+        new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
         return await storage.add_log_message(
             message.from_user.id, new_message.message_id
         )
@@ -90,36 +104,41 @@ async def user_create_data_limit(message: Message, state: FSMContext):
     await state.update_data(data_limit=int(message.text))
     await state.set_state(UserCreateForm.date_limit)
     new_message = await message.answer(
-        text=MessageTexts.AskCreateUserDateLimit, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_DATE_LIMIT, reply_markup=BotKeyboards.cancel()
     )
     return await storage.clear_and_add_message(new_message)
 
 
 @router.message(StateFilter(UserCreateForm.date_limit))
 async def user_create_date_limit(message: Message, state: FSMContext):
-
+    """
+    Handles the input for the date limit in the user creation process.
+    """
     if not message.text.isdigit():
-        new_message = await message.answer(text=MessageTexts.JustNumber)
+        new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
         return await storage.add_log_message(
             message.from_user.id, new_message.message_id
         )
 
     await state.update_data(date_limit=int(message.text))
     new_message = await message.answer(
-        text=MessageTexts.AskCreateUserStatus,
-        reply_markup=BotKeyboards.user_status(AdminActions.Add),
+        text=MessageTexts.ASK_CREATE_USER_STATUS,
+        reply_markup=BotKeyboards.user_status(AdminActions.ADD),
     )
     return await storage.clear_and_add_message(new_message)
 
 
-@router.callback_query(UserStatusCallbacks.filter(F.action.is_(AdminActions.Add)))
+@router.callback_query(UserStatusCallbacks.filter(F.action.is_(AdminActions.ADD)))
 async def user_create_status(
     callback: CallbackQuery, callback_data: UserStatusCallbacks, state: FSMContext
 ):
+    """
+    Handles the status selection for user creation.
+    """
     await state.update_data(status=callback_data.status)
     admins = await panel.admins()
     return await callback.message.edit_text(
-        text=MessageTexts.AskCreateAdminUsername,
+        text=MessageTexts.ASK_CREATE_ADMIN_USERNAME,
         reply_markup=BotKeyboards.admins(admins),
     )
 
@@ -128,11 +147,14 @@ async def user_create_status(
 async def user_create_owner_select(
     callback: CallbackQuery, callback_data: AdminSelectCallbacks, state: FSMContext
 ):
+    """
+    Handles the selection of the admin owner during the user creation process.
+    """
     await state.update_data(admin=callback_data.username)
-    inbounds = await panel.inbounds()
+    inbounds = await panel.get_inbounds()
     await state.update_data(inbounds=inbounds)
     return await callback.message.edit_text(
-        text=MessageTexts.AskCreateUserInbouds,
+        text=MessageTexts.ASK_CREATE_USER_INBOUNDS,
         reply_markup=BotKeyboards.inbounds(inbounds),
     )
 
@@ -140,7 +162,7 @@ async def user_create_owner_select(
 @router.callback_query(
     UserInboundsCallbacks.filter(
         (
-            F.action.is_(AdminActions.Add)
+            F.action.is_(AdminActions.ADD)
             & (F.is_done.is_(False))
             & (F.just_one_inbound.is_(False))
         )
@@ -151,37 +173,45 @@ async def user_create_inbounds(
     callback_data: UserInboundsCallbacks,
     state: FSMContext,
 ):
+    """
+    Handles the inbound selection for user creation.
+    """
     data = await state.get_data()
     inbounds = data.get("inbounds")
     selected_inbounds = set(data.get("selected_inbounds", []))
-    (
+
+    if callback_data.is_selected is False:
         selected_inbounds.add(callback_data.tag)
-        if callback_data.is_selected is False
-        else selected_inbounds.discard(callback_data.tag)
-    )
+    else:
+        selected_inbounds.discard(callback_data.tag)
+
     await state.update_data(selected_inbounds=list(selected_inbounds))
     await callback.message.edit_reply_markup(
         reply_markup=BotKeyboards.inbounds(inbounds, selected_inbounds)
     )
 
 
+
 @router.callback_query(
     UserInboundsCallbacks.filter(
         (
-            F.action.is_(AdminActions.Add)
+            F.action.is_(AdminActions.ADD)
             & (F.is_done.is_(True))
             & (F.just_one_inbound.is_(False))
         )
     )
 )
 async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
+    """
+    Saves the selected inbounds and creates users with the provided information.
+    """
     data = await state.get_data()
     inbounds: dict[str, list[ProxyInbound]] = data.get("inbounds")
     selected_inbounds = set(data.get("selected_inbounds", []))
 
     if not selected_inbounds:
         return await callback.answer(
-            text=MessageTexts.NoneUserInbounds, show_alert=True
+            text=MessageTexts.NONE_USER_INBOUNDS, show_alert=True
         )
 
     proxies = {
@@ -219,7 +249,7 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
             await callback.message.answer_photo(
                 caption=text_info.user_info(new_user),
                 photo=BufferedInputFile(qr_bytes, filename="qr_code.png"),
-                reply_markup=BotKeyboards.user(new_user)
+                reply_markup=BotKeyboards.user(new_user),
             )
         else:
             await callback.message.answer(
