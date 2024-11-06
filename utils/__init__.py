@@ -12,7 +12,7 @@ logger = BotLogger("HolderBot").get_logger()
 EnvSettings = EnvFile()
 MessageTexts = MessageTextsFile()
 KeyboardTexts = KeyboardTextsFile()
-storage = SQLAlchemyStorage()
+Storage = SQLAlchemyStorage()
 
 
-__all__ = ["storage", "logger", "KeyboardTexts", "MessageTexts", "BotKeyboards"]
+__all__ = ["Storage", "logger", "KeyboardTexts", "MessageTexts", "BotKeyboards"]

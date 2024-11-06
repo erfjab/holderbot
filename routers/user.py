@@ -15,7 +15,7 @@ from utils import (
     text_info,
     helpers,
     MessageTexts,
-    storage,
+    Storage,
     EnvSettings,
     BotKeyboards,
 )
@@ -50,31 +50,12 @@ async def user_create_base_username(message: Message, state: FSMContext):
     Handles the input for the base username in the user creation process.
     """
     await state.update_data(base_username=message.text)
-    await state.set_state(UserCreateForm.start_number)
-    new_message = await message.answer(
-        text=MessageTexts.ASK_CREATE_USER_START_NUMBER,
-        reply_markup=BotKeyboards.cancel(),
-    )
-    return await storage.clear_and_add_message(new_message)
-
-
-@router.message(StateFilter(UserCreateForm.start_number))
-async def user_create_start_number(message: Message, state: FSMContext):
-    """
-    Handles the input for the starting number in the user creation process.
-    """
-    if not message.text.isdigit():
-        new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
-        return await storage.add_log_message(
-            message.from_user.id, new_message.message_id
-        )
-
-    await state.update_data(start_number=int(message.text))
     await state.set_state(UserCreateForm.how_much)
     new_message = await message.answer(
-        text=MessageTexts.ASK_CREATE_USER_HOW_MUCH, reply_markup=BotKeyboards.cancel()
+        text=MessageTexts.ASK_CREATE_USER_HOW_MUCH,
+        reply_markup=BotKeyboards.cancel(),
     )
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)
 
 
 @router.message(StateFilter(UserCreateForm.how_much))
@@ -84,16 +65,40 @@ async def user_create_how_much(message: Message, state: FSMContext):
     """
     if not message.text.isdigit():
         new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
-        return await storage.add_log_message(
+        return await Storage.add_log_message(
             message.from_user.id, new_message.message_id
         )
 
     await state.update_data(how_much=int(message.text))
-    await state.set_state(UserCreateForm.data_limit)
+
+    if int(message.text) == 1:
+        await state.set_state(UserCreateForm.data_limit)
+        text = MessageTexts.ASK_CREATE_USER_DATA_LIMIT
+    else:
+        await state.set_state(UserCreateForm.start_number)
+        text = MessageTexts.ASK_CREATE_USER_START_NUMBER
+
+    new_message = await message.answer(text=text, reply_markup=BotKeyboards.cancel())
+    return await Storage.clear_and_add_message(new_message)
+
+
+@router.message(StateFilter(UserCreateForm.start_number))
+async def user_create_start_number(message: Message, state: FSMContext):
+    """
+    Handles the input for the starting number in the user creation process.
+    """
+    if not message.text.isdigit():
+        new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
+        return await Storage.add_log_message(
+            message.from_user.id, new_message.message_id
+        )
+
+    await state.update_data(start_number=int(message.text))
+    await state.set_state(UserCreateForm.date_limit)
     new_message = await message.answer(
         text=MessageTexts.ASK_CREATE_USER_DATA_LIMIT, reply_markup=BotKeyboards.cancel()
     )
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)
 
 
 @router.message(StateFilter(UserCreateForm.data_limit))
@@ -103,7 +108,7 @@ async def user_create_data_limit(message: Message, state: FSMContext):
     """
     if not message.text.isdigit():
         new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
-        return await storage.add_log_message(
+        return await Storage.add_log_message(
             message.from_user.id, new_message.message_id
         )
 
@@ -112,7 +117,7 @@ async def user_create_data_limit(message: Message, state: FSMContext):
     new_message = await message.answer(
         text=MessageTexts.ASK_CREATE_USER_DATE_LIMIT, reply_markup=BotKeyboards.cancel()
     )
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)
 
 
 @router.message(StateFilter(UserCreateForm.date_limit))
@@ -122,7 +127,7 @@ async def user_create_date_limit(message: Message, state: FSMContext):
     """
     if not message.text.isdigit():
         new_message = await message.answer(text=MessageTexts.JUST_NUMBER)
-        return await storage.add_log_message(
+        return await Storage.add_log_message(
             message.from_user.id, new_message.message_id
         )
 
@@ -131,7 +136,7 @@ async def user_create_date_limit(message: Message, state: FSMContext):
         text=MessageTexts.ASK_CREATE_USER_STATUS,
         reply_markup=BotKeyboards.user_status(AdminActions.ADD),
     )
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)
 
 
 @router.callback_query(UserStatusCallbacks.filter(F.action.is_(AdminActions.ADD)))
@@ -239,7 +244,10 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
     inbounds_dict = {k: v for k, v in inbounds_dict.items() if v}
 
     for i in range(int(data["how_much"])):
-        username = f"{data['base_username']}{int(data['start_number']) + i}"
+        if int(data["how_much"]) == 1:
+            username = data["base_username"]
+        else:
+            username = f"{data['base_username']}{int(data['start_number']) + i}"
         new_user = await panel.create_user(
             username=username,
             status=data["status"],
@@ -268,4 +276,4 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
     new_message = await callback.message.answer(
         text=MessageTexts.START, reply_markup=BotKeyboards.home()
     )
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)

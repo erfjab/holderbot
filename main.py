@@ -12,7 +12,7 @@ from aiogram.client.default import DefaultBotProperties
 from jobs import stop_scheduler, start_scheduler
 from middlewares.auth import CheckAdminAccess
 from routers import setup_routers
-from utils import EnvSettings, logger, storage
+from utils import EnvSettings, logger, Storage
 
 
 async def on_startup() -> None:
@@ -52,7 +52,7 @@ async def main() -> None:
     )
 
     # Set up Dispatcher
-    dp = Dispatcher(storage=storage)
+    dp = Dispatcher(storage=Storage)
 
     # Set routers to dp
     dp.include_router(setup_routers())

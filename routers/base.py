@@ -8,7 +8,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters.command import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 
-from utils import MessageTexts, storage, BotKeyboards
+from utils import MessageTexts, Storage, BotKeyboards
 from models import PagesCallbacks, PagesActions
 
 router = Router()
@@ -24,7 +24,7 @@ async def start(message: Message, state: FSMContext):
     new_message = await message.answer(
         text=MessageTexts.START, reply_markup=BotKeyboards.home()
     )
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)
 
 
 @router.callback_query(PagesCallbacks.filter(F.page.is_(PagesActions.HOME)))
@@ -37,7 +37,7 @@ async def home(callback: CallbackQuery, state: FSMContext):
     new_message = await callback.message.answer(
         text=MessageTexts.START, reply_markup=BotKeyboards.home()
     )
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)
 
 
 @router.message(Command(commands=["version", "v"]))
@@ -46,4 +46,4 @@ async def version(message: Message):
     Handler for the '/version' and '/v' commands. Sends the version information of the bot.
     """
     new_message = await message.answer(text=MessageTexts.VERSION)
-    return await storage.clear_and_add_message(new_message)
+    return await Storage.clear_and_add_message(new_message)

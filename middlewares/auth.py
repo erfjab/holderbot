@@ -6,7 +6,7 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import Update
 
-from utils import logger, storage, EnvSettings
+from utils import logger, Storage, EnvSettings
 
 
 # pylint: disable=too-few-public-methods
@@ -26,7 +26,7 @@ class CheckAdminAccess(BaseMiddleware):
         user = None
         if event.message:
             user = event.message.from_user
-            await storage.add_log_message(user.id, event.message.message_id)
+            await Storage.add_log_message(user.id, event.message.message_id)
         elif event.callback_query:
             user = event.callback_query.from_user
         elif event.inline_query:
