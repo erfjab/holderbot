@@ -67,7 +67,9 @@ async def main() -> None:
     # Start polling the bot
     try:
         bot_info = await bot.get_me()
-        logger.info("HolderBot [@%s] is starting to poll messages...", bot_info.username)
+        logger.info(
+            "HolderBot [@%s] is starting to poll messages...", bot_info.username
+        )
         await dp.start_polling(bot)
     except (ConnectionError, TimeoutError) as conn_err:
         logger.error("A connection error occurred while polling: %s", conn_err)

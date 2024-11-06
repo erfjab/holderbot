@@ -158,7 +158,7 @@ async def user_create_owner_select(
     """
     await state.update_data(admin=callback_data.username)
     inbounds = await panel.get_inbounds()
-    tags = [item['tag'] for sublist in inbounds.values() for item in sublist]
+    tags = [item["tag"] for sublist in inbounds.values() for item in sublist]
     await state.update_data(inbounds=inbounds)
     await state.update_data(selected_inbounds=tags)
     return await callback.message.edit_text(
