@@ -9,12 +9,11 @@ from aiogram.exceptions import AiogramError, TelegramAPIError
 
 from marzban import NodeResponse
 
-from utils.lang import MessageTexts
-from utils.config import TELEGRAM_BOT_TOKEN, TELEGRAM_ADMINS_ID
-from utils.log import logger
+from utils import EnvSettings, MessageTexts, logger
 
 bot = Bot(
-    token=TELEGRAM_BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    token=EnvSettings.TELEGRAM_BOT_TOKEN,
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML),
 )
 
 
@@ -23,7 +22,7 @@ async def send_message(message: str):
     Sends a message to all admins.
     """
     try:
-        for admin_chatid in TELEGRAM_ADMINS_ID:
+        for admin_chatid in EnvSettings.TELEGRAM_ADMINS_ID:
             await bot.send_message(chat_id=admin_chatid, text=message)
     except (AiogramError, TelegramAPIError) as e:
         logger.error("Failed send report message: %s", str(e))

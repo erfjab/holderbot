@@ -7,8 +7,7 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from db.crud import SettingManager
-from utils.lang import MessageTexts
-from utils.keys import BotKeyboards
+from utils import MessageTexts, BotKeyboards
 from models import (
     PagesActions,
     PagesCallbacks,

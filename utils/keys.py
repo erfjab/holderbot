@@ -9,7 +9,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CopyTextBu
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from marzban import ProxyInbound, Admin, UserResponse
-from utils.lang import KeyboardTexts
+from utils.lang import KeyboardTextsFile
 from models import (
     PagesActions,
     PagesCallbacks,
@@ -20,6 +20,8 @@ from models import (
     ConfirmCallbacks,
     BotActions,
 )
+
+KeyboardTexts = KeyboardTextsFile()
 
 
 class BotKeyboards:

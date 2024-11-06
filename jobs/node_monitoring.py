@@ -8,10 +8,9 @@ from marzban import MarzbanAPI
 
 from db.crud import SettingManager, TokenManager
 from models.setting import SettingKeys
-from utils import report
-from utils.config import MARZBAN_ADDRESS, EXCLUDED_MONITORINGS
+from utils import report, EnvSettings
 
-panel = MarzbanAPI(base_url=MARZBAN_ADDRESS)
+panel = MarzbanAPI(base_url=EnvSettings.MARZBAN_ADDRESS)
 
 
 async def node_checker():
@@ -29,7 +28,7 @@ async def node_checker():
     nodes = await panel.get_nodes(token.token)
     anti_spam = False
     for node in nodes:
-        if node.name in EXCLUDED_MONITORINGS:
+        if node.name in EnvSettings.EXCLUDED_MONITORINGS:
             continue
 
         if node.status in ["connecting", "error"]:
@@ -47,7 +46,7 @@ async def node_checker():
             try:
                 await panel.reconnect_node(node.id, token.token)
                 await report.node_restart(node, True)
-            except (ConnectionError, TimeoutError):  # Omit the variable if not used
+            except (ConnectionError, TimeoutError):
                 await report.node_restart(node, False)
 
     if anti_spam:

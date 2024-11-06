@@ -14,10 +14,9 @@ from marzban import (
     UserModify,
 )
 from db import TokenManager
-from utils.config import MARZBAN_ADDRESS
-from utils.log import logger
+from utils import EnvSettings, logger
 
-marzban_panel = MarzbanAPI(MARZBAN_ADDRESS, timeout=30.0, verify=False)
+marzban_panel = MarzbanAPI(EnvSettings.MARZBAN_ADDRESS, timeout=30.0, verify=False)
 
 
 async def get_inbounds() -> dict[str, list[ProxyInbound]]:

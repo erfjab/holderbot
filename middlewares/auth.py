@@ -6,7 +6,7 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import Update
 
-from utils import logger, storage, config
+from utils import logger, storage, EnvSettings
 
 
 # pylint: disable=too-few-public-methods
@@ -38,7 +38,7 @@ class CheckAdminAccess(BaseMiddleware):
             logger.warning("Received update without user information!")
             return None
 
-        if user.id not in config.TELEGRAM_ADMINS_ID:
+        if user.id not in EnvSettings.TELEGRAM_ADMINS_ID:
             logger.warning("Blocked %s", user.username or user.first_name)
             return None
 

@@ -14,9 +14,8 @@ from models import (
     BotActions,
     UserInboundsCallbacks,
 )
-from utils.lang import MessageTexts
-from utils.keys import BotKeyboards
-from utils import panel, helpers
+
+from utils import panel, helpers, BotKeyboards, MessageTexts
 
 router = Router()
 

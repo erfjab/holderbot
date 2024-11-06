@@ -4,45 +4,19 @@ Telegram bot settings, Marzban panel settings, and excluded monitorings.
 It ensures that all required settings are provided and checks for missing values.
 """
 
-from decouple import config
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-# Function to check if a required configuration value is missing
-def require_setting(setting_name, value):
-    """
-    Ensures that a required setting is provided and not empty.
-    """
-    if not value:
-        raise ValueError(
-            f"The '{setting_name}' setting is required and cannot be empty."
-        )
+class EnvFile(BaseSettings):
+    """.env file config data"""
 
+    model_config: SettingsConfigDict = SettingsConfigDict(
+        env_file=".env", extra="ignore"
+    )
 
-# Telegram Bot Settings
-TELEGRAM_BOT_TOKEN = config("TELEGRAM_BOT_TOKEN", cast=str)  # required
-require_setting("TELEGRAM_BOT_TOKEN", TELEGRAM_BOT_TOKEN)
-
-TELEGRAM_ADMINS_ID = config(
-    "TELEGRAM_ADMINS_ID",
-    default="",
-    cast=lambda v: [
-        int(i) for i in filter(str.isdigit, (s.strip() for s in v.split(",")))
-    ],
-)  # required
-require_setting("TELEGRAM_ADMINS_ID", TELEGRAM_ADMINS_ID)
-
-# Marzban Panel Settings
-MARZBAN_USERNAME = config("MARZBAN_USERNAME", default="", cast=str)  # required
-require_setting("MARZBAN_USERNAME", MARZBAN_USERNAME)
-
-MARZBAN_PASSWORD = config("MARZBAN_PASSWORD", default="", cast=str)  # required
-require_setting("MARZBAN_PASSWORD", MARZBAN_PASSWORD)
-
-MARZBAN_ADDRESS = config("MARZBAN_ADDRESS", default="", cast=str)  # required
-require_setting("MARZBAN_ADDRESS", MARZBAN_ADDRESS)
-
-EXCLUDED_MONITORINGS = [
-    x.strip()
-    for x in config("EXCLUDED_MONITORINGS", default="", cast=str).split(",")
-    if x.strip()
-]
+    TELEGRAM_BOT_TOKEN: str
+    TELEGRAM_ADMINS_ID: list[int]
+    MARZBAN_USERNAME: str
+    MARZBAN_PASSWORD: str
+    MARZBAN_ADDRESS: str
+    EXCLUDED_MONITORINGS: list[str] = []

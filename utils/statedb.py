@@ -173,6 +173,3 @@ class SQLAlchemyStorage(BaseStorage):
 
     async def close(self) -> None:
         await self.engine.dispose()
-
-
-storage = SQLAlchemyStorage()

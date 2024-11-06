@@ -8,9 +8,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters.command import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 
-from utils.statedb import storage
-from utils.lang import MessageTexts
-from utils.keys import BotKeyboards
+from utils import MessageTexts, storage, BotKeyboards
 from models import PagesCallbacks, PagesActions
 
 router = Router()

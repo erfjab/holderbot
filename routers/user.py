@@ -10,11 +10,15 @@ from aiogram.filters import StateFilter
 
 from marzban import ProxyInbound
 
-from utils.config import MARZBAN_USERNAME
-from utils.lang import MessageTexts
-from utils.keys import BotKeyboards
-from utils.statedb import storage
-from utils import panel, text_info, helpers
+from utils import (
+    panel,
+    text_info,
+    helpers,
+    MessageTexts,
+    storage,
+    EnvSettings,
+    BotKeyboards,
+)
 from models import (
     PagesActions,
     PagesCallbacks,
@@ -154,10 +158,12 @@ async def user_create_owner_select(
     """
     await state.update_data(admin=callback_data.username)
     inbounds = await panel.get_inbounds()
+    tags = [item['tag'] for sublist in inbounds.values() for item in sublist]
     await state.update_data(inbounds=inbounds)
+    await state.update_data(selected_inbounds=tags)
     return await callback.message.edit_text(
         text=MessageTexts.ASK_CREATE_USER_INBOUNDS,
-        reply_markup=BotKeyboards.inbounds(inbounds),
+        reply_markup=BotKeyboards.inbounds(inbounds, tags),
     )
 
 
@@ -244,7 +250,7 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
         )
 
         if new_user:
-            if data["admin"] != MARZBAN_USERNAME:
+            if data["admin"] != EnvSettings.MARZBAN_USERNAME:
                 await panel.set_owner(data["admin"], new_user.username)
             qr_bytes = await helpers.create_qr(new_user.subscription_url)
             await callback.message.answer_photo(
@@ -258,3 +264,8 @@ async def user_create_inbounds_save(callback: CallbackQuery, state: FSMContext):
             )
 
     await callback.message.delete()
+    await state.clear()
+    new_message = await callback.message.answer(
+        text=MessageTexts.START, reply_markup=BotKeyboards.home()
+    )
+    return await storage.clear_and_add_message(new_message)

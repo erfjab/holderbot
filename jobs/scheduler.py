@@ -6,7 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from jobs.token_updater import token_update
 from jobs.node_monitoring import node_checker
-from utils.log import logger
+from utils import logger
 
 scheduler = AsyncIOScheduler()
 

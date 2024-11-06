@@ -5,7 +5,7 @@ for display, including user status, data limit, subscription, etc.
 
 from datetime import datetime
 from marzban import UserResponse
-from utils.lang import MessageTexts
+from utils import MessageTexts
 
 
 def user_info(user: UserResponse) -> str:

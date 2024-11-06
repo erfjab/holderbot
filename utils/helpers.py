@@ -9,8 +9,7 @@ import qrcode
 import httpx
 from marzban import UserModify, UserResponse
 from models import AdminActions
-from utils import panel
-from utils.log import logger
+from utils import logger, panel
 
 
 async def create_qr(text: str) -> bytes:
