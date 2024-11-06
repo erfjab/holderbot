@@ -9,3 +9,4 @@ marzban==0.2.8
 pillow==10.4.0
 alembic==1.13.1
 httpx==0.27.0
+pydantic_settings==2.6.1
