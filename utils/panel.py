@@ -117,7 +117,7 @@ async def user_modify(username: str, data: UserModify) -> bool:
         return False
 
 
-async def get_users(offset: int = 0, limit: int = 50) -> list[UserResponse]:
+async def get_users(offset: int = 0, limit: int = EnvSettings.ACTION_LIMIT) -> list[UserResponse]:
     """
     Retrieve a list of users from the Marzban panel.
     """

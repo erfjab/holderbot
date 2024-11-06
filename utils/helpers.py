@@ -9,7 +9,7 @@ import qrcode
 import httpx
 from marzban import UserModify, UserResponse
 from models import AdminActions
-from utils import logger, panel
+from utils import logger, panel, EnvSettings
 
 
 async def create_qr(text: str) -> bytes:
@@ -100,7 +100,7 @@ async def manage_panel_inbounds(tag: str, protocol: str, action: AdminActions) -
     """Manage inbounds for users, processing them in batches and handling updates."""
     try:
         offset = 0
-        batch_size = 50
+        batch_size = EnvSettings.ACTION_LIMIT
 
         while True:
             users = await panel.get_users(offset)
