@@ -20,3 +20,4 @@ class EnvFile(BaseSettings):
     MARZBAN_PASSWORD: str
     MARZBAN_ADDRESS: str
     EXCLUDED_MONITORINGS: list[str] = []
+    ACTION_LIMIT: int = 25
