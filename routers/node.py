@@ -12,28 +12,11 @@ from models import (
     PagesActions,
     PagesCallbacks,
     SettingKeys,
-    SettingUpsert,
     ConfirmCallbacks,
     BotActions,
 )
 
 router = Router()
-
-
-async def get_setting_status(key: SettingKeys) -> str:
-    """
-    Returns the status of the specified setting as 'ON' or 'OFF'.
-    """
-    return "ON" if await SettingManager.get(key) else "OFF"
-
-
-async def toggle_setting(key: SettingKeys):
-    """
-    Toggles the value of the specified setting.
-    """
-    current_value = await SettingManager.get(key)
-    new_value = None if current_value else "True"
-    await SettingManager.upsert(SettingUpsert(key=key, value=new_value))
 
 
 @router.callback_query(PagesCallbacks.filter(F.page.is_(PagesActions.NODE_MONITORING)))
@@ -42,10 +25,8 @@ async def node_monitoring_menu(callback: CallbackQuery):
     Handler for the node monitoring menu callback. It retrieves the current status
     of node monitoring settings and updates the menu text.
     """
-    checker_status = await get_setting_status(SettingKeys.NODE_MONITORING_IS_ACTIVE)
-    auto_restart_status = await get_setting_status(
-        SettingKeys.NODE_MONITORING_AUTO_RESTART
-    )
+    checker_status = await SettingManager.get(SettingKeys.NODE_MONITORING)
+    auto_restart_status = await SettingManager.get(SettingKeys.NODE_AUTO_RESTART)
 
     text = MessageTexts.NODE_MONITORING_MENU.format(
         checker=checker_status,
@@ -63,7 +44,7 @@ async def node_monitoring_auto_restart(callback: CallbackQuery):
     """
     Handler for toggling the auto-restart setting for node monitoring.
     """
-    await toggle_setting(SettingKeys.NODE_MONITORING_AUTO_RESTART)
+    await SettingManager.toggle_field(SettingKeys.NODE_AUTO_RESTART)
     await node_monitoring_menu(callback)
 
 
@@ -72,5 +53,5 @@ async def node_monitoring_checker(callback: CallbackQuery):
     """
     Handler for toggling the checker setting for node monitoring.
     """
-    await toggle_setting(SettingKeys.NODE_MONITORING_IS_ACTIVE)
+    await SettingManager.toggle_field(SettingKeys.NODE_MONITORING)
     await node_monitoring_menu(callback)

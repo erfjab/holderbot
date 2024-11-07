@@ -5,7 +5,7 @@ This module defines the SQLAlchemy models for the tokens and settings.
 """
 
 from datetime import datetime
-from sqlalchemy import Integer, DateTime, String
+from sqlalchemy import Integer, DateTime, String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from db.base import Base
 
@@ -26,15 +26,13 @@ class Token(Base):
 
 
 class Setting(Base):
-    """Model representing a setting."""
+    """
+    Model representing application settings.
+    Only one record should exist in this table at any time.
+    """
 
     __tablename__ = "settings"
 
-    key: Mapped[str] = mapped_column(String(256), primary_key=True)
-    value: Mapped[str] = mapped_column(String(2048))
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=datetime.now, nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), onupdate=datetime.now, nullable=True
-    )
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    node_monitoring: Mapped[bool] = mapped_column(Boolean, default=False)
+    node_auto_restart: Mapped[bool] = mapped_column(Boolean, default=False)

@@ -4,6 +4,7 @@ Revision ID: ab1ce3ef2a57
 Revises: 3e5deef43bf0
 Create Date: 2024-10-13 01:42:55.733416
 """
+# pylint: disable=all
 
 from typing import Sequence, Union
 from alembic import op
