@@ -15,9 +15,7 @@ panel = MarzbanAPI(base_url=EnvSettings.MARZBAN_ADDRESS)
 
 async def node_checker():
     """Check the status of nodes and perform actions based on their status."""
-    node_checker_is_active = await SettingManager.get(
-        SettingKeys.NODE_MONITORING_IS_ACTIVE
-    )
+    node_checker_is_active = await SettingManager.get(SettingKeys.NODE_MONITORING)
     if not node_checker_is_active:
         return
 
@@ -35,9 +33,7 @@ async def node_checker():
             anti_spam = True
             await report.node_error(node)
 
-            node_auto_restart = await SettingManager.get(
-                SettingKeys.NODE_MONITORING_AUTO_RESTART
-            )
+            node_auto_restart = await SettingManager.get(SettingKeys.NODE_AUTO_RESTART)
             if not node_auto_restart:
                 continue
 
