@@ -25,6 +25,7 @@ class BotActions(str, Enum):
     NODE_CHECKER = "node_checker"
     NODE_AUTO_RESTART = "node_auto_restart"
     USERS_INBOUND = "users_inbound"
+    NODE_EXCLUDED = "node_excluded"
 
 
 class PagesActions(str, Enum):
@@ -84,3 +85,12 @@ class AdminSelectCallbacks(CallbackData, prefix="admin_select"):
     """
 
     username: str
+
+
+class NodeSelectCallbacks(CallbackData, prefix="node_select"):
+    """
+    Callback data structure for selecting an node by name.
+    """
+
+    name: str | None = None
+    is_done: bool = False

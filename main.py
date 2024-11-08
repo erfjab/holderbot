@@ -16,73 +16,59 @@ from utils import EnvSettings, logger, Storage
 
 
 async def on_startup() -> None:
-    """Function to execute during bot startup."""
-    logger.info("HolderBot is starting up...")
+    """Execute startup tasks for HolderBot."""
+    logger.info("Starting HolderBot...")
 
-    logger.info(
-        "Admin IDs: %s", ", ".join(map(str, EnvSettings.TELEGRAM_ADMINS_ID))
-    )  # Log admin IDs
-    logger.info("Starting scheduler for HolderBot...")
+    admin_ids = ", ".join(map(str, EnvSettings.TELEGRAM_ADMINS_ID))
+    logger.debug(f"Admin IDs: {admin_ids}")  # Admin IDs only logged for debug
 
-    run_job = await start_scheduler()  # Start scheduled tasks
-    if not run_job:
-        raise SystemExit(
-            logger.critical("Stopping HolderBot due to scheduler startup failure.")
-        )  # Stop the bot if scheduler fails
-    logger.info("Scheduler is running for HolderBot.")
-    logger.info("HolderBot is up and running!")
+    # Start the scheduler
+    if not await start_scheduler():
+        logger.critical("Scheduler startup failed. Shutting down.")
+        raise SystemExit
+
+    logger.info("Scheduler started successfully. Bot is now running.")
 
 
 async def on_shutdown() -> None:
-    """Function to execute during bot shutdown."""
-    logger.info("HolderBot is shutting down...")
-    logger.info("Stopping scheduler...")
-    await stop_scheduler()  # Stop scheduled tasks
-    logger.info("Scheduler has stopped.")
-    logger.info("HolderBot has shut down successfully.")
+    """Execute shutdown tasks for HolderBot."""
+    logger.info("Shutting down HolderBot...")
+    await stop_scheduler()
+    logger.info("Scheduler stopped. Shutdown complete.")
 
 
 async def main() -> None:
-    """Function to run aiogram bot."""
+    """Initialize and run the bot."""
     bot = Bot(
         token=EnvSettings.TELEGRAM_BOT_TOKEN,
         default=DefaultBotProperties(
             parse_mode=ParseMode.HTML, link_preview_is_disabled=True
         ),
     )
-
-    # Set up Dispatcher
     dp = Dispatcher(storage=Storage)
 
-    # Set routers to dp
+    # Setup dispatcher with routers and middleware
     dp.include_router(setup_routers())
-
-    # Set middleware for access control
     dp.update.middleware(CheckAdminAccess())
-
-    # Register startup and shutdown hooks
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
-    # Start polling the bot
+    # Start polling for bot messages
     try:
         bot_info = await bot.get_me()
-        logger.info(
-            "HolderBot [@%s] is starting to poll messages...", bot_info.username
-        )
+        logger.info(f"Polling messages for HolderBot [@{bot_info.username}]...")
         await dp.start_polling(bot)
     except (ConnectionError, TimeoutError) as conn_err:
-        logger.error("A connection error occurred while polling: %s", conn_err)
-    except Exception as e:  # pylint: disable=broad-except
-        logger.error("An error occurred while polling HolderBot: %s", e)
+        logger.error(f"Polling error (connection issue): {conn_err}")
+    except Exception as e:  # Capture unexpected errors
+        logger.error(f"Unexpected error during polling: {e}")
 
 
 if __name__ == "__main__":
     try:
-        # Run the main function using asyncio
-        logger.info("Running HolderBot...")
+        logger.info("Launching HolderBot...")
         asyncio.run(main())
     except KeyboardInterrupt:
-        logger.warning("HolderBot stopped by user.")
-    except Exception as e:  # pylint: disable=broad-except
-        logger.error("An unexpected error occurred in HolderBot: %s", e)
+        logger.warning("Bot stopped manually by user.")
+    except Exception as e:
+        logger.error(f"Unexpected fatal error: {e}")

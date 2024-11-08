@@ -20,6 +20,7 @@ class KeyboardTextsFile(BaseSettings):
     FINISH: str = "✔️ Finish"
     NODE_MONITORING_CHECKER: str = "🧨 Checker"
     NODE_MONITORING_AUTO_RESTART: str = "🔁 AutoRestart"
+    NODE_MONITORING_EXCLUDED: str = "👀 Excluded Nodes"
     USERS_MENU: str = "👥 Users"
     USERS_ADD_INBOUND: str = "➕ Add inbound"
     USERS_DELETE_INBOUND: str = "➖ Delete inbound"
@@ -70,10 +71,14 @@ class MessageTextsFile(BaseSettings):
     )
     NODE_MONITORING_MENU: str = (
         "🧨 <b>Checker is</b> <code>{checker}</code>\n"
-        "🔁 AutoRestart is <code>{auto_restart}</code>"
+        "🔁 <b>AutoRestart is</b> <code>{auto_restart}</code>\n"
+        "👀 <b>Excluded nodes:</b> {excluded}"
     )
+    NODE_MONITORING_EXCLUDED: str = "👀 Selected your excluded nodes:"
     USERS_MENU: str = "👥 What do you need?"
     USERS_INBOUND_SELECT: str = "🌐 Select Your Inbound:"
     WORKING: str = "⏳"
     USERS_INBOUND_SUCCESS_UPDATED: str = "✅ Users Inbounds is Updated!"
     USERS_INBOUND_ERROR_UPDATED: str = "❌ Users Inbounds not Updated!"
+    SUCCESS_UPDATED: str = "✅ Is Updated!"
+    ERROR_UPDATED: str = "❌ Not Updated!"

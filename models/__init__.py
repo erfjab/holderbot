@@ -15,6 +15,7 @@ from .callback import (
     UserInboundsCallbacks,
     AdminSelectCallbacks,
     BotActions,
+    NodeSelectCallbacks,
 )
 
 __all__ = [
@@ -30,4 +31,5 @@ __all__ = [
     "UserInboundsCallbacks",
     "AdminSelectCallbacks",
     "BotActions",
+    "NodeSelectCallbacks",
 ]
