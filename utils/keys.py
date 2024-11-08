@@ -61,7 +61,7 @@ class BotKeyboards:
             InlineKeyboardBuilder()
             .row(
                 InlineKeyboardButton(
-                    text=KeyboardTexts.HOME,
+                    text=KeyboardTexts.HOLDERBOT,
                     callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
                 )
             )
@@ -89,7 +89,7 @@ class BotKeyboards:
             ),
         )
         kb.button(
-            text=KeyboardTexts.HOME,
+            text=KeyboardTexts.HOLDERBOT,
             callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
         )
         return kb.adjust(2).as_markup()
@@ -129,7 +129,7 @@ class BotKeyboards:
                 callback_data=UserInboundsCallbacks(action=action, is_done=True).pack(),
             ),
             InlineKeyboardButton(
-                text=KeyboardTexts.HOME,
+                text=KeyboardTexts.HOLDERBOT,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
         )
@@ -150,7 +150,7 @@ class BotKeyboards:
 
         kb.row(
             InlineKeyboardButton(
-                text=KeyboardTexts.HOME,
+                text=KeyboardTexts.HOLDERBOT,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
         )
@@ -186,7 +186,7 @@ class BotKeyboards:
         kb.adjust(2)
         kb.row(
             InlineKeyboardButton(
-                text=KeyboardTexts.HOME,
+                text=KeyboardTexts.HOLDERBOT,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
         )
@@ -213,7 +213,7 @@ class BotKeyboards:
         )
         kb.row(
             InlineKeyboardButton(
-                text=KeyboardTexts.HOME,
+                text=KeyboardTexts.HOLDERBOT,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
             width=1,
@@ -249,7 +249,7 @@ class BotKeyboards:
         kb.adjust(2)
         kb.row(
             InlineKeyboardButton(
-                text=KeyboardTexts.HOME,
+                text=KeyboardTexts.HOLDERBOT,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
             InlineKeyboardButton(
