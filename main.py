@@ -20,7 +20,7 @@ async def on_startup() -> None:
     logger.info("Starting HolderBot...")
 
     admin_ids = ", ".join(map(str, EnvSettings.TELEGRAM_ADMINS_ID))
-    logger.debug(f"Admin IDs: {admin_ids}")  # Admin IDs only logged for debug
+    logger.debug("Admin IDs: %s", admin_ids)  # Admin IDs only logged for debug
 
     # Start the scheduler
     if not await start_scheduler():
@@ -56,12 +56,14 @@ async def main() -> None:
     # Start polling for bot messages
     try:
         bot_info = await bot.get_me()
-        logger.info(f"Polling messages for HolderBot [@{bot_info.username}]...")
+        logger.info("Polling messages for HolderBot [@%s]...", bot_info.username)
         await dp.start_polling(bot)
-    except (ConnectionError, TimeoutError) as conn_err:
-        logger.error(f"Polling error (connection issue): {conn_err}")
-    except Exception as e:  # Capture unexpected errors
-        logger.error(f"Unexpected error during polling: {e}")
+    except (ConnectionError, TimeoutError, asyncio.TimeoutError) as conn_err:
+        logger.error("Polling error (connection issue): %s", conn_err)
+    except RuntimeError as runtime_err:
+        logger.error("Runtime error during polling: %s", runtime_err)
+    except asyncio.CancelledError:
+        logger.warning("Polling was cancelled.")
 
 
 if __name__ == "__main__":
@@ -70,5 +72,9 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.warning("Bot stopped manually by user.")
-    except Exception as e:
-        logger.error(f"Unexpected fatal error: {e}")
+    except RuntimeError as runtime_err:
+        logger.error("Unexpected runtime error: %s", runtime_err)
+    except (ConnectionError, TimeoutError, asyncio.TimeoutError) as conn_err:
+        logger.error("Connection or timeout error: %s", conn_err)
+    except asyncio.CancelledError:
+        logger.warning("Polling was cancelled.")

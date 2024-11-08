@@ -216,7 +216,7 @@ class BotKeyboards:
                 text=KeyboardTexts.HOME,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
-            width=1
+            width=1,
         )
         return kb.adjust(2).as_markup()
 
@@ -256,6 +256,6 @@ class BotKeyboards:
                 text=KeyboardTexts.FINISH,
                 callback_data=NodeSelectCallbacks(is_done=True).pack(),
             ),
-            width=2
+            width=2,
         )
         return kb.as_markup()
