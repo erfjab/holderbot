@@ -25,8 +25,9 @@ async def node_checker():
 
     nodes = await panel.get_nodes(token.token)
     anti_spam = False
+    excluded_nodes = await SettingManager.get_node_excluded()
     for node in nodes:
-        if node.name in EnvSettings.EXCLUDED_MONITORINGS:
+        if node.name in excluded_nodes:
             continue
 
         if node.status in ["connecting", "error"]:

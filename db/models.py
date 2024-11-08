@@ -5,7 +5,7 @@ This module defines the SQLAlchemy models for the tokens and settings.
 """
 
 from datetime import datetime
-from sqlalchemy import Integer, DateTime, String, Boolean
+from sqlalchemy import Integer, DateTime, String, Boolean, JSON
 from sqlalchemy.orm import Mapped, mapped_column
 from db.base import Base
 
@@ -36,3 +36,4 @@ class Setting(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     node_monitoring: Mapped[bool] = mapped_column(Boolean, default=False)
     node_auto_restart: Mapped[bool] = mapped_column(Boolean, default=False)
+    node_excluded_monitorings: Mapped[list[str]] = mapped_column(JSON)

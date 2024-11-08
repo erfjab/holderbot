@@ -8,7 +8,7 @@ handling key actions related to users, nodes, and admins in the bot system.
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CopyTextButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from marzban import ProxyInbound, Admin, UserResponse
+from marzban import ProxyInbound, Admin, UserResponse, NodeResponse
 from utils.lang import KeyboardTextsFile
 from models import (
     PagesActions,
@@ -19,6 +19,7 @@ from models import (
     UserInboundsCallbacks,
     ConfirmCallbacks,
     BotActions,
+    NodeSelectCallbacks,
 )
 
 KeyboardTexts = KeyboardTextsFile()
@@ -176,13 +177,20 @@ class BotKeyboards:
                 is_confirm=True,
             ),
         )
+        kb.button(
+            text=KeyboardTexts.NODE_MONITORING_EXCLUDED,
+            callback_data=ConfirmCallbacks(
+                page=BotActions.NODE_EXCLUDED, action=AdminActions.EDIT
+            ),
+        )
+        kb.adjust(2)
         kb.row(
             InlineKeyboardButton(
                 text=KeyboardTexts.HOME,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
         )
-        return kb.adjust(2).as_markup()
+        return kb.as_markup()
 
     @staticmethod
     def users() -> InlineKeyboardMarkup:
@@ -208,6 +216,7 @@ class BotKeyboards:
                 text=KeyboardTexts.HOME,
                 callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
             ),
+            width=1,
         )
         return kb.adjust(2).as_markup()
 
@@ -221,5 +230,32 @@ class BotKeyboards:
         kb.button(
             text=KeyboardTexts.USER_CREATE_LINK_COPY,
             copy_text=CopyTextButton(text=user.subscription_url),
+        )
+        return kb.as_markup()
+
+    @staticmethod
+    def select_nodes(
+        nodes: list[NodeResponse], selected: list[str] = None
+    ) -> InlineKeyboardMarkup:
+        """Builds a keyboard to show selected/unselected nodes."""
+        kb = InlineKeyboardBuilder()
+        for node in nodes:
+            node_name = node.name if isinstance(node, NodeResponse) else node["name"]
+            is_selected = node_name in selected
+            kb.button(
+                text=f"{'✅' if is_selected else '❌'} {node_name}",
+                callback_data=NodeSelectCallbacks(name=node_name),
+            )
+        kb.adjust(2)
+        kb.row(
+            InlineKeyboardButton(
+                text=KeyboardTexts.HOME,
+                callback_data=PagesCallbacks(page=PagesActions.HOME).pack(),
+            ),
+            InlineKeyboardButton(
+                text=KeyboardTexts.FINISH,
+                callback_data=NodeSelectCallbacks(is_done=True).pack(),
+            ),
+            width=2,
         )
         return kb.as_markup()

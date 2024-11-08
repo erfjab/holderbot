@@ -12,6 +12,7 @@ from marzban import (
     UserCreate,
     Admin,
     UserModify,
+    NodeResponse,
 )
 from db import TokenManager
 from utils import EnvSettings, logger
@@ -131,4 +132,14 @@ async def get_users(
         return users_response.users if users_response else False
     except (httpx.RequestError, httpx.HTTPStatusError) as e:
         logger.error("Error getting all users: %s", e)
+        return False
+
+
+async def get_nodes() -> list[NodeResponse]:
+    """Fetch all nodes from the panel."""
+    try:
+        get_token = await TokenManager.get()
+        return await marzban_panel.get_nodes(get_token.token)
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        logger.error("Error getting all nodes: %s", e)
         return False
