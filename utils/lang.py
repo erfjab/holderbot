@@ -12,7 +12,7 @@ class KeyboardTextsFile(BaseSettings):
         env_file=".env", extra="ignore"
     )
 
-    HOME: str = "🏠 Back to home"
+    HOLDERBOT: str = "🏠 Back to home"
     USER_CREATE: str = "👤 User Create"
     NODE_MONITORING: str = "🗃 Node Monitoring"
     ACTIVE: str = "✅ Active"
