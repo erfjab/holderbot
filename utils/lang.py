@@ -35,7 +35,7 @@ class MessageTextsFile(BaseSettings):
         env_file=".env", extra="ignore"
     )
 
-    VERSION_NUMBER: str = "0.2.5"
+    VERSION_NUMBER: str = "0.2.6"
     OWNER_ID: str = "@ErfJabs"
 
     START: str = (
