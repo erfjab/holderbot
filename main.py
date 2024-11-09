@@ -56,6 +56,7 @@ async def main() -> None:
     # Start polling for bot messages
     try:
         bot_info = await bot.get_me()
+        await bot.delete_webhook(True)
         logger.info("Polling messages for HolderBot [@%s]...", bot_info.username)
         await dp.start_polling(bot)
     except (ConnectionError, TimeoutError, asyncio.TimeoutError) as conn_err:
