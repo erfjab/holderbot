@@ -94,7 +94,7 @@ async def user_create_start_number(message: Message, state: FSMContext):
         )
 
     await state.update_data(start_number=int(message.text))
-    await state.set_state(UserCreateForm.date_limit)
+    await state.set_state(UserCreateForm.data_limit)
     new_message = await message.answer(
         text=MessageTexts.ASK_CREATE_USER_DATA_LIMIT, reply_markup=BotKeyboards.cancel()
     )
