@@ -4,9 +4,9 @@ It includes base, user, node, and users routers.
 """
 
 from aiogram import Router
-from . import base, user, node, users
+from . import base, user, node, users, inline
 
-__all__ = ["setup_routers", "base", "user", "node", "users"]
+__all__ = ["setup_routers", "base", "user", "node", "users", "inline"]
 
 
 def setup_routers() -> Router:
@@ -19,5 +19,6 @@ def setup_routers() -> Router:
     router.include_router(user.router)
     router.include_router(node.router)
     router.include_router(users.router)
+    router.include_router(inline.router)
 
     return router

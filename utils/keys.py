@@ -227,11 +227,12 @@ class BotKeyboards:
         """
         kb = InlineKeyboardBuilder()
 
+        kb.button(text=KeyboardTexts.USER_CREATE_LINK_URL, url=user.subscription_url)
         kb.button(
             text=KeyboardTexts.USER_CREATE_LINK_COPY,
             copy_text=CopyTextButton(text=user.subscription_url),
         )
-        return kb.as_markup()
+        return kb.adjust(1).as_markup()
 
     @staticmethod
     def select_nodes(

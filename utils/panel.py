@@ -3,8 +3,12 @@ This module provides functions to interact with the Marzban API,
 including user management, retrieving inbounds, and managing admins.
 """
 
+from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
+
 import httpx
+from pydantic import BaseModel
+
 from marzban import (
     MarzbanAPI,
     ProxyInbound,
@@ -13,6 +17,7 @@ from marzban import (
     Admin,
     UserModify,
     NodeResponse,
+    UsersResponse,
 )
 from db import TokenManager
 from utils import EnvSettings, logger
@@ -143,3 +148,67 @@ async def get_nodes() -> list[NodeResponse]:
     except (httpx.RequestError, httpx.HTTPStatusError) as e:
         logger.error("Error getting all nodes: %s", e)
         return False
+
+
+class APIClient:
+    """
+    HTTP client for making API requests to the Marzban panel.
+    """
+
+    def __init__(self, base_url: str, *, timeout: float = 10.0, verify: bool = False):
+        self.base_url = base_url
+        self.client = httpx.AsyncClient(
+            base_url=base_url, verify=verify, timeout=timeout
+        )
+
+    def _get_headers(self, token: str) -> Dict[str, str]:
+        return {"Authorization": f"Bearer {token}"}
+
+    async def _request(
+        self,
+        method: str,
+        url: str,
+        token: Optional[str] = None,
+        data: Optional[BaseModel] = None,
+        params: Optional[Dict[str, Any]] = None,
+    ) -> httpx.Response:
+        headers = self._get_headers(token) if token else {}
+        json_data = data.model_dump(exclude_none=True) if data else None
+        params = {k: v for k, v in (params or {}).items() if v is not None}
+
+        response = await self.client.request(
+            method, url, headers=headers, json=json_data, params=params
+        )
+        response.raise_for_status()
+        return response
+
+    async def close(self):
+        """Close HTTP client connection"""
+        await self.client.aclose()
+
+    async def get_users(
+        self,
+        token: str,
+        offset: int = 0,
+        limit: int = 50,
+        username: Optional[List[str]] = None,
+        status: Optional[str] = None,
+        sort: Optional[str] = None,
+        search: Optional[str] = None,
+    ) -> UsersResponse:
+        """Get list of users with optional filters"""
+        headers = {"Authorization": f"Bearer {token}"}
+
+        params = {
+            "offset": offset,
+            "limit": limit,
+            "username": username,
+            "status": status,
+            "sort": sort,
+            "search": search,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+
+        response = await self.client.get("/api/users", headers=headers, params=params)
+        response.raise_for_status()
+        return UsersResponse(**response.json())

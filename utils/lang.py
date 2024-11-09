@@ -25,6 +25,7 @@ class KeyboardTextsFile(BaseSettings):
     USERS_ADD_INBOUND: str = "➕ Add inbound"
     USERS_DELETE_INBOUND: str = "➖ Delete inbound"
     USER_CREATE_LINK_COPY: str = "To copy the link, please click."
+    USER_CREATE_LINK_URL: str = "🏛️ Subscription Page"
 
 
 class MessageTextsFile(BaseSettings):
@@ -82,3 +83,23 @@ class MessageTextsFile(BaseSettings):
     USERS_INBOUND_ERROR_UPDATED: str = "❌ Users Inbounds not Updated!"
     SUCCESS_UPDATED: str = "✅ Is Updated!"
     ERROR_UPDATED: str = "❌ Not Updated!"
+    # pylint: disable=C0301
+    ACCOUNT_INFO_ACTIVE: str = """{status_emoji} <b>Username:</b> <code>{username}</code> [<code>{status}</code>]
+📊 <b>Data Used:</b> <code>{date_used}</code> GB [<code>from {data_limit}</code>]
+⏳ <b>Date Left:</b> <code>{date_left}</code>
+🔄 <b>Reset Strategy:</b> <code>{data_limit_reset_strategy}</code>
+📅 <b>Created:</b> <code>{created_at}</code>
+🕒 <b>Last Online:</b> <code>{online_at}</code>
+🕒 <b>Last Sub update:</b> <code>{sub_update_at}</code>
+
+🔗 <b>Subscription URL:</b> <code>{subscription_url}</code>
+"""
+    # pylint: disable=C0301
+    ACCOUNT_INFO_ONHOLD: str = """{status_emoji} <b>Username:</b> <code>{username}</code> [<code>{status}</code>]
+📊 <b>Data limit:</b> <code>{date_limit}</code> GB
+⏳ <b>Date limit:</b> <code>{on_hold_expire_duration}</code>
+🔄 <b>Reset Strategy:</b> <code>{data_limit_reset_strategy}</code>
+📅 <b>Created:</b> <code>{created_at}</code>
+
+🔗 <b>Subscription URL:</b> <code>{subscription_url}</code>
+"""
