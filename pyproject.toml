@@ -1,0 +1,7 @@
+[project]
+name = "holderbot"
+version = "0.2.6"
+description = "Telegram bot for managing the Marzban panel with unique capabilities"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
