@@ -5,10 +5,11 @@ description = "Telegram bot for managing the Marzban panel with unique capabilit
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "aiogram>=3.15.0",
     "aiosqlite>=0.20.0",
     "alembic>=1.14.0",
     "httpx>=0.28.1",
-    "pydantic>=2.10.3",
+    "pydantic>=2.9",
     "pydantic-settings>=2.6.1",
     "sqlalchemy>=2.0.36",
 ]
