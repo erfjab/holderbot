@@ -1,12 +1,14 @@
 from sqlalchemy import select
 from typing import Optional, Union
-from .models import Server, Access
+from .models import Server
 from .base import get_db
 from holderbot.models.server import ServerType, MarzServerData
 
 
 async def get_servers(
-    type: Optional[ServerType] = None, limit: Optional[int] = None, offset: Optional[int] = None
+    type: Optional[ServerType] = None,
+    limit: Optional[int] = None,
+    offset: Optional[int] = None,
 ) -> list[Server]:
     """Get all servers from the database with optional filtering and pagination."""
     async with get_db() as db:

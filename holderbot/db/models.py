@@ -5,6 +5,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from .base import Base
 from holderbot.models.server import ServerType
 
+
 class Server(Base):
     __tablename__ = "servers"
 
