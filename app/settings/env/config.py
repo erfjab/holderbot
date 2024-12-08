@@ -10,3 +10,7 @@ class EnvSetup(BaseSettings):
 
     BOT_TOKEN: str
     ADMINS_ID: list[int]
+
+    def is_admin(self, chatid: int) -> bool:
+        """check user is admin or not"""
+        return chatid in self.ADMINS_ID

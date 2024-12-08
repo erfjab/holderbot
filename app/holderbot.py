@@ -6,6 +6,7 @@ from aiogram.client.default import DefaultBotProperties
 
 from app.settings import EnvFile, logger
 
+
 async def main() -> None:
     """Initialize and run the bot."""
     bot = Bot(
