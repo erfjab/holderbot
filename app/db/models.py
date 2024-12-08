@@ -3,7 +3,7 @@ from sqlalchemy import Integer, DateTime, String, Boolean, JSON, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from .base import Base
-from holderbot.models.server import ServerType
+from app.models.server import ServerType
 
 
 class Server(Base):

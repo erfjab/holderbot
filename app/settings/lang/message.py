@@ -7,3 +7,5 @@ class MessageTextSetup(BaseSettings):
     model_config: SettingsConfigDict = SettingsConfigDict(
         env_file=".env", extra="ignore"
     )
+
+    HOME: str = "Hi, Welcome to holderbot"

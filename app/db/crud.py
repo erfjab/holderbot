@@ -2,7 +2,7 @@ from sqlalchemy import select
 from typing import Optional, Union
 from .models import Server
 from .base import get_db
-from holderbot.models.server import ServerType, MarzServerData
+from app.models.server import ServerType, MarzServerData
 
 
 async def get_servers(

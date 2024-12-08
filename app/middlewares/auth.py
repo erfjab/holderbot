@@ -5,7 +5,7 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import Update
 
-from settings import EnvFile, logger
+from app.settings import EnvFile, logger
 
 
 class CheckUserAccess(BaseMiddleware):

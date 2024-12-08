@@ -5,6 +5,8 @@ from aiogram.enums.parse_mode import ParseMode
 from aiogram.client.default import DefaultBotProperties
 
 from app.settings import EnvFile, logger
+from app.routers import setup_routers
+from app.middlewares import CheckUserAccess
 
 
 async def main() -> None:
@@ -16,7 +18,8 @@ async def main() -> None:
         ),
     )
     dp = Dispatcher()
-
+    dp.update.middleware(CheckUserAccess())
+    dp.include_router(router=setup_routers())
     try:
         bot_info = await bot.get_me()
         await bot.delete_webhook(True)

@@ -7,3 +7,7 @@ class KeyboardTextSetup(BaseSettings):
     model_config: SettingsConfigDict = SettingsConfigDict(
         env_file=".env", extra="ignore"
     )
+
+    SERVERS: str = "servers"
+    NEW_SERVER: str = "new server"
+    UPDATE_DATA: str = "update"
