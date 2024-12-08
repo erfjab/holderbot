@@ -1,8 +1,0 @@
-services:
-  holderbot:
-    image: erfjab/holderbot:latest
-    restart: always
-    env_file:
-      - .env
-    volumes:
-      - ./data/:/code/data/
