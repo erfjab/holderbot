@@ -1,4 +1,4 @@
-from .env import EnvSetup
+from .env.config import EnvSetup
 
 EnvFile = EnvSetup()
 
