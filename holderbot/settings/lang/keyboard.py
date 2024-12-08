@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class KeyboardTextSetup(BaseSettings):
     """keyboard text file config data"""
 

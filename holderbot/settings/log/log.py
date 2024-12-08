@@ -1,7 +1,9 @@
 import logging
 
+
 class LoggerSetup:
     """setup projcet logger"""
+
     def __init__(self, name: str, level: int = logging.INFO):
         self.bot_logger = logging.getLogger(name)
         self.bot_logger.setLevel(level)

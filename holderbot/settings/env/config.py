@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class EnvSetup(BaseSettings):
     """.env file config data"""
 

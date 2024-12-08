@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class MessageTextSetup(BaseSettings):
     """message text file config data"""
 
