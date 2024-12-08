@@ -2,8 +2,8 @@ from datetime import datetime
 from sqlalchemy import Integer, DateTime, String, Boolean, JSON, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
-from holderbot.db.base import Base
-
+from .base import Base
+from holderbot.models.server import ServerType
 
 class Server(Base):
     __tablename__ = "servers"
@@ -11,6 +11,7 @@ class Server(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     remark: Mapped[str] = mapped_column(String(32))
     active: Mapped[bool] = mapped_column(Boolean, default=True)
+    type: Mapped[ServerType] = mapped_column(String, nullable=False)
     data: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
