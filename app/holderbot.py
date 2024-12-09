@@ -6,7 +6,7 @@ from aiogram.client.default import DefaultBotProperties
 
 from app.settings import EnvFile, logger
 from app.routers import setup_routers
-from app.middlewares import CheckUserAccess
+from app.settings.middlewares import CheckUserAccess
 
 
 async def main() -> None:
