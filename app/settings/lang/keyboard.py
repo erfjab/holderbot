@@ -11,3 +11,4 @@ class KeyboardTextSetup(BaseSettings):
     SERVERS: str = "servers"
     NEW_SERVER: str = "new server"
     UPDATE_DATA: str = "update"
+    CANCEL: str = "cancel"

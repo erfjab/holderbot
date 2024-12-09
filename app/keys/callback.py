@@ -24,3 +24,11 @@ class PageCB(CallbackData, prefix="pages"):
     page: Pages = Pages.HOME
     action: Actions | None = None
     server: int | None = None
+
+
+class SelectCB(CallbackData, prefix="select"):
+    """select type callbacks"""
+
+    data: str | Enum
+    types: Pages
+    action: Actions | None = None

@@ -12,8 +12,8 @@ class Server(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     remark: Mapped[str] = mapped_column(String(32))
     active: Mapped[bool] = mapped_column(Boolean, default=True)
-    type: Mapped[ServerType] = mapped_column(String, nullable=False)
-    data: Mapped[dict] = mapped_column(JSON)
+    types: Mapped[ServerType] = mapped_column(String, nullable=False)
+    data: Mapped[JSON] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     access: Mapped["Access"] = relationship(

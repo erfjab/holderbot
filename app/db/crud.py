@@ -6,7 +6,7 @@ from app.models.server import ServerType, MarzServerData
 
 
 async def get_servers(
-    type: Optional[ServerType] = None,
+    types: Optional[ServerType] = None,
     limit: Optional[int] = None,
     offset: Optional[int] = None,
 ) -> list[Server]:
@@ -14,8 +14,8 @@ async def get_servers(
     async with get_db() as db:
         query = select(Server)
 
-        if type:
-            query = query.where(Server.type == type)
+        if types:
+            query = query.where(Server.types == types)
 
         if limit:
             query = query.limit(limit)
@@ -40,12 +40,12 @@ async def get_server(key: Union[str, int]) -> Optional[Server]:
         return result.scalar_one_or_none()
 
 
-async def create_server(remark: str, type: ServerType, data: MarzServerData) -> Server:
+async def create_server(remark: str, types: ServerType, data: MarzServerData) -> Server:
     """Create a server in the database."""
     async with get_db() as db:
         server = Server(
             remark=remark,
-            type=type,
+            types=types,
             data=data,
         )
         db.add(server)
