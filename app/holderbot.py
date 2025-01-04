@@ -3,14 +3,15 @@ import asyncio
 from aiogram import Dispatcher
 
 from app.settings.log import logger
-from app.routers import setup_routers
 from app.settings.tasks import tasker
+from app.settings.track import tracker
+from app.routers import setup_routers
 from .bot import bot
 
 
 async def main() -> None:
     """Initialize and run the bot."""
-    dp = Dispatcher()
+    dp = Dispatcher(storage=tracker)
     dp.include_router(router=setup_routers())
 
     try:

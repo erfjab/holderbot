@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional, List
+from datetime import datetime
 
 from pydantic import BaseModel
 
@@ -13,7 +13,7 @@ class MarzneshinUserExpireStrategy(str, Enum):
 class MarzneshinUserCreate(BaseModel):
     username: str
     data_limit: int
-    service_ids: List[int]
+    service_ids: list[int]
     expire_strategy: MarzneshinUserExpireStrategy
-    expire_date: Optional[str]
-    usage_duration: Optional[int]
+    expire_date: datetime | None
+    usage_duration: int | None

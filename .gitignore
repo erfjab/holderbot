@@ -4,3 +4,4 @@ __pycache__/
 *.tmp
 *.sqlite3
 state.db
+tracker.db

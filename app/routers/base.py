@@ -4,6 +4,7 @@ from aiogram.filters.command import Command
 from aiogram.fsm.context import FSMContext
 
 from app.settings.language import MessageTexts
+from app.settings.track import tracker
 from app.keys import BotKeys, PageCB, Pages, Actions
 from app.db import crud
 
@@ -14,18 +15,20 @@ router = Router(name="start")
 async def start(message: Message, state: FSMContext):
     await state.clear()
     servers = await crud.get_servers()
-    return await message.answer(
+    track = await message.answer(
         text=MessageTexts.START, reply_markup=BotKeys.home(servers)
     )
+    return await tracker.cleardelete(message, track)
 
 
 @router.callback_query(PageCB.filter(F.page.is_(Pages.HOME)))
 async def home(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     servers = await crud.get_servers()
-    return await callback.message.edit_text(
+    track = await callback.message.answer(
         text=MessageTexts.START, reply_markup=BotKeys.home(servers)
     )
+    return await tracker.cleardelete(callback, track)
 
 
 @router.callback_query(

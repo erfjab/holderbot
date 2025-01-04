@@ -5,6 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from app.settings.language import MessageTexts
+from app.settings.track import tracker
 from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB
 from app.models.server import ServerTypes, MarzneshinServerData
 from app.db import crud
@@ -32,14 +33,16 @@ async def create(callback: CallbackQuery, state: FSMContext):
 @router.message(StateFilter(ServerCreateForm.REMARK))
 async def remark(message: Message, state: FSMContext):
     if not message.text.isalpha():
-        return await message.answer(MessageTexts.WRONG_STR)
+        track = await message.answer(MessageTexts.WRONG_STR)
+        return await tracker.add(track)
 
     if await crud.get_server(message.text.lower()):
-        return await message.answer(MessageTexts.DUPLICATE)
+        track = await message.answer(MessageTexts.DUPLICATE)
+        return await tracker.add(track)
 
     await state.set_state(ServerCreateForm.TYPES)
     await state.update_data(remark=message.text.lower())
-    return await message.answer(
+    track = await message.answer(
         MessageTexts.ASK_TYPES,
         reply_markup=BotKeys.selector(
             [ServerTypes.MARZNESHIN],
@@ -47,6 +50,7 @@ async def remark(message: Message, state: FSMContext):
             action=Actions.CREATE,
         ),
     )
+    return await tracker.cleardelete(message, track)
 
 
 @router.callback_query(
@@ -65,7 +69,8 @@ async def types(callback: CallbackQuery, callback_data: SelectCB, state: FSMCont
 async def data(message: Message, state: FSMContext):
     messages = message.text.split()
     if len(messages) != 3:
-        return await message.answer(MessageTexts.WRONG_PATTERN)
+        track = await message.answer(MessageTexts.WRONG_PATTERN)
+        return await tracker.add(track)
 
     state_data = await state.get_data()
 
@@ -81,7 +86,8 @@ async def data(message: Message, state: FSMContext):
         server_type,
     )
     if not token:
-        return await message.answer(MessageTexts.INVALID_DATA)
+        track = await message.answer(MessageTexts.INVALID_DATA)
+        return await tracker.add(track)
 
     server = await crud.create_server(
         remark=state_data["remark"],
@@ -90,4 +96,5 @@ async def data(message: Message, state: FSMContext):
     )
     await crud.upsert_server_access(serverid=server.id, serveraccess=token)
     text = MessageTexts.SUCCESS if server else MessageTexts.FAILED
-    return (await message.answer(text, reply_markup=BotKeys.cancel()),)
+    track = await message.answer(text, reply_markup=BotKeys.cancel())
+    return await tracker.cleardelete(message, track)

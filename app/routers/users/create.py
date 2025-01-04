@@ -13,6 +13,7 @@ from app.settings.language import MessageTexts
 from app.api import ClinetManager
 from app.models.user import MarzneshinUserExpireStrategy, MarzneshinUserCreate
 from app.settings.utils.qrcode import create_qr
+from app.settings.track import tracker
 
 
 class DateTypes(str, Enum):
@@ -40,9 +41,10 @@ router = Router(name="users_create")
 async def data(callback: CallbackQuery, callback_data: PageCB, state: FSMContext):
     server = await crud.get_server(callback_data.panel)
     if not server:
-        return await callback.message.edit_text(
+        await callback.message.edit_text(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
+
     await state.set_state(UserCreateForm.USERNAME)
     await state.update_data(panel=callback_data.panel)
     return await callback.message.edit_text(
@@ -53,19 +55,22 @@ async def data(callback: CallbackQuery, callback_data: PageCB, state: FSMContext
 @router.message(StateFilter(UserCreateForm.USERNAME))
 async def username(message: Message, state: FSMContext):
     if len(message.text) <= 3:
-        return await message.answer(text=MessageTexts.WRONG_PATTERN)
+        track = await message.answer(text=MessageTexts.WRONG_PATTERN)
+        return await tracker.add(track)
 
     await state.update_data(username=message.text)
     await state.set_state(UserCreateForm.USERCOUNT)
-    return await message.answer(
+    track = await message.answer(
         text=MessageTexts.ASK_COUNT, reply_markup=BotKeys.cancel()
     )
+    return await tracker.cleardelete(message, track)
 
 
 @router.message(StateFilter(UserCreateForm.USERCOUNT))
 async def usercount(message: Message, state: FSMContext):
     if not message.text.isdigit() or int(message.text) < 1:
-        return await message.answer(text=MessageTexts.WRONG_INT)
+        track = await message.answer(text=MessageTexts.WRONG_INT)
+        return await tracker.add(track)
 
     await state.update_data(usercount=message.text)
     if int(message.text) == 1:
@@ -75,26 +80,29 @@ async def usercount(message: Message, state: FSMContext):
         await state.set_state(UserCreateForm.USERSUFFIX)
         text = MessageTexts.ASK_SUFFIX
 
-    return await message.answer(text=text, reply_markup=BotKeys.cancel())
+    track = await message.answer(text=text, reply_markup=BotKeys.cancel())
+    return await tracker.cleardelete(message, track)
 
 
 @router.message(StateFilter(UserCreateForm.USERSUFFIX))
 async def userprefix(message: Message, state: FSMContext):
     await state.update_data(usersuffix=message.text)
     await state.set_state(UserCreateForm.DATA_LIMIT)
-    return await message.answer(
+    track = await message.answer(
         text=MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
     )
+    return await tracker.cleardelete(message, track)
 
 
 @router.message(StateFilter(UserCreateForm.DATA_LIMIT))
 async def datalimit(message: Message, state: FSMContext):
     if not message.text.isdigit():
-        return await message.answer(text=MessageTexts.WRONG_INT)
+        track = await message.answer(text=MessageTexts.WRONG_INT)
+        return await tracker.add(track)
 
     await state.update_data(datalimit=message.text)
     await state.set_state(UserCreateForm.DATE_TYPE)
-    return await message.answer(
+    track = await message.answer(
         text=MessageTexts.MENU,
         reply_markup=BotKeys.selector(
             data=[DateTypes.UNLIMITED, DateTypes.NOW, DateTypes.AFTER_FIRST_USE],
@@ -104,6 +112,7 @@ async def datalimit(message: Message, state: FSMContext):
             panel=await state.get_value("panel"),
         ),
     )
+    return await tracker.cleardelete(message, track)
 
 
 @router.callback_query(
@@ -115,18 +124,22 @@ async def datetypes(
 ):
     server = await crud.get_server(callback_data.panel)
     if not server:
-        return await callback.message.edit_text(
+        track = await callback.message.edit_text(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
+        return await tracker.add(track)
+
     await state.update_data(datetypes=callback_data.select)
     if callback_data.select == DateTypes.UNLIMITED.value:
         await state.set_state(UserCreateForm.CONFIGS)
         await state.update_data(datelimit=0)
         configs = await ClinetManager.get_configs(server)
         if not configs:
-            return await callback.message.edit_text(
+            track = await callback.message.edit_text(
                 text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
             )
+            return await tracker.add(track)
+
         await state.update_data(configs=[config.dict() for config in configs])
         await state.update_data(selects=[config.dict() for config in configs])
         return await callback.message.edit_text(
@@ -149,24 +162,28 @@ async def datetypes(
 @router.message(StateFilter(UserCreateForm.DATE_LIMIT))
 async def datelimit(message: Message, state: FSMContext):
     if not message.text.isdigit():
-        return await message.answer(text=MessageTexts.WRONG_INT)
+        track = await message.answer(text=MessageTexts.WRONG_INT)
+        return await tracker.add(track)
 
     server = await crud.get_server(await state.get_value("panel"))
     if not server:
-        return await message.answer(
+        track = await message.answer(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
+        return await tracker.add(track)
 
     await state.update_data(datelimit=message.text)
     await state.set_state(UserCreateForm.CONFIGS)
     configs = await ClinetManager.get_configs(server)
     if not configs:
-        return await message.answer(
+        track = await message.answer(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
+        return await tracker.add(track)
+
     await state.update_data(configs=[config.dict() for config in configs])
     await state.update_data(selects=[config.dict() for config in configs])
-    return await message.answer(
+    track = await message.answer(
         text=MessageTexts.ASK_CONFIGS,
         reply_markup=BotKeys.selector(
             data=[config.name for config in configs],
@@ -176,6 +193,7 @@ async def datelimit(message: Message, state: FSMContext):
             panel=server.id,
         ),
     )
+    return await tracker.cleardelete(message, track)
 
 
 @router.callback_query(
@@ -223,13 +241,12 @@ async def createusers(
     callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
 ):
     data = await state.get_data()
-    print(data["panel"])
-    print(callback_data.panel)
     server = await crud.get_server(callback_data.panel)
     if not server:
-        return await callback.message.edit_text(
+        track = await callback.message.edit_text(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
+        return await tracker.cleardelete(callback, track)
 
     datatypesfind = {
         DateTypes.NOW.value: MarzneshinUserExpireStrategy.FIXED_DATE,
@@ -249,7 +266,7 @@ async def createusers(
             data_limit=int(int(data["datalimit"]) * (1024**3)),
             service_ids=[service["id"] for service in data["selects"]],
             expire_strategy=datetype,
-            expire_date=(datetime.utcnow + timedelta(days=datelimit))
+            expire_date=(datetime.utcnow() + timedelta(days=datelimit))
             if datetype == MarzneshinUserExpireStrategy.FIXED_DATE
             else None,
             usage_duration=(datelimit * (24 * 60 * 60))
@@ -269,3 +286,10 @@ async def createusers(
                 ),
                 caption=user_created.format_data,
             )
+
+    await state.clear()
+    servers = await crud.get_servers()
+    track = await callback.message.answer(
+        text=MessageTexts.START, reply_markup=BotKeys.home(servers)
+    )
+    return await tracker.cleardelete(callback, track)

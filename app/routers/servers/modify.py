@@ -10,6 +10,7 @@ from app.keys import BotKeys, PageCB, Actions, Pages
 from app.models.server import ServerModify
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
+from app.settings.track import tracker
 
 router = Router(name="server_modify")
 
@@ -26,9 +27,10 @@ async def start_modify(
 ):
     server = await crud.get_server(callback_data.panel)
     if not server:
-        return await callback.message.edit_text(
+        track = await callback.message.edit_text(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
+        return await tracker.add(track)
 
     await state.clear()
     await state.set_state(ServerModifyForm.ALL)
@@ -52,17 +54,20 @@ async def finish_modify(message: Message, state: FSMContext):
     match state_data["action"]:
         case ServerModify.REMARK.value:
             if not message.text.isalpha():
-                return await message.answer(MessageTexts.WRONG_STR)
+                track = await message.answer(MessageTexts.WRONG_STR)
+                return await tracker.add(track)
 
             if await crud.get_server(message.text.lower()):
-                return await message.answer(MessageTexts.DUPLICATE)
+                track = await message.answer(MessageTexts.DUPLICATE)
+                return await tracker.add(track)
 
             server_modify = await crud.modify_server(serverid, remark=message.text)
 
         case ServerModify.DATA.value:
             messages = message.text.split()
             if len(messages) != 3:
-                return await message.answer(MessageTexts.WRONG_PATTERN)
+                track = await message.answer(MessageTexts.WRONG_PATTERN)
+                return await tracker.add(track)
 
             server_type_find = {
                 ServerTypes.MARZNESHIN.value: ServerTypes.MARZNESHIN,
@@ -73,14 +78,16 @@ async def finish_modify(message: Message, state: FSMContext):
             server_type = server_type_find.get(state_data["servertypes"])
             token = await ClinetManager.generate_access(server_data.dict(), server_type)
             if not token:
-                return await message.answer(MessageTexts.INVALID_DATA)
+                track = await message.answer(MessageTexts.INVALID_DATA)
+                return await tracker.add(track)
 
             server_modify = await crud.modify_server(
                 serverid,
                 data=server_data.dict(),
             )
     await state.clear()
-    return await message.answer(
+    track = await message.answer(
         text=MessageTexts.SUCCESS if server_modify else MessageTexts.FAILED,
         reply_markup=BotKeys.cancel(),
     )
+    return await tracker.cleardelete(message, track)

@@ -1,3 +1,4 @@
+from datetime import datetime
 from abc import ABC
 from typing import Optional, Union, Dict, Any, Type, TypeVar
 
@@ -69,17 +70,26 @@ class ApiRequest(ABC):
         return response.json()
 
     def _clean_payload(
-        self,
-        payload: Optional[Union[BaseModel, Dict[str, Any]]],
+        self, payload: Optional[Union[BaseModel, Dict[str, Any]]]
     ) -> Optional[Dict[str, Any]]:
-        """
-        Clean payload, removing None values and converting Pydantic models
-        """
         if payload is None:
             return None
 
-        data_dict = payload.dict() if isinstance(payload, BaseModel) else payload
-        return {k: v for k, v in data_dict.items() if v is not None}
+        if isinstance(payload, BaseModel):
+            data = payload.model_dump()
+        else:
+            data = payload
+
+        def convert_datetime(obj: Any) -> Any:
+            if isinstance(obj, datetime):
+                return obj.isoformat()
+            elif isinstance(obj, dict):
+                return {key: convert_datetime(value) for key, value in obj.items()}
+            elif isinstance(obj, list):
+                return [convert_datetime(item) for item in obj]
+            return obj
+
+        return convert_datetime(data)
 
     async def close(self) -> None:
         """
