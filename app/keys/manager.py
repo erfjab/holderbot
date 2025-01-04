@@ -49,3 +49,13 @@ class _KeyboardsManager:
         )
 
         return kb.as_markup()
+
+    def cancel(
+        self,
+    ) -> InlineKeyboardMarkup:
+        kb = InlineKeyboardBuilder()
+
+        kb.button(
+            text=KeyboardTexts.HOMES, callback_data=PageCB(page=Pages.HOME).pack()
+        )
+        return kb.as_markup()
