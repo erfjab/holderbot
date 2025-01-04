@@ -155,3 +155,31 @@ class _KeyboardsManager:
             )
 
         return kb.as_markup()
+
+    def modify(
+        self, dataid: int, datatypes: list[Enum], page: Pages, panel: int
+    ) -> InlineKeyboardMarkup:
+        kb = InlineKeyboardBuilder()
+
+        for datatype in datatypes:
+            kb.button(
+                text=datatype.value,
+                callback_data=PageCB(
+                    page=page,
+                    action=Actions.MODIFY,
+                    dataid=dataid,
+                    datatype=datatype,
+                    panel=panel,
+                ).pack(),
+            )
+
+        kb.adjust(2)
+        kb.row(
+            InlineKeyboardButton(
+                text=KeyboardTexts.HOMES,
+                callback_data=PageCB(page=Pages.HOME).pack(),
+            ),
+            width=1,
+        )
+
+        return kb.as_markup()

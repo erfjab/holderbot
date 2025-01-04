@@ -75,3 +75,22 @@ async def create_server(
         await db.commit()
         await db.refresh(server)
         return server
+
+
+async def modify_server(
+    serverid: int,
+    remark: Optional[str] = None,
+    data: Optional[dict] = None,
+) -> Optional[Server]:
+    async with get_db() as db:
+        server = await db.execute(select(Server).filter(Server.id == serverid))
+        server = server.scalar_one_or_none()
+        if not server:
+            return False
+        if remark is not None:
+            server.remark = remark
+        if data is not None:
+            server.data = data
+        await db.commit()
+        await db.refresh(server)
+        return server

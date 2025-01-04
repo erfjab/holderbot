@@ -3,6 +3,7 @@ from aiogram.types import CallbackQuery
 from app.keys import BotKeys, PageCB, Pages, Actions
 from app.db import crud
 from app.settings.language import MessageTexts
+from app.models.server import ServerModify
 
 router = Router(name="server_data")
 
@@ -19,5 +20,10 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
 
     return await callback.message.edit_text(
         text=server.format_data,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.modify(
+            dataid=server.id,
+            datatypes=[ServerModify.REMARK, ServerModify.DATA],
+            page=Pages.SERVERS,
+            panel=server.id,
+        ),
     )

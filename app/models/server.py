@@ -10,3 +10,9 @@ class MarzneshinServerData(BaseModel):
     username: str
     password: str
     host: str
+
+
+class ServerModify(str, Enum):
+    STATUS = "status"
+    REMARK = "remark"
+    DATA = "data"
