@@ -58,3 +58,20 @@ async def get_server(key: Union[str, int]) -> Optional[Server]:
 
         result = await db.execute(query)
         return result.scalar_one_or_none()
+
+
+async def create_server(
+    remark: str,
+    types: ServerTypes,
+    data: dict,
+) -> Server:
+    async with get_db() as db:
+        server = Server(
+            remark=remark,
+            types=types,
+            data=data,
+        )
+        db.add(server)
+        await db.commit()
+        await db.refresh(server)
+        return server

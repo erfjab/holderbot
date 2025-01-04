@@ -1,10 +1,11 @@
+from enum import Enum
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from app.settings.language import KeyboardTexts
 from app.db import Server
 from ._enums import Pages, Actions
-from ._callbacks import PageCB
+from ._callbacks import PageCB, SelectCB
 
 
 class _KeyboardsManager:
@@ -32,12 +33,9 @@ class _KeyboardsManager:
         return kb.as_markup()
 
     def menu(self, panel: int) -> InlineKeyboardMarkup:
-
         kb = InlineKeyboardBuilder()
 
-        items = {
-            KeyboardTexts.USERS : Pages.USERS
-        }
+        items = {KeyboardTexts.USERS: Pages.USERS}
 
         for text, page in items.items():
             kb.button(
@@ -51,14 +49,19 @@ class _KeyboardsManager:
 
         kb.row(
             InlineKeyboardButton(
+                text=KeyboardTexts.SERVER,
+                callback_data=PageCB(
+                    page=Pages.SERVERS, action=Actions.INFO, panel=panel
+                ).pack(),
+            ),
+            InlineKeyboardButton(
                 text=KeyboardTexts.HOMES,
                 callback_data=PageCB(page=Pages.HOME).pack(),
             ),
-            width=1,
+            width=2,
         )
 
         return kb.as_markup()
-
 
     def lister(
         self,
@@ -99,4 +102,56 @@ class _KeyboardsManager:
         kb.button(
             text=KeyboardTexts.HOMES, callback_data=PageCB(page=Pages.HOME).pack()
         )
+        return kb.as_markup()
+
+    def selector(
+        self,
+        data: list[str],
+        types: str,
+        action: Actions | None = None,
+        selects: list[str] | None = None,
+    ) -> InlineKeyboardMarkup:
+        kb = InlineKeyboardBuilder()
+
+        for d in data:
+            text = d.value if isinstance(d, Enum) else d
+            selected = False
+
+            if selects is not None:
+                selected = d in selects
+                text = f"✅ {text}" if selected else f"❌ {text}"
+
+            kb.button(
+                text=text,
+                callback_data=SelectCB(
+                    select=d, types=types, action=action, selected=selected
+                ).pack(),
+            )
+
+        kb.adjust(2)
+
+        if selects is not None:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.DONE,
+                    callback_data=SelectCB(
+                        types=types, action=Actions.CREATE, done=True
+                    ).pack(),
+                ),
+                InlineKeyboardButton(
+                    text=KeyboardTexts.HOMES,
+                    callback_data=PageCB(page=Pages.HOME).pack(),
+                ),
+                width=2,
+            )
+
+        else:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.HOMES,
+                    callback_data=PageCB(page=Pages.HOME).pack(),
+                ),
+                width=1,
+            )
+
         return kb.as_markup()

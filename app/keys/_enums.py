@@ -7,6 +7,7 @@ class Pages(str, Enum):
     MENU = "menu"
     USERS = "users"
 
+
 class Actions(str, Enum):
     LIST = "list"
     INFO = "info"

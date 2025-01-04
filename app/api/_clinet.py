@@ -15,6 +15,6 @@ class ClinetApiManager:
             case ServerTypes.MARZNESHIN:
                 marzbanapi = MarzneshinApiManager(host=data["host"])
                 token = await marzbanapi.get_token(data["username"], data["password"])
-                token = token.access_token if token else None
+                token = token.access_token if token and token.is_sudo is True else None
 
         return token

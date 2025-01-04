@@ -27,12 +27,12 @@ async def home(callback: CallbackQuery, state: FSMContext):
         text=MessageTexts.START, reply_markup=BotKeys.home(servers)
     )
 
-@router.callback_query(PageCB.filter((F.page.is_(Pages.MENU)) & (F.page.is_(Actions.LIST))))
+
+@router.callback_query(
+    PageCB.filter((F.page.is_(Pages.MENU)) & (F.action.is_(Actions.LIST)))
+)
 async def menu(callback: CallbackQuery, callback_data: PageCB, state: FSMContext):
     await state.clear()
-    panelid = callback_data.panel
-    server = await crud.get_server(key=panelid)
     return await callback.message.edit_text(
-        text=server.format_data, reply_markup=BotKeys.menu(panel=panelid)
+        text=MessageTexts.MENU, reply_markup=BotKeys.menu(panel=callback_data.panel)
     )
-
