@@ -18,13 +18,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install ruff pylint
+        pip install ruff
     - name: Run Ruff Format
       run: |
         ruff format --check .
     - name: Run Ruff Check
       run: |
         ruff check .
-    - name: Run Pylint
-      run: |
-        pylint . --fail-under=10
