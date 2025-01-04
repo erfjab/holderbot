@@ -14,7 +14,7 @@ class _KeyboardsManager:
 
         for server in servers:
             kb.button(
-                text=server.remark,
+                text=f"{server.emoji if server.emoji else ''}{server.remark}",
                 callback_data=PageCB(
                     page=Pages.MENU, action=Actions.LIST, panel=server.id
                 ).pack(),
