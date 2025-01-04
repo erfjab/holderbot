@@ -25,7 +25,7 @@ class ClinetApiManager:
         server: Server,
         page: Optional[int] = None,
         size: Optional[int] = None,
-    ) -> Optional[MarzneshinUserResponse]:
+    ) -> Optional[list[MarzneshinUserResponse]]:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 marzbanapi = MarzneshinApiManager(host=server.data["host"])
@@ -34,3 +34,15 @@ class ClinetApiManager:
                 )
 
         return users
+
+    async def get_user(
+        self, server: Server, username: str
+    ) -> Optional[MarzneshinUserResponse]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                marzbanapi = MarzneshinApiManager(host=server.data["host"])
+                user = await marzbanapi.get_user(
+                    username=username, access=server.access
+                )
+
+        return user

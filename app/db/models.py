@@ -35,6 +35,10 @@ class Server(Base, BaseTime):
         return self.server_access.access if self.server_access else None
 
     @hybrid_property
+    def emoji(self) -> str:
+        return "✅ " if self.is_active else "❌ "
+
+    @hybrid_property
     def is_online(self) -> bool:
         if not self.access:
             return False

@@ -31,3 +31,12 @@ class MarzneshinApiManager(ApiRequest):
         if not users:
             return False
         return [MarzneshinUserResponse(**user) for user in users["items"]]
+
+    async def get_user(
+        self, username: str, access: str
+    ) -> Optional[MarzneshinUserResponse]:
+        return await self.get(
+            endpoint=f"/api/users/{username}",
+            access=access,
+            response_model=MarzneshinUserResponse,
+        )

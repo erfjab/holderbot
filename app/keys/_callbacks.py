@@ -7,7 +7,7 @@ from ._enums import Pages, Actions
 class PageCB(CallbackData, prefix="pages"):
     page: Pages = Pages.HOME
     action: Actions = Actions.LIST
-    dataid: int | None = None
+    dataid: int | str | None = None
     datatype: str | Enum | None = None
     panel: int | None = None
 
