@@ -7,6 +7,7 @@ from .models import (
 from .base import get_db
 from app.models.server import ServerTypes
 
+
 async def upsert_server_access(serverid: int, serveraccess: str):
     async with get_db() as db:
         access = await db.execute(

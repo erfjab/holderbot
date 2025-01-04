@@ -10,7 +10,7 @@ class LoggerSetup:
         console_handler.setLevel(logging.DEBUG)
 
         formatter = logging.Formatter(
-            "%(asctime)-25s | %(levelname)-8s | %(message)s", "%Y-%m-%d %H:%M:%S"
+            "%(levelname)-7s |   %(message)s"
         )
         console_handler.setFormatter(formatter)
 
