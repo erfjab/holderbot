@@ -1,7 +1,7 @@
 from typing import Optional
 
 from ..core import ApiRequest
-from ..types.marzneshin import MarzneshinToken
+from ..types.marzneshin import MarzneshinToken, MarzneshinUserResponse
 
 
 class MarzneshinApiManager(ApiRequest):
@@ -21,3 +21,13 @@ class MarzneshinApiManager(ApiRequest):
             data=data,
             response_model=MarzneshinToken,
         )
+
+    async def get_users(
+        self, access: str, page: Optional[int] = None, size: Optional[int] = None
+    ) -> Optional[list[MarzneshinUserResponse]]:
+        users = await self.get(
+            endpoint="/api/users", params={"page": page, "size": size}, access=access
+        )
+        if not users:
+            return False
+        return [MarzneshinUserResponse(**user) for user in users["items"]]

@@ -64,17 +64,15 @@ class _KeyboardsManager:
         return kb.as_markup()
 
     def lister(
-        self,
-        items: list[Server],
-        page: Pages,
+        self, items: list[Server], page: Pages, panel: int
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
         for item in items:
             kb.button(
-                text=item.remark,
+                text=f"{item.emoji if item.emoji else ''}{item.remark}",
                 callback_data=PageCB(
-                    page=page, action=Actions.INFO, dataid=item.id
+                    page=page, action=Actions.INFO, dataid=item.id, panel=panel
                 ).pack(),
             )
 

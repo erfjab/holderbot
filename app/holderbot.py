@@ -4,6 +4,7 @@ from aiogram import Dispatcher
 
 from app.settings.log import logger
 from app.routers import setup_routers
+from app.settings.tasks import tasker
 from .bot import bot
 
 
@@ -13,6 +14,7 @@ async def main() -> None:
     dp.include_router(router=setup_routers())
 
     try:
+        await tasker.start()
         await bot.delete_webhook(True)
         logger.info("Start Polling messages")
         await dp.start_polling(bot)

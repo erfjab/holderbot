@@ -58,6 +58,7 @@ class ApiRequest(ABC):
             params=clean_params,
         )
         try:
+            print(response.text)
             response.raise_for_status()
         except Exception:
             return False
