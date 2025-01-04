@@ -10,6 +10,7 @@ class PageCB(CallbackData, prefix="pages"):
     dataid: int | str | None = None
     datatype: str | Enum | None = None
     panel: int | None = None
+    pagenumber: int | None = None
 
 
 class SelectCB(CallbackData, prefix="select"):

@@ -64,7 +64,11 @@ class _KeyboardsManager:
         return kb.as_markup()
 
     def lister(
-        self, items: list[Server], page: Pages, panel: int
+        self,
+        items: list[Server],
+        page: Pages,
+        panel: int,
+        control: tuple[int, int] = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -77,6 +81,33 @@ class _KeyboardsManager:
             )
 
         kb.adjust(2)
+
+        if control is not None:
+            left, right = control
+            buttons = []
+            if left != 0:
+                buttons.append(
+                    InlineKeyboardButton(
+                        text=KeyboardTexts.LEFT,
+                        callback_data=PageCB(
+                            page=page, action=Actions.LIST, pagenumber=left, panel=panel
+                        ).pack(),
+                    )
+                )
+            if right != 0:
+                buttons.append(
+                    InlineKeyboardButton(
+                        text=KeyboardTexts.RIGHT,
+                        callback_data=PageCB(
+                            page=page,
+                            action=Actions.LIST,
+                            pagenumber=right,
+                            panel=panel,
+                        ).pack(),
+                    )
+                )
+            if buttons:
+                kb.row(*buttons, width=2)
 
         kb.row(
             InlineKeyboardButton(
