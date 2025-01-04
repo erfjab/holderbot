@@ -9,6 +9,7 @@ class PageCB(CallbackData, prefix="pages"):
     action: Actions = Actions.LIST
     dataid: int | None = None
     datatype: str | Enum | None = None
+    panel: int | None = None
 
 
 class SelectCB(CallbackData, prefix="select"):
@@ -17,3 +18,4 @@ class SelectCB(CallbackData, prefix="select"):
     action: Actions | None = None
     selected: bool | None = None
     done: bool = False
+    panel: int | None = None

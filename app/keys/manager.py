@@ -8,16 +8,28 @@ from ._callbacks import PageCB
 
 
 class _KeyboardsManager:
-    def home(self) -> InlineKeyboardMarkup:
+    def home(self, servers: list[Server] = []) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
-        keys = {
-            KeyboardTexts.SERVERS: Pages.SERVERS,
-        }
-        for text, page in keys.items():
-            kb.button(text=text, callback_data=PageCB(page=page).pack())
+        for server in servers:
+            kb.button(
+                text=server.remark,
+                callback_data=PageCB(
+                    page=Pages.MENU, action=Actions.INFO, panel=server.id
+                ).pack(),
+            )
 
-        return kb.adjust(2).as_markup()
+        kb.adjust(2)
+
+        kb.row(
+            InlineKeyboardButton(
+                text=KeyboardTexts.CREATE,
+                callback_data=PageCB(page=Pages.SERVERS, action=Actions.CREATE).pack(),
+            ),
+            width=1,
+        )
+
+        return kb.as_markup()
 
     def lister(
         self,
