@@ -11,3 +11,4 @@ class _MessageSettings(BaseSettings):
         "Developed and designed by <b>@ErfJabs</b>\n"
     )
     ITEMS_MENU: str = "Select a item or create a new:"
+    MENU: str = "Select a Button"

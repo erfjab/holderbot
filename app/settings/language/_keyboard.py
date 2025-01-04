@@ -9,3 +9,4 @@ class _KeyboardSettings(BaseSettings):
     HOMES: str = "🏛️ Home"
     SERVERS: str = "☁️ Servers"
     CREATE: str = "➕ Create"
+    USERS: str = "👤 Users"

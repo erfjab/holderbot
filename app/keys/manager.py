@@ -15,7 +15,7 @@ class _KeyboardsManager:
             kb.button(
                 text=server.remark,
                 callback_data=PageCB(
-                    page=Pages.MENU, action=Actions.INFO, panel=server.id
+                    page=Pages.MENU, action=Actions.LIST, panel=server.id
                 ).pack(),
             )
 
@@ -30,6 +30,35 @@ class _KeyboardsManager:
         )
 
         return kb.as_markup()
+
+    def menu(self, panel: int) -> InlineKeyboardMarkup:
+
+        kb = InlineKeyboardBuilder()
+
+        items = {
+            KeyboardTexts.USERS : Pages.USERS
+        }
+
+        for text, page in items.items():
+            kb.button(
+                text=text,
+                callback_data=PageCB(
+                    page=page, action=Actions.LIST, panel=panel
+                ).pack(),
+            )
+
+        kb.adjust(2)
+
+        kb.row(
+            InlineKeyboardButton(
+                text=KeyboardTexts.HOMES,
+                callback_data=PageCB(page=Pages.HOME).pack(),
+            ),
+            width=1,
+        )
+
+        return kb.as_markup()
+
 
     def lister(
         self,
