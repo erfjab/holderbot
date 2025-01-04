@@ -1,7 +1,11 @@
 from typing import Optional
 
 from ..core import ApiRequest
-from ..types.marzneshin import MarzneshinToken, MarzneshinUserResponse
+from ..types.marzneshin import (
+    MarzneshinToken,
+    MarzneshinUserResponse,
+    MarzneshinServiceResponce,
+)
 
 
 class MarzneshinApiManager(ApiRequest):
@@ -38,5 +42,23 @@ class MarzneshinApiManager(ApiRequest):
         return await self.get(
             endpoint=f"/api/users/{username}",
             access=access,
+            response_model=MarzneshinUserResponse,
+        )
+
+    async def get_services(
+        self, access: str
+    ) -> Optional[list[MarzneshinServiceResponce]]:
+        services = await self.get(endpoint="/api/services", access=access)
+        if not services:
+            return False
+        return [MarzneshinServiceResponce(**service) for service in services["items"]]
+
+    async def create_user(
+        self, data: dict, access: str
+    ) -> Optional[MarzneshinUserResponse]:
+        return await self.post(
+            endpoint="/api/users",
+            access=access,
+            data=data,
             response_model=MarzneshinUserResponse,
         )

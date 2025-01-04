@@ -112,7 +112,9 @@ class _KeyboardsManager:
         kb.row(
             InlineKeyboardButton(
                 text=KeyboardTexts.CREATE,
-                callback_data=PageCB(page=page, action=Actions.CREATE).pack(),
+                callback_data=PageCB(
+                    page=page, action=Actions.CREATE, panel=panel
+                ).pack(),
             ),
             InlineKeyboardButton(
                 text=KeyboardTexts.HOMES,
@@ -139,6 +141,8 @@ class _KeyboardsManager:
         types: str,
         action: Actions | None = None,
         selects: list[str] | None = None,
+        width: int = 2,
+        panel: int | None = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -153,18 +157,18 @@ class _KeyboardsManager:
             kb.button(
                 text=text,
                 callback_data=SelectCB(
-                    select=d, types=types, action=action, selected=selected
+                    select=d, types=types, action=action, selected=selected, panel=panel
                 ).pack(),
             )
 
-        kb.adjust(2)
+        kb.adjust(width)
 
         if selects is not None:
             kb.row(
                 InlineKeyboardButton(
                     text=KeyboardTexts.DONE,
                     callback_data=SelectCB(
-                        types=types, action=Actions.CREATE, done=True
+                        types=types, action=Actions.CREATE, done=True, panel=panel
                     ).pack(),
                 ),
                 InlineKeyboardButton(
