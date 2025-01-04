@@ -7,6 +7,6 @@ class _MessageSettings(BaseSettings):
     )
 
     START: str = (
-        "Welcome to HolderBot 🤖 [0.3.0]\n"
-        "Developed and designed by <b>@ErfJabs</b>"
+        "Welcome to HolderBot 🤖 [0.3.0]\n" "Developed and designed by <b>@ErfJabs</b>"
     )
+    ITEMS_MENU: str = "Select a item or create a new:"
