@@ -159,19 +159,19 @@ class MarzneshinUserResponse(BaseModel):
             if self.data_limit
             else "Unlimited",
             "Data Reset Strategy": self.data_limit_reset_strategy.value,
-            "Note": self.note or "➖",
+            "Used Traffic": format_bytes(self.used_traffic),
+            "Total Used Traffic": format_bytes(self.lifetime_used_traffic),
             "Last Update": format_date_diff(now, self.sub_updated_at),
             "Last User Agent": self.sub_last_user_agent or "➖",
             "Last Online": format_date_diff(now, self.online_at),
             "Activated": "Yes" if self.activated else "No",
+            "Enabled": "Yes" if self.enabled else "No",
             "Active": "Yes" if self.is_active else "No",
             "Expired": "Yes" if self.expired else "No",
             "Data Limit Reached": "Yes" if self.data_limit_reached else "No",
-            "Enabled": "Yes" if self.enabled else "No",
-            "Used Traffic": format_bytes(self.used_traffic),
-            "Total Used Traffic": format_bytes(self.lifetime_used_traffic),
             "Services": str(self.service_ids),
             "Owner": self.owner_username or "➖",
+            "Note": self.note or "➖",
         }
 
         formatted_data_str = "\n".join(
