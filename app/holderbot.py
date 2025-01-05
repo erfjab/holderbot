@@ -6,15 +6,16 @@ from app.settings.log import logger
 from app.settings.tasks import tasker
 from app.settings.track import tracker
 from app.routers import setup_routers
+from app.settings.middlewares import CheckUserAccess
 from .bot import bot
 
 
 async def main() -> None:
     """Initialize and run the bot."""
-    dp = Dispatcher(storage=tracker)
-    dp.include_router(router=setup_routers())
-
     try:
+        dp = Dispatcher(storage=tracker)
+        dp.include_router(router=setup_routers())
+        dp.update.middleware(CheckUserAccess())
         await tasker.start()
         await bot.delete_webhook(True)
         logger.info("Start Polling messages")
