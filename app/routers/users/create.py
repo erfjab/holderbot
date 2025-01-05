@@ -86,6 +86,10 @@ async def usercount(message: Message, state: FSMContext):
 
 @router.message(StateFilter(UserCreateForm.USERSUFFIX))
 async def userprefix(message: Message, state: FSMContext):
+    if not message.text.isdigit() or int(message.text) < 1:
+        track = await message.answer(text=MessageTexts.WRONG_INT)
+        return await tracker.add(track)
+
     await state.update_data(usersuffix=message.text)
     await state.set_state(UserCreateForm.DATA_LIMIT)
     track = await message.answer(
