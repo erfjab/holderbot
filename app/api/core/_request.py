@@ -46,20 +46,19 @@ class ApiRequest(ABC):
         """
         Generic request method with flexible parameters
         """
-        headers = self._get_headers(access)
-        clean_data = self._clean_payload(data)
-        clean_params = self._clean_payload(params)
-        full_url = f"{self.host}/{endpoint.lstrip('/')}"
-        response = await self._client.request(
-            method,
-            full_url,
-            headers=headers,
-            data=clean_data if not access else None,
-            json=clean_data if access else None,
-            params=clean_params,
-        )
         try:
-            print(response.text)
+            headers = self._get_headers(access)
+            clean_data = self._clean_payload(data)
+            clean_params = self._clean_payload(params)
+            full_url = f"{self.host}/{endpoint.lstrip('/')}"
+            response = await self._client.request(
+                method,
+                full_url,
+                headers=headers,
+                data=clean_data if not access else None,
+                json=clean_data if access else None,
+                params=clean_params,
+            )
             response.raise_for_status()
         except Exception:
             return False
