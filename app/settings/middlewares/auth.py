@@ -7,6 +7,7 @@ from aiogram.types import Update
 
 from app.settings.log import logger
 from app.settings.config import env
+from app.settings.track import tracker
 
 
 class CheckUserAccess(BaseMiddleware):
@@ -21,6 +22,7 @@ class CheckUserAccess(BaseMiddleware):
         user = None
         if event.message:
             user = event.message.from_user
+            await tracker.add(event.message)
         elif event.callback_query:
             user = event.callback_query.from_user
         elif event.inline_query:
