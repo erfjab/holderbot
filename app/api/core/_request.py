@@ -1,9 +1,9 @@
 from datetime import datetime
 from abc import ABC
 from typing import Optional, Union, Dict, Any, Type, TypeVar
-
 import httpx
 from pydantic import BaseModel
+from app.settings.log import logger
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -60,7 +60,8 @@ class ApiRequest(ABC):
                 params=clean_params,
             )
             response.raise_for_status()
-        except Exception:
+        except Exception as e:
+            logger.error(str(e))
             return False
 
         if response_model:
