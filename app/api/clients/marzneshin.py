@@ -33,6 +33,7 @@ class MarzneshinApiManager(ApiRequest):
         size: Optional[int] = None,
         expired: Optional[bool] = None,
         limited: Optional[bool] = None,
+        search: Optional[str] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         users = await self.get(
             endpoint="/api/users",
@@ -43,6 +44,7 @@ class MarzneshinApiManager(ApiRequest):
                 "descending": True,
                 "expired": expired,
                 "data_limit_reached": limited,
+                "username": search,
             },
             access=access,
         )

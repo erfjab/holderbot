@@ -31,6 +31,7 @@ class ClinetApiManager:
         size: Optional[int] = None,
         limited: Optional[bool] = None,
         expired: Optional[bool] = None,
+        search: Optional[str] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
@@ -41,6 +42,7 @@ class ClinetApiManager:
                     size=size,
                     expired=expired,
                     limited=limited,
+                    search=search,
                 )
 
         return users
