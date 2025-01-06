@@ -186,6 +186,7 @@ class MarzneshinUserResponse(BaseModel):
             f"• <b>Subscription Revoked At:</b> <code>{format_date_diff(now, self.sub_revoked_at)}</code>",
             f"• <b>Traffic Reset At:</b> <code>{format_date_diff(now, self.traffic_reset_at)}</code>",
             f"• <b>Created At:</b> <code>{format_date_diff(now, self.created_at)}</code>",
+            f"• <b>Subscription Url:</b> <code>{self.subscription_url}</code>",
         ]
 
         return f"• <b>Data</b>\n{formatted_data_str}\n" + "\n".join(footer_data)
