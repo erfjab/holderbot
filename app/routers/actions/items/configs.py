@@ -50,7 +50,7 @@ async def select(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
 
     await state.update_data(configs=[config.dict() for config in configs])
     return await callback.message.edit_text(
-        text={MessageTexts.ITEMS},
+        text=MessageTexts.ITEMS,
         reply_markup=BotKeys.selector(
             data=[config.remark for config in configs],
             types=Pages.ACTIONS,
