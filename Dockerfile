@@ -9,7 +9,6 @@ RUN apk add --no-cache tzdata && \
 
 WORKDIR /code
 
-COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade uv
 
 
