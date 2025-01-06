@@ -9,10 +9,10 @@ RUN apk add --no-cache tzdata && \
 
 WORKDIR /code
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+RUN pip install --no-cache-dir --upgrade uv
+
 
 COPY . .
 RUN chmod +x main.py
 
-CMD ["sh", "-c", "alembic upgrade head && python3 main.py"]
+CMD ["sh", "-c", "uv sync && uv run alembic upgrade head && uv run main.py"]

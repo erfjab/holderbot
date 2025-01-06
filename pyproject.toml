@@ -1,0 +1,19 @@
+[project]
+name = "holderbot"
+version = "0.3.0"
+description = "Telegram bot for managing panel with unique capabilities."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiogram==3.14.0",
+    "aiosqlite==0.20.0",
+    "alembic==1.13.1",
+    "apscheduler==3.10.4",
+    "httpx==0.27.0",
+    "pillow==10.4.0",
+    "pydantic-settings==2.6.1",
+    "pydantic==2.8.2",
+    "python-decouple==3.8",
+    "qrcode==7.4.2",
+    "sqlalchemy==2.0.31",
+]
