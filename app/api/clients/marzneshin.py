@@ -27,10 +27,24 @@ class MarzneshinApiManager(ApiRequest):
         )
 
     async def get_users(
-        self, access: str, page: Optional[int] = None, size: Optional[int] = None
+        self,
+        access: str,
+        page: Optional[int] = None,
+        size: Optional[int] = None,
+        expired: Optional[bool] = None,
+        limited: Optional[bool] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         users = await self.get(
-            endpoint="/api/users", params={"page": page, "size": size}, access=access
+            endpoint="/api/users",
+            params={
+                "page": page,
+                "size": size,
+                "order_by": "created_at",
+                "descending": True,
+                "expired": expired,
+                "data_limit_reached": limited,
+            },
+            access=access,
         )
         if not users:
             return False
@@ -71,4 +85,10 @@ class MarzneshinApiManager(ApiRequest):
             access=access,
             data=data,
             response_model=MarzneshinUserResponse,
+        )
+
+    async def remove_user(self, username: str, access: str) -> Optional[bool]:
+        return await self.delete(
+            endpoint=f"/api/users/{username}",
+            access=access,
         )
