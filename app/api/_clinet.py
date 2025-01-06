@@ -29,11 +29,19 @@ class ClinetApiManager:
         server: Server,
         page: Optional[int] = None,
         size: Optional[int] = None,
+        limited: Optional[bool] = None,
+        expired: Optional[bool] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
-                users = await api.get_users(access=server.access, page=page, size=size)
+                users = await api.get_users(
+                    access=server.access,
+                    page=page,
+                    size=size,
+                    expired=expired,
+                    limited=limited,
+                )
 
         return users
 
@@ -72,5 +80,13 @@ class ClinetApiManager:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
                 user = await api.modify_user(username, data, server.access)
+
+        return user
+
+    async def remove_user(self, server: Server, username: str) -> Optional[bool]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                user = await api.remove_user(username, server.access)
 
         return user

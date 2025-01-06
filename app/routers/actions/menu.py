@@ -23,7 +23,12 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
     return await callback.message.edit_text(
         text=MessageTexts.ITEMS_MENU,
         reply_markup=BotKeys.selector(
-            data=[ActionTypes.ADD_CONFIG, ActionTypes.DELETE_CONFIG],
+            data=[
+                ActionTypes.ADD_CONFIG,
+                ActionTypes.DELETE_CONFIG,
+                ActionTypes.DELETE_EXPIRED_USERS,
+                ActionTypes.DELETE_LIMITED_USERS,
+            ],
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,

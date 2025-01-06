@@ -42,9 +42,9 @@ class ApiRequest(ABC):
         data: Optional[Union[BaseModel, Dict[str, Any]]] = None,
         params: Optional[Dict[str, Any]] = None,
         response_model: Optional[Type[T]] = None,
-    ) -> Union[httpx.Response, T]:
+    ) -> Union[httpx.Response, T, bool]:
         """
-        Generic request method with flexible parameters
+        Generic request method with flexible parameters and empty response handling
         """
         try:
             headers = self._get_headers(access)
@@ -60,14 +60,24 @@ class ApiRequest(ABC):
                 params=clean_params,
             )
             response.raise_for_status()
-        except Exception as e:
-            logger.error(str(e))
+
+            if not response.content:
+                if response.status_code in [200, 201, 204]:
+                    return True
+                return False
+
+            if response_model:
+                return response_model(**response.json())
+
+            jsonres = response.json()
+            return jsonres if jsonres != {} else True
+
+        except httpx.HTTPStatusError as e:
+            logger.error(f"HTTP error occurred: {str(e)}")
             return False
-
-        if response_model:
-            return response_model(**response.json())
-
-        return response.json()
+        except Exception as e:
+            logger.error(f"Unexpected error: {str(e)}")
+            return False
 
     def _clean_payload(
         self, payload: Optional[Union[BaseModel, Dict[str, Any]]]
@@ -80,16 +90,24 @@ class ApiRequest(ABC):
         else:
             data = payload
 
-        def convert_datetime(obj: Any) -> Any:
+        def clean_nones_and_convert_datetime(obj: Any) -> Any:
             if isinstance(obj, datetime):
                 return obj.isoformat()
             elif isinstance(obj, dict):
-                return {key: convert_datetime(value) for key, value in obj.items()}
+                return {
+                    key: clean_nones_and_convert_datetime(value)
+                    for key, value in obj.items()
+                    if value is not None
+                }
             elif isinstance(obj, list):
-                return [convert_datetime(item) for item in obj]
+                return [
+                    clean_nones_and_convert_datetime(item)
+                    for item in obj
+                    if item is not None
+                ]
             return obj
 
-        return convert_datetime(data)
+        return clean_nones_and_convert_datetime(data)
 
     async def close(self) -> None:
         """
