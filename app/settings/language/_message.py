@@ -37,3 +37,9 @@ class _MessageSettings(BaseSettings):
     ASK_DATE_LIMIT: str = "Enter DateLimit: [0-9]"
     ASK_CONFIGS: str = "Select Configs:"
     FAILED_USERNAME: str = "❌ Failed to create {username}."
+    USER_INFO: str = (
+        "• <b>Username:</b> <code>{username}</code>\n"
+        "• <b>Data Limit:</b> <code>{data_limit}</code>\n"
+        "• <b>Date Limit:</b> <code>{expire_strategy}</code>\n"
+        "• <b>Sub Url:</b> <code>{subscription_url}</code>\n"
+    )

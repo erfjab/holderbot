@@ -1,3 +1,4 @@
+import asyncio
 from enum import Enum
 from datetime import datetime, timedelta
 
@@ -288,8 +289,9 @@ async def createusers(
                     await create_qr(user_created.subscription_url),
                     filename="holderbot.png",
                 ),
-                caption=user_created.format_data,
+                caption=MessageTexts.USER_INFO.format(**user_created.format_data),
             )
+        await asyncio.sleep(0.5)
 
     await state.clear()
     servers = await crud.get_servers()

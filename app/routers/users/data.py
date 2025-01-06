@@ -30,6 +30,5 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         photo=BufferedInputFile(
             await create_qr(user.subscription_url), filename="holderbot.png"
         ),
-        caption=user.format_data,
-        reply_markup=BotKeys.cancel(),
+        caption=MessageTexts.USER_INFO.format(**user.format_data),
     )
