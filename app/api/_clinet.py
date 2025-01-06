@@ -64,3 +64,13 @@ class ClinetApiManager:
                 user = await api.create_user(data, server.access)
 
         return user
+
+    async def modify_user(
+        self, server: Server, username: str, data: dict
+    ) -> Optional[MarzneshinUserResponse]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                user = await api.modify_user(username, data, server.access)
+
+        return user

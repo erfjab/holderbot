@@ -45,6 +45,16 @@ class MarzneshinApiManager(ApiRequest):
             response_model=MarzneshinUserResponse,
         )
 
+    async def modify_user(
+        self, username: str, data: dict, access: str
+    ) -> Optional[MarzneshinUserResponse]:
+        return await self.put(
+            endpoint=f"/api/users/{username}",
+            access=access,
+            data=data,
+            response_model=MarzneshinUserResponse,
+        )
+
     async def get_services(
         self, access: str
     ) -> Optional[list[MarzneshinServiceResponce]]:

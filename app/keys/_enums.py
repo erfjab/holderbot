@@ -6,6 +6,7 @@ class Pages(str, Enum):
     SERVERS = "servers"
     MENU = "menu"
     USERS = "users"
+    ACTIONS = "actions"
 
 
 class Actions(str, Enum):
