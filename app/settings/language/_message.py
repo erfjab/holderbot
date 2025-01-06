@@ -7,7 +7,7 @@ class _MessageSettings(BaseSettings):
     )
 
     START: str = (
-        "Welcome to HolderBot 🤖 [0.3.0]\n"
+        "Welcome to HolderBot 🤖 [0.3.1]\n"
         "Developed and designed by <b>@ErfJabs</b>\n"
     )
     ITEMS_MENU: str = "Select a item or create a new:"
@@ -43,3 +43,4 @@ class _MessageSettings(BaseSettings):
         "• <b>Date Limit:</b> <code>{expire_strategy}</code>\n"
         "• <b>Sub Url:</b> <code>{subscription_url}</code>\n"
     )
+    ASK_REMOVE: str = "Are your sure remove?"

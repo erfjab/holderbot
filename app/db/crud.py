@@ -94,3 +94,15 @@ async def modify_server(
         await db.commit()
         await db.refresh(server)
         return server
+
+
+async def remove_server(serverid: int) -> bool:
+    async with get_db() as db:
+        server = await db.execute(select(Server).filter(Server.id == serverid))
+        server = server.scalar_one_or_none()
+        if not server:
+            return True
+        await db.delete(server.server_access)
+        await db.delete(server)
+        await db.commit()
+        return True

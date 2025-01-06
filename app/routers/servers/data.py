@@ -24,7 +24,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         text=server.format_data,
         reply_markup=BotKeys.modify(
             dataid=server.id,
-            datatypes=[ServerModify.REMARK, ServerModify.DATA],
+            datatypes=[ServerModify.REMARK, ServerModify.DATA, ServerModify.REMOVE],
             page=Pages.SERVERS,
             panel=server.id,
         ),

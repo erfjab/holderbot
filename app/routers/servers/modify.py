@@ -6,7 +6,7 @@ from aiogram.fsm.state import State, StatesGroup
 
 from app.db import crud
 from app.models.server import MarzneshinServerData, ServerTypes
-from app.keys import BotKeys, PageCB, Actions, Pages
+from app.keys import BotKeys, PageCB, Actions, Pages, YesOrNot, SelectCB
 from app.models.server import ServerModify
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
@@ -17,6 +17,7 @@ router = Router(name="server_modify")
 
 class ServerModifyForm(StatesGroup):
     ALL = State()
+    REMOVE = State()
 
 
 @router.callback_query(
@@ -33,7 +34,6 @@ async def start_modify(
         return await tracker.add(track)
 
     await state.clear()
-    await state.set_state(ServerModifyForm.ALL)
     await state.update_data(serverid=server.id)
     await state.update_data(servertypes=server.types)
     await state.update_data(panel=callback_data.panel)
@@ -44,6 +44,19 @@ async def start_modify(
         case ServerModify.DATA:
             await state.update_data(action=ServerModify.DATA)
             text = MessageTexts.ASK_MARZNESHIN_DATA
+        case ServerModify.REMOVE:
+            await state.set_state(ServerModifyForm.REMOVE)
+            return await callback.message.edit_text(
+                text=MessageTexts.ASK_REMOVE,
+                reply_markup=BotKeys.selector(
+                    data=[YesOrNot.YES, YesOrNot.NO],
+                    types=Pages.SERVERS,
+                    action=Actions.MODIFY,
+                    panel=server.id,
+                ),
+            )
+
+    await state.set_state(ServerModifyForm.ALL)
     return await callback.message.edit_text(text=text, reply_markup=BotKeys.cancel())
 
 
@@ -91,3 +104,28 @@ async def finish_modify(message: Message, state: FSMContext):
         reply_markup=BotKeys.cancel(),
     )
     return await tracker.cleardelete(message, track)
+
+
+@router.callback_query(
+    StateFilter(ServerModifyForm.REMOVE),
+    SelectCB.filter((F.types.is_(Pages.SERVERS)) & (F.action.is_(Actions.MODIFY))),
+)
+async def remove(callback: CallbackQuery, callback_data: SelectCB, state: FSMContext):
+    server = await crud.get_server(callback_data.panel)
+    if not server:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
+    if callback_data.select == YesOrNot.NO.value:
+        track = await callback.message.edit_text(
+            text=MessageTexts.FAILED, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
+    await crud.remove_server(serverid=server.id)
+    return await callback.message.edit_text(
+        text=MessageTexts.SUCCESS,
+        reply_markup=BotKeys.cancel(),
+    )
