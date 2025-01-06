@@ -8,6 +8,7 @@ class EnvSettingsFile(BaseSettings):
     DEBUG: bool = False
     TELEGRAM_BOT_TOKEN: str = ""
     TELEGRAM_ADMINS_ID: list[int] = []
+    QR_BACKGROUND: str = ""
 
     def is_admin(self, chatid: int) -> bool:
         return chatid in self.TELEGRAM_ADMINS_ID
