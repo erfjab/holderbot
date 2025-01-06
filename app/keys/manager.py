@@ -35,7 +35,7 @@ class _KeyboardsManager:
     def menu(self, panel: int) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
-        items = {KeyboardTexts.USERS: Pages.USERS}
+        items = {KeyboardTexts.USERS: Pages.USERS, KeyboardTexts.ACTIONS: Pages.ACTIONS}
 
         for text, page in items.items():
             kb.button(

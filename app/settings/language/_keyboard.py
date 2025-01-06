@@ -10,6 +10,7 @@ class _KeyboardSettings(BaseSettings):
     SERVER: str = "☁️ Server"
     CREATE: str = "➕ Create"
     USERS: str = "👤 Users"
+    ACTIONS: str = "🗄 Actions"
     DONE: str = "✔️ DONE"
     LEFT: str = "⬅️"
     RIGHT: str = "➡️"
