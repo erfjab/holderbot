@@ -20,7 +20,7 @@ async def create_qr(text: str) -> bytes:
     if backphoto:
         background = Image.open(backphoto).convert("RGBA")
 
-        max_size = (800, 800)  # مثال: حداکثر سایز تصویر
+        max_size = (800, 800)
         if background.size[0] > max_size[0] or background.size[1] > max_size[1]:
             background.thumbnail(max_size, Image.LANCZOS)
 
