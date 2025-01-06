@@ -12,16 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     - name: Install dependencies
       run: |
+        export PIP_BREAK_SYSTEM_PACKAGES=1
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install ruff
+        pip install uv ruff
+        uv sync
     - name: Run Ruff Format
       run: |
         ruff format --check .
