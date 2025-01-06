@@ -5,3 +5,7 @@ __pycache__/
 *.sqlite3
 state.db
 tracker.db
+*.db
+*.png
+*.jpg
+*.jpeg

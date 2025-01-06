@@ -149,44 +149,32 @@ class MarzneshinUserResponse(BaseModel):
         return "Unknown"
 
     @property
-    def format_data(self) -> str:
+    def format_data(self) -> dict:
         now = ensure_utc(datetime.now(timezone.utc))
 
-        base_data = {
-            "Username": self.username,
-            "Expire Strategy": f"{self.expire_strategy.value} ({self.get_expire_info(now)})",
-            "Activation Deadline": format_date_diff(now, self.activation_deadline),
-            "Data Limit": format_bytes(self.data_limit)
+        return {
+            "username": self.username,
+            "expire_strategy": f"{self.expire_strategy.value} ({self.get_expire_info(now)})",
+            "activation_deadline": format_date_diff(now, self.activation_deadline),
+            "data_limit": format_bytes(self.data_limit)
             if self.data_limit
             else "Unlimited",
-            "Data Reset Strategy": self.data_limit_reset_strategy.value,
-            "Used Traffic": format_bytes(self.used_traffic),
-            "Total Used Traffic": format_bytes(self.lifetime_used_traffic),
-            "Last Update": format_date_diff(now, self.sub_updated_at),
-            "Last User Agent": self.sub_last_user_agent or "➖",
-            "Last Online": format_date_diff(now, self.online_at),
-            "Activated": "Yes" if self.activated else "No",
-            "Enabled": "Yes" if self.enabled else "No",
-            "Active": "Yes" if self.is_active else "No",
-            "Expired": "Yes" if self.expired else "No",
-            "Data Limit Reached": "Yes" if self.data_limit_reached else "No",
-            "Services": str(self.service_ids),
-            "Owner": self.owner_username or "➖",
-            "Note": self.note or "➖",
+            "data_reset_strategy": self.data_limit_reset_strategy.value,
+            "used_traffic": format_bytes(self.used_traffic),
+            "total_used_traffic": format_bytes(self.lifetime_used_traffic),
+            "last_update": format_date_diff(now, self.sub_updated_at),
+            "last_user_agent": self.sub_last_user_agent or "➖",
+            "last_online": format_date_diff(now, self.online_at),
+            "is_activated": "Yes" if self.activated else "No",
+            "is_enabled": "Yes" if self.enabled else "No",
+            "is_active": "Yes" if self.is_active else "No",
+            "is_expired": "Yes" if self.expired else "No",
+            "data_limit_reached": "Yes" if self.data_limit_reached else "No",
+            "services": str(self.service_ids),
+            "owner": self.owner_username or "➖",
+            "note": self.note or "➖",
+            "revoked_at": format_date_diff(now, self.sub_revoked_at),
+            "traffic_reset_at": format_date_diff(now, self.traffic_reset_at),
+            "created_at": format_date_diff(now, self.created_at),
+            "subscription_url": self.subscription_url,
         }
-
-        formatted_data_str = "\n".join(
-            [
-                f"     • <b>{key}:</b> <code>{value}</code>"
-                for key, value in base_data.items()
-            ]
-        )
-
-        footer_data = [
-            f"• <b>Subscription Revoked At:</b> <code>{format_date_diff(now, self.sub_revoked_at)}</code>",
-            f"• <b>Traffic Reset At:</b> <code>{format_date_diff(now, self.traffic_reset_at)}</code>",
-            f"• <b>Created At:</b> <code>{format_date_diff(now, self.created_at)}</code>",
-            f"• <b>Subscription Url:</b> <code>{self.subscription_url}</code>",
-        ]
-
-        return f"• <b>Data</b>\n{formatted_data_str}\n" + "\n".join(footer_data)
