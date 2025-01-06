@@ -50,12 +50,13 @@ async def select(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
 
     await state.update_data(configs=[config.dict() for config in configs])
     return await callback.message.edit_text(
-        text=MessageTexts.ITEMS,
+        text={MessageTexts.ITEMS},
         reply_markup=BotKeys.selector(
-            data=[config.name for config in configs],
+            data=[config.remark for config in configs],
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,
+            width=1,
         ),
     )
 
@@ -76,7 +77,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
     configs = data["configs"]
     selected = callback_data.select
     target_config = next(
-        (config for config in configs if config["name"] == selected), None
+        (config for config in configs if config["remark"] == selected), None
     )
     if not target_config:
         track = await callback.message.edit_text(
