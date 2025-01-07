@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from app.version import __version__
 
 
 class _MessageSettings(BaseSettings):
@@ -7,7 +8,7 @@ class _MessageSettings(BaseSettings):
     )
 
     START: str = (
-        "Welcome to HolderBot 🤖 [0.3.1]\n"
+        f"Welcome to HolderBot 🤖 [{__version__}]\n"
         "Developed and designed by <b>@ErfJabs</b>\n"
     )
     ITEMS_MENU: str = "Select a item or create a new:"

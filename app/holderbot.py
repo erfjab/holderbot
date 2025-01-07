@@ -8,6 +8,7 @@ from app.settings.track import tracker
 from app.routers import setup_routers
 from app.settings.middlewares import CheckUserAccess
 from .bot import bot
+from .version import __version__
 
 
 async def main() -> None:
@@ -18,7 +19,7 @@ async def main() -> None:
         dp.update.middleware(CheckUserAccess())
         await tasker.start()
         await bot.delete_webhook(True)
-        logger.info("Start Polling messages")
+        logger.info(f"Start Polling {__version__}")
         await dp.start_polling(bot)
     except (ConnectionError, TimeoutError, asyncio.TimeoutError) as conn_err:
         logger.error("Polling error (connection issue): %s", conn_err)

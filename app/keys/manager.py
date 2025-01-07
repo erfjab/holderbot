@@ -24,10 +24,14 @@ class _KeyboardsManager:
 
         kb.row(
             InlineKeyboardButton(
+                text=KeyboardTexts.UPDATE_CHECKER,
+                callback_data=PageCB(page=Pages.UPDATE, action=Actions.INFO).pack(),
+            ),
+            InlineKeyboardButton(
                 text=KeyboardTexts.CREATE,
                 callback_data=PageCB(page=Pages.SERVERS, action=Actions.CREATE).pack(),
             ),
-            width=1,
+            width=2,
         )
 
         return kb.as_markup()
