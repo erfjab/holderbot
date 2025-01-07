@@ -24,8 +24,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         server=server, page=callback_data.pagenumber or 1, size=10
     )
     if not users:
-        track = await callback.answer(text=MessageTexts.NOT_FOUND, show_alert=True)
-        return await tracker.add(track)
+        return await callback.answer(text=MessageTexts.NOT_FOUND, show_alert=True)
 
     current = callback_data.pagenumber
     has_more = len(users) == 10

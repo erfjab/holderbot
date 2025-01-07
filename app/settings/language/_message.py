@@ -43,4 +43,4 @@ class _MessageSettings(BaseSettings):
         "• <b>Date Limit:</b> <code>{expire_strategy}</code>\n"
         "• <b>Sub Url:</b> <code>{subscription_url}</code>\n"
     )
-    ASK_REMOVE: str = "Are your sure remove?"
+    ASK_SURE: str = "Are your sure?"

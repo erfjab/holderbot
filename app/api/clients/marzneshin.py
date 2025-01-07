@@ -94,3 +94,17 @@ class MarzneshinApiManager(ApiRequest):
             endpoint=f"/api/users/{username}",
             access=access,
         )
+
+    async def activate_user(self, username: str, access: str) -> Optional[bool]:
+        return await self.post(endpoint=f"/api/users/{username}/enable", access=access)
+
+    async def disabled_user(self, username: str, access: str) -> Optional[bool]:
+        return await self.post(endpoint=f"/api/users/{username}/disable", access=access)
+
+    async def revoke_user(self, username: str, access: str) -> Optional[bool]:
+        return await self.post(
+            endpoint=f"/api/users/{username}/revoke_sub", access=access
+        )
+
+    async def reset_user(self, username: str, access: str) -> Optional[bool]:
+        return await self.post(endpoint=f"/api/users/{username}/reset", access=access)

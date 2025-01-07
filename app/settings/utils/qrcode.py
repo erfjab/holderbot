@@ -35,7 +35,7 @@ async def create_qr(text: str) -> bytes:
 
     backphoto = env.QR_BACKGROUND
     background = get_processed_background(backphoto) if backphoto else None
-    
+
     if background is None:
         img_bytes_io = BytesIO()
         qr_img.save(img_bytes_io, "PNG", optimize=True, quality=95)

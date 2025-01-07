@@ -17,3 +17,12 @@ class MarzneshinUserCreate(BaseModel):
     expire_strategy: MarzneshinUserExpireStrategy
     expire_date: datetime | None
     usage_duration: int | None
+
+
+class UserModify(str, Enum):
+    ACTIVATED = "Activated"
+    DISABLED = "Disabled"
+    REVOKE = "Revoke"
+    RESET_USAGE = "Reset usage"
+    QRCODE = "Qrcode"
+    REMOVE = "Remove"

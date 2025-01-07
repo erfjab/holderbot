@@ -47,7 +47,7 @@ async def start_modify(
         case ServerModify.REMOVE:
             await state.set_state(ServerModifyForm.REMOVE)
             return await callback.message.edit_text(
-                text=MessageTexts.ASK_REMOVE,
+                text=MessageTexts.ASK_SURE,
                 reply_markup=BotKeys.selector(
                     data=[YesOrNot.YES, YesOrNot.NO],
                     types=Pages.SERVERS,
