@@ -92,3 +92,35 @@ class ClinetApiManager:
                 user = await api.remove_user(username, server.access)
 
         return user
+
+    async def activated_user(self, server: Server, username: str) -> Optional[bool]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                user = await api.activate_user(username, server.access)
+
+        return user
+
+    async def disabled_user(self, server: Server, username: str) -> Optional[bool]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                user = await api.disabled_user(username, server.access)
+
+        return user
+
+    async def reset_user(self, server: Server, username: str) -> Optional[bool]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                user = await api.reset_user(username, server.access)
+
+        return user
+
+    async def revoke_user(self, server: Server, username: str) -> Optional[bool]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                user = await api.revoke_user(username, server.access)
+
+        return user

@@ -143,6 +143,7 @@ class _KeyboardsManager:
         selects: list[str] | None = None,
         width: int = 2,
         panel: int | None = None,
+        extra: str | None = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -157,7 +158,12 @@ class _KeyboardsManager:
             kb.button(
                 text=text,
                 callback_data=SelectCB(
-                    select=d, types=types, action=action, selected=selected, panel=panel
+                    select=d,
+                    types=types,
+                    action=action,
+                    selected=selected,
+                    panel=panel,
+                    extra=extra,
                 ).pack(),
             )
 

@@ -20,3 +20,4 @@ class SelectCB(CallbackData, prefix="select"):
     selected: bool | None = None
     done: bool = False
     panel: int | None = None
+    extra: str | None = None

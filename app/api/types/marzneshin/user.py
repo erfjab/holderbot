@@ -178,3 +178,34 @@ class MarzneshinUserResponse(BaseModel):
             "created_at": format_date_diff(now, self.created_at),
             "subscription_url": self.subscription_url,
         }
+
+    def format_data_str(self) -> str:
+        """Return formatted data as a string"""
+        now = ensure_utc(datetime.now(timezone.utc))
+
+        data = [
+            f"<b>• Username:</b> <code>{self.username}</code>",
+            f"<b>• Expire Strategy:</b> <code>{self.expire_strategy.value} ({self.get_expire_info(now)})</code>",
+            f"<b>• Activation Deadline:</b> <code>{format_date_diff(now, self.activation_deadline)}</code>",
+            f"<b>• Data Limit:</b> <code>{format_bytes(self.data_limit) if self.data_limit else 'Unlimited'}</code>",
+            f"<b>• Data Reset Strategy:</b> <code>{self.data_limit_reset_strategy.value}</code>",
+            f"<b>• Used Traffic:</b> <code>{format_bytes(self.used_traffic)}</code>",
+            f"<b>• Total Used Traffic:</b> <code>{format_bytes(self.lifetime_used_traffic)}</code>",
+            f"<b>• Last Update:</b> <code>{format_date_diff(now, self.sub_updated_at)}</code>",
+            f"<b>• Last User Agent:</b> <code>{self.sub_last_user_agent or '➖'}</code>",
+            f"<b>• Last Online:</b> <code>{format_date_diff(now, self.online_at)}</code>",
+            f"<b>• Activated:</b> <code>{'Yes' if self.activated else 'No'}</code>",
+            f"<b>• Enabled:</b> <code>{'Yes' if self.enabled else 'No'}</code>",
+            f"<b>• Active:</b> <code>{'Yes' if self.is_active else 'No'}</code>",
+            f"<b>• Expired:</b> <code>{'Yes' if self.expired else 'No'}</code>",
+            f"<b>• Data Limit Reached:</b> <code>{'Yes' if self.data_limit_reached else 'No'}</code>",
+            f"<b>• Services:</b> <code>{', '.join(map(str, self.service_ids))}</code>",
+            f"<b>• Owner:</b> <code>{self.owner_username or '➖'}</code>",
+            f"<b>• Note:</b> <code>{self.note or '➖'}</code>",
+            f"<b>• Revoked At:</b> <code>{format_date_diff(now, self.sub_revoked_at)}</code>",
+            f"<b>• Traffic Reset At:</b> <code>{format_date_diff(now, self.traffic_reset_at)}</code>",
+            f"<b>• Created At:</b> <code>{format_date_diff(now, self.created_at)}</code>",
+            f"<b>• Subscription URL:</b> <code>{self.subscription_url}</code>",
+        ]
+
+        return "\n".join(data)
