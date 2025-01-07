@@ -7,6 +7,8 @@ from app.settings.language import MessageTexts
 from app.settings.track import tracker
 from app.keys import BotKeys, PageCB, Pages, Actions
 from app.db import crud
+from app.settings.utils.update import check_github_version
+from app.version import __version__
 
 router = Router(name="start")
 
@@ -38,4 +40,18 @@ async def menu(callback: CallbackQuery, callback_data: PageCB, state: FSMContext
     await state.clear()
     return await callback.message.edit_text(
         text=MessageTexts.MENU, reply_markup=BotKeys.menu(panel=callback_data.panel)
+    )
+
+
+@router.callback_query(
+    PageCB.filter((F.page.is_(Pages.UPDATE)) & (F.action.is_(Actions.INFO)))
+)
+async def updatechecker(
+    callback: CallbackQuery, callback_data: PageCB, state: FSMContext
+):
+    await state.clear()
+    has_update, latest_version = await check_github_version(__version__)
+    return await callback.answer(
+        text="You are update!" if not has_update else "🎉 New version is ready!",
+        show_alert=True,
     )

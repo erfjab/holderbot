@@ -14,3 +14,4 @@ class _KeyboardSettings(BaseSettings):
     DONE: str = "✔️ DONE"
     LEFT: str = "⬅️"
     RIGHT: str = "➡️"
+    UPDATE_CHECKER: str = "👀 Check Update"

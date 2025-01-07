@@ -16,4 +16,5 @@ dependencies = [
     "python-decouple==3.8",
     "qrcode==7.4.2",
     "sqlalchemy==2.0.31",
+    "packaging>=24.2",
 ]
