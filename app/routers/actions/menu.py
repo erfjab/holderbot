@@ -28,6 +28,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
                 ActionTypes.DELETE_CONFIG,
                 ActionTypes.DELETE_EXPIRED_USERS,
                 ActionTypes.DELETE_LIMITED_USERS,
+                ActionTypes.DELETE_USERS,
             ],
             types=Pages.ACTIONS,
             action=Actions.INFO,

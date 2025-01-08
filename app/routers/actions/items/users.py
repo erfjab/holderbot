@@ -17,6 +17,7 @@ router = Router(name="actions_users")
 
 
 class UsersActionsForm(StatesGroup):
+    ADMINS = State()
     USERS = State()
 
 
@@ -29,6 +30,7 @@ class UsersActionsForm(StatesGroup):
                 [
                     ActionTypes.DELETE_LIMITED_USERS.value,
                     ActionTypes.DELETE_EXPIRED_USERS.value,
+                    ActionTypes.DELETE_USERS.value,
                 ]
             )
         )
@@ -42,8 +44,51 @@ async def select(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         )
         return await tracker.add(track)
 
-    await state.set_state(UsersActionsForm.USERS)
     await state.update_data(action=callback_data.select)
+    if callback_data.select == ActionTypes.DELETE_USERS.value:
+        await state.set_state(UsersActionsForm.ADMINS)
+        admins = await ClinetManager.get_admins(server=server)
+        if not admins:
+            track = await callback.message.edit_text(
+                text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            )
+            return await tracker.add(track)
+        return await callback.message.edit_text(
+            text=MessageTexts.ITEMS,
+            reply_markup=BotKeys.selector(
+                data=[admin.username for admin in admins],
+                types=Pages.ACTIONS,
+                action=Actions.INFO,
+                panel=server.id,
+            ),
+        )
+
+    await state.set_state(UsersActionsForm.USERS)
+    return await callback.message.edit_text(
+        text=MessageTexts.ITEMS,
+        reply_markup=BotKeys.selector(
+            data=[YesOrNot.YES, YesOrNot.NO],
+            types=Pages.ACTIONS,
+            action=Actions.INFO,
+            panel=server.id,
+        ),
+    )
+
+
+@router.callback_query(
+    StateFilter(UsersActionsForm.ADMINS),
+    SelectCB.filter((F.types.is_(Pages.ACTIONS)) & (F.action.is_(Actions.INFO))),
+)
+async def admins(callback: CallbackQuery, callback_data: SelectCB, state: FSMContext):
+    server = await crud.get_server(callback_data.panel)
+    if not server:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
+    await state.update_data(admin=callback_data.select)
+    await state.set_state(UsersActionsForm.USERS)
     return await callback.message.edit_text(
         text=MessageTexts.ITEMS,
         reply_markup=BotKeys.selector(
@@ -79,6 +124,8 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         ActionTypes.DELETE_EXPIRED_USERS
         if data["action"] == ActionTypes.DELETE_EXPIRED_USERS.value
         else ActionTypes.DELETE_LIMITED_USERS
+        if data["action"] == ActionTypes.DELETE_LIMITED_USERS.value
+        else ActionTypes.DELETE_USERS
     )
     page = 1
     all_users = 0
@@ -96,6 +143,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
             size=100,
             limited=True if action_type == ActionTypes.DELETE_LIMITED_USERS else None,
             expired=True if action_type == ActionTypes.DELETE_EXPIRED_USERS else None,
+            owner_username=data.get("admin", None),
         )
 
         if not users:

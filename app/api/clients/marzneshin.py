@@ -5,6 +5,7 @@ from ..types.marzneshin import (
     MarzneshinToken,
     MarzneshinUserResponse,
     MarzneshinServiceResponce,
+    MarzneshinAdmin,
 )
 
 
@@ -34,6 +35,7 @@ class MarzneshinApiManager(ApiRequest):
         expired: Optional[bool] = None,
         limited: Optional[bool] = None,
         search: Optional[str] = None,
+        owner_username: Optional[str] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         users = await self.get(
             endpoint="/api/users",
@@ -45,6 +47,7 @@ class MarzneshinApiManager(ApiRequest):
                 "expired": expired,
                 "data_limit_reached": limited,
                 "username": search,
+                "owner_username": owner_username,
             },
             access=access,
         )
@@ -108,3 +111,9 @@ class MarzneshinApiManager(ApiRequest):
 
     async def reset_user(self, username: str, access: str) -> Optional[bool]:
         return await self.post(endpoint=f"/api/users/{username}/reset", access=access)
+
+    async def get_admins(self, access: str) -> Optional[list[MarzneshinAdmin]]:
+        admins = await self.get(endpoint="/api/admins", access=access)
+        if not admins:
+            return False
+        return [MarzneshinAdmin(**admin) for admin in admins["items"]]
