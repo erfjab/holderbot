@@ -5,6 +5,7 @@ from .types.marzneshin import (
     MarzneshinToken,
     MarzneshinUserResponse,
     MarzneshinServiceResponce,
+    MarzneshinAdmin,
 )
 from app.models.server import ServerTypes
 from app.db import Server
@@ -32,6 +33,7 @@ class ClinetApiManager:
         limited: Optional[bool] = None,
         expired: Optional[bool] = None,
         search: Optional[str] = None,
+        owner_username: Optional[str] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
@@ -43,6 +45,7 @@ class ClinetApiManager:
                     expired=expired,
                     limited=limited,
                     search=search,
+                    owner_username=owner_username,
                 )
 
         return users
@@ -124,3 +127,11 @@ class ClinetApiManager:
                 user = await api.revoke_user(username, server.access)
 
         return user
+
+    async def get_admins(self, server: Server) -> Optional[list[MarzneshinAdmin]]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                admins = await api.get_admins(access=server.access)
+
+        return admins
