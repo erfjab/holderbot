@@ -8,4 +8,4 @@ class ActionTypes(str, Enum):
     DELETE_LIMITED_USERS = "🗑 Delete Limited"
     DISABLED_USERS = "✖️ Disabled Users"
     ACTIVATED_USERS = "✔️ Activate Users"
-    DELETE_USERS = "🗑 Delete Users"
+    DELETE_USERS = "🗑 Delete Admin Users"
