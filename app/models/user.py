@@ -26,3 +26,4 @@ class UserModify(str, Enum):
     RESET_USAGE = "Reset usage"
     QRCODE = "Qrcode"
     REMOVE = "Remove"
+    OWNER = "Set owner"
