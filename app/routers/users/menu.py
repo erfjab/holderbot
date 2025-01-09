@@ -19,9 +19,13 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
         return await tracker.add(track)
-
+    filter_select = callback_data.filters
     users = await ClinetManager.get_users(
-        server=server, page=callback_data.pagenumber or 1, size=10
+        server=server,
+        page=callback_data.pagenumber or 1,
+        size=10,
+        limited=True if filter_select == "🔴" else None,
+        expired=True if filter_select == "🟡" else None,
     )
     if not users:
         return await callback.answer(text=MessageTexts.NOT_FOUND, show_alert=True)
@@ -33,7 +37,10 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         current - 1 if current else 0,
         current + 1 if has_more and current else (2 if not current else 0),
     )
-
+    filters_buttons = [
+        f"✔{emojifilter}" if emojifilter == callback_data.filters else emojifilter
+        for emojifilter in ["🟢", "🔴", "🟡"]
+    ]
     return await callback.message.edit_text(
         text=MessageTexts.ITEMS_MENU,
         reply_markup=BotKeys.lister(
@@ -41,5 +48,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             page=Pages.USERS,
             panel=server.id,
             control=control,
+            select_filters=filter_select,
+            filters=filters_buttons,
         ),
     )
