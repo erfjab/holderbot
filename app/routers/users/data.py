@@ -29,11 +29,13 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         text=user.format_data_str(),
         reply_markup=BotKeys.selector(
             data=[
-                UserModify.ACTIVATED,
-                UserModify.DISABLED,
+                UserModify.DATA_LIMIT,
+                UserModify.DATE_LIMIT,
+                UserModify.DISABLED if user.is_active else UserModify.ACTIVATED,
                 UserModify.RESET_USAGE,
                 UserModify.REVOKE,
                 UserModify.QRCODE,
+                UserModify.NOTE,
                 UserModify.OWNER,
                 UserModify.CONFIGS,
                 UserModify.REMOVE,

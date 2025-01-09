@@ -1,5 +1,4 @@
 import asyncio
-from enum import Enum
 from datetime import datetime, timedelta
 
 from aiogram import Router, F
@@ -12,15 +11,13 @@ from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB
 from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
-from app.models.user import MarzneshinUserExpireStrategy, MarzneshinUserCreate
+from app.models.user import (
+    MarzneshinUserExpireStrategy,
+    MarzneshinUserCreate,
+    DateTypes,
+)
 from app.settings.utils.qrcode import create_qr
 from app.settings.track import tracker
-
-
-class DateTypes(str, Enum):
-    UNLIMITED = "unlimited"
-    NOW = "now"
-    AFTER_FIRST_USE = "after first use"
 
 
 class UserCreateForm(StatesGroup):
