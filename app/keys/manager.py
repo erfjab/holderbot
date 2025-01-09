@@ -73,6 +73,8 @@ class _KeyboardsManager:
         page: Pages,
         panel: int,
         control: tuple[int, int] = None,
+        filters: list[str] | None = None,
+        select_filters: str | None = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -80,11 +82,31 @@ class _KeyboardsManager:
             kb.button(
                 text=f"{item.emoji if item.emoji else ''}{item.remark}",
                 callback_data=PageCB(
-                    page=page, action=Actions.INFO, dataid=item.id, panel=panel
+                    page=page,
+                    action=Actions.INFO,
+                    dataid=item.id,
+                    panel=panel,
+                    filters=select_filters,
                 ).pack(),
             )
 
         kb.adjust(2)
+
+        buttons = []
+        for f in filters:
+            buttons.append(
+                InlineKeyboardButton(
+                    text=f,
+                    callback_data=PageCB(
+                        page=page,
+                        action=Actions.LIST,
+                        panel=panel,
+                        filters=f,
+                    ).pack(),
+                )
+            )
+        if buttons:
+            kb.row(*buttons, width=len(filters))
 
         if control is not None:
             left, right = control
@@ -94,7 +116,11 @@ class _KeyboardsManager:
                     InlineKeyboardButton(
                         text=KeyboardTexts.LEFT,
                         callback_data=PageCB(
-                            page=page, action=Actions.LIST, pagenumber=left, panel=panel
+                            page=page,
+                            action=Actions.LIST,
+                            pagenumber=left,
+                            panel=panel,
+                            filters=select_filters,
                         ).pack(),
                     )
                 )
@@ -107,6 +133,7 @@ class _KeyboardsManager:
                             action=Actions.LIST,
                             pagenumber=right,
                             panel=panel,
+                            filters=select_filters,
                         ).pack(),
                     )
                 )

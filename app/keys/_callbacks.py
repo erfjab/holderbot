@@ -11,6 +11,7 @@ class PageCB(CallbackData, prefix="pages"):
     datatype: str | Enum | None = None
     panel: int | None = None
     pagenumber: int | None = None
+    filters: str | None = None
 
 
 class SelectCB(CallbackData, prefix="select"):
