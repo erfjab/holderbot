@@ -25,11 +25,11 @@ class MarzneshinUserModify(BaseModel):
 
 
 class UserModify(str, Enum):
-    ACTIVATED = "Activated"
-    DISABLED = "Disabled"
-    REVOKE = "Revoke"
-    RESET_USAGE = "Reset usage"
-    QRCODE = "Qrcode"
-    REMOVE = "Remove"
-    OWNER = "Set owner"
-    CONFIGS = "Configs"
+    ACTIVATED = "✅ Activated"
+    DISABLED = "❌ Disabled"
+    REVOKE = "⛓️‍💥 Revoke"
+    RESET_USAGE = "🔁 Reset usage"
+    QRCODE = "🖼 Qrcode"
+    REMOVE = "🗑 Remove"
+    OWNER = "👤 Set owner"
+    CONFIGS = "📂 Configs"
