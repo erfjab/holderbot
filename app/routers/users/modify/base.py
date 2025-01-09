@@ -4,5 +4,5 @@ from aiogram.fsm.state import State, StatesGroup
 class UserModifyForm(StatesGroup):
     ADMIN = State()
     CONFIRM = State()
-    INPUT = State()
+    DATA_LIMIT = State()
     CONFIGS = State()

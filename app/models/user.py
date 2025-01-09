@@ -21,7 +21,11 @@ class MarzneshinUserCreate(BaseModel):
 
 class MarzneshinUserModify(BaseModel):
     username: str
-    service_ids: list[int]
+    data_limit: int | None = None
+    service_ids: list[int] | None = None
+    expire_strategy: MarzneshinUserExpireStrategy | None = None
+    expire_date: datetime | None = None
+    usage_duration: int | None = None
 
 
 class UserModify(str, Enum):
@@ -33,3 +37,4 @@ class UserModify(str, Enum):
     REMOVE = "🗑 Remove"
     OWNER = "👤 Set owner"
     CONFIGS = "📂 Configs"
+    DATA_LIMIT = "📊 Data Limit"
