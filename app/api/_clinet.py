@@ -34,6 +34,7 @@ class ClinetApiManager:
         expired: Optional[bool] = None,
         search: Optional[str] = None,
         owner_username: Optional[str] = None,
+        is_active: Optional[str] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
@@ -46,6 +47,7 @@ class ClinetApiManager:
                     limited=limited,
                     search=search,
                     owner_username=owner_username,
+                    is_active=is_active,
                 )
 
         return users

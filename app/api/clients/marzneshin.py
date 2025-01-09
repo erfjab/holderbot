@@ -36,6 +36,7 @@ class MarzneshinApiManager(ApiRequest):
         limited: Optional[bool] = None,
         search: Optional[str] = None,
         owner_username: Optional[str] = None,
+        is_active: Optional[str] = None,
     ) -> Optional[list[MarzneshinUserResponse]]:
         users = await self.get(
             endpoint="/api/users",
@@ -48,6 +49,7 @@ class MarzneshinApiManager(ApiRequest):
                 "data_limit_reached": limited,
                 "username": search,
                 "owner_username": owner_username,
+                "is_active": is_active,
             },
             access=access,
         )

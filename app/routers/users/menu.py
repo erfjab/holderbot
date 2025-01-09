@@ -26,6 +26,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         size=10,
         limited=True if filter_select == "🔴" else None,
         expired=True if filter_select == "🟡" else None,
+        is_active=True if filter_select == "🟢" else None,
     )
     if not users:
         return await callback.answer(text=MessageTexts.NOT_FOUND, show_alert=True)
