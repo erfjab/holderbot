@@ -17,6 +17,7 @@ router = Router(name="actions_add_config")
 
 
 class ConfigsActionsForm(StatesGroup):
+    ADMINS = State()
     CONFIGS = State()
 
 
@@ -39,8 +40,41 @@ async def select(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         )
         return await tracker.add(track)
 
-    await state.set_state(ConfigsActionsForm.CONFIGS)
+    await state.set_state(ConfigsActionsForm.ADMINS)
+    admins = await ClinetManager.get_admins(server=server)
+    if not admins:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
     await state.update_data(action=callback_data.select)
+    return await callback.message.edit_text(
+        text=MessageTexts.ASK_ADMIN,
+        reply_markup=BotKeys.selector(
+            data=[admin.username for admin in admins] + ["ALL"],
+            types=Pages.ACTIONS,
+            action=Actions.INFO,
+            panel=server.id,
+        ),
+    )
+
+
+@router.callback_query(
+    StateFilter(ConfigsActionsForm.ADMINS),
+    SelectCB.filter((F.types.is_(Pages.ACTIONS)) & (F.action.is_(Actions.INFO))),
+)
+async def admin(callback: CallbackQuery, callback_data: SelectCB, state: FSMContext):
+    await state.update_data(admin=callback_data.select)
+
+    server = await crud.get_server(callback_data.panel)
+    if not server:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
+    await state.set_state(ConfigsActionsForm.CONFIGS)
     configs = await ClinetManager.get_configs(server)
     if not configs:
         track = await callback.message.edit_text(
@@ -123,7 +157,13 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
     success = 0
 
     while True:
-        users = await ClinetManager.get_users(server, page, size=100)
+        adminselect = data["admin"]
+        users = await ClinetManager.get_users(
+            server,
+            page,
+            size=100,
+            owner_username=None if adminselect == "ALL" else adminselect,
+        )
         if not users:
             break
 
