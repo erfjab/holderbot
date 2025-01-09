@@ -34,6 +34,8 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
                 UserModify.RESET_USAGE,
                 UserModify.REVOKE,
                 UserModify.QRCODE,
+                UserModify.OWNER,
+                UserModify.CONFIGS,
                 UserModify.REMOVE,
             ],
             types=Pages.USERS,

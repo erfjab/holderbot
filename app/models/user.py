@@ -19,6 +19,11 @@ class MarzneshinUserCreate(BaseModel):
     usage_duration: int | None
 
 
+class MarzneshinUserModify(BaseModel):
+    username: str
+    service_ids: list[int]
+
+
 class UserModify(str, Enum):
     ACTIVATED = "Activated"
     DISABLED = "Disabled"
@@ -26,3 +31,5 @@ class UserModify(str, Enum):
     RESET_USAGE = "Reset usage"
     QRCODE = "Qrcode"
     REMOVE = "Remove"
+    OWNER = "Set owner"
+    CONFIGS = "Configs"

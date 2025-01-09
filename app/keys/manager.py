@@ -205,7 +205,11 @@ class _KeyboardsManager:
                 InlineKeyboardButton(
                     text=KeyboardTexts.DONE,
                     callback_data=SelectCB(
-                        types=types, action=Actions.CREATE, done=True, panel=panel
+                        types=types,
+                        action=action,
+                        done=True,
+                        panel=panel,
+                        extra=extra,
                     ).pack(),
                 ),
                 InlineKeyboardButton(
