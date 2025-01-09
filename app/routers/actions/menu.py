@@ -26,9 +26,11 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             data=[
                 ActionTypes.ADD_CONFIG,
                 ActionTypes.DELETE_CONFIG,
+                ActionTypes.ACTIVATED_USERS,
+                ActionTypes.DISABLED_USERS,
+                ActionTypes.DELETE_USERS,
                 ActionTypes.DELETE_EXPIRED_USERS,
                 ActionTypes.DELETE_LIMITED_USERS,
-                ActionTypes.DELETE_USERS,
             ],
             types=Pages.ACTIONS,
             action=Actions.INFO,

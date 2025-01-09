@@ -6,4 +6,6 @@ class ActionTypes(str, Enum):
     DELETE_CONFIG = "➖ Delete Config"
     DELETE_EXPIRED_USERS = "🗑 Delete Expired"
     DELETE_LIMITED_USERS = "🗑 Delete Limited"
+    DISABLED_USERS = "✖️ Disabled Users"
+    ACTIVATED_USERS = "✔️ Activate Users"
     DELETE_USERS = "🗑 Delete Users"

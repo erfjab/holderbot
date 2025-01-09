@@ -149,3 +149,19 @@ class ClinetApiManager:
                 )
 
         return user
+
+    async def activated_users(self, server: Server, admin: str) -> Optional[bool]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                action = await api.activate_users(admin, server.access)
+
+        return action
+
+    async def disabled_users(self, server: Server, admin: str) -> Optional[bool]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                action = await api.disabled_users(admin, server.access)
+
+        return action

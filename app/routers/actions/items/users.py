@@ -30,6 +30,8 @@ class UsersActionsForm(StatesGroup):
                 [
                     ActionTypes.DELETE_LIMITED_USERS.value,
                     ActionTypes.DELETE_EXPIRED_USERS.value,
+                    ActionTypes.ACTIVATED_USERS.value,
+                    ActionTypes.DISABLED_USERS.value,
                     ActionTypes.DELETE_USERS.value,
                 ]
             )
@@ -45,7 +47,11 @@ async def select(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         return await tracker.add(track)
 
     await state.update_data(action=callback_data.select)
-    if callback_data.select == ActionTypes.DELETE_USERS.value:
+    if callback_data.select in [
+        ActionTypes.DELETE_USERS.value,
+        ActionTypes.ACTIVATED_USERS.value,
+        ActionTypes.DISABLED_USERS.value,
+    ]:
         await state.set_state(UsersActionsForm.ADMINS)
         admins = await ClinetManager.get_admins(server=server)
         if not admins:
@@ -120,13 +126,27 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
 
     await callback.message.edit_text(text="⏳")
     data = await state.get_data()
-    action_type = (
-        ActionTypes.DELETE_EXPIRED_USERS
-        if data["action"] == ActionTypes.DELETE_EXPIRED_USERS.value
-        else ActionTypes.DELETE_LIMITED_USERS
-        if data["action"] == ActionTypes.DELETE_LIMITED_USERS.value
-        else ActionTypes.DELETE_USERS
-    )
+    admin = data.get("admin", None)
+    action_mapping = {
+        ActionTypes.DELETE_EXPIRED_USERS.value: ActionTypes.DELETE_EXPIRED_USERS,
+        ActionTypes.DELETE_LIMITED_USERS.value: ActionTypes.DELETE_LIMITED_USERS,
+        ActionTypes.DELETE_USERS.value: ActionTypes.DELETE_USERS,
+        ActionTypes.DISABLED_USERS.value: ActionTypes.DISABLED_USERS,
+        ActionTypes.ACTIVATED_USERS.value: ActionTypes.ACTIVATED_USERS,
+    }
+    action_type = action_mapping.get(data["action"], None)
+
+    if action_type in [ActionTypes.ACTIVATED_USERS, ActionTypes.DISABLED_USERS]:
+        result = (
+            await ClinetManager.activated_users(server, admin)
+            if action_type == ActionTypes.ACTIVATED_USERS
+            else await ClinetManager.disabled_users(server, admin)
+        )
+        return await callback.message.edit_text(
+            MessageTexts.SUCCESS if result else MessageTexts.FAILED,
+            reply_markup=BotKeys.cancel(),
+        )
+
     page = 1
     all_users = 0
     success = 0
@@ -143,7 +163,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
             size=100,
             limited=True if action_type == ActionTypes.DELETE_LIMITED_USERS else None,
             expired=True if action_type == ActionTypes.DELETE_EXPIRED_USERS else None,
-            owner_username=data.get("admin", None),
+            owner_username=admin,
         )
 
         if not users:
