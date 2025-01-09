@@ -21,7 +21,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         return await tracker.add(track)
 
     return await callback.message.edit_text(
-        text=MessageTexts.ITEMS_MENU,
+        text=MessageTexts.ITEMS,
         reply_markup=BotKeys.selector(
             data=[
                 ActionTypes.ADD_CONFIG,
