@@ -10,6 +10,12 @@ class MarzneshinUserExpireStrategy(str, Enum):
     START_ON_FIRST_USE = "start_on_first_use"
 
 
+class DateTypes(str, Enum):
+    UNLIMITED = "unlimited"
+    NOW = "now"
+    AFTER_FIRST_USE = "after first use"
+
+
 class MarzneshinUserCreate(BaseModel):
     username: str
     data_limit: int
@@ -38,3 +44,4 @@ class UserModify(str, Enum):
     OWNER = "👤 Set owner"
     CONFIGS = "📂 Configs"
     DATA_LIMIT = "📊 Data Limit"
+    DATE_LIMIT = "⏱️ Date Limit"

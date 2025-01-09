@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from enum import Enum
 from pydantic import BaseModel, validator
 from typing import Optional
@@ -139,12 +139,7 @@ class MarzneshinUserResponse(BaseModel):
         elif self.expire_strategy == UserExpireStrategy.START_ON_FIRST_USE:
             if self.usage_duration:
                 usage_duration = self.usage_duration / (24 * 60 * 60)
-                if not self.activated:
-                    return f"{usage_duration} days after first use"
-                else:
-                    activation_date = ensure_utc(self.online_at or self.created_at)
-                    expire_date = activation_date + timedelta(days=usage_duration)
-                    return format_date_diff(now, expire_date)
+                return f"{int(usage_duration)} days after first use"
             return "Unknown"
         return "Unknown"
 
