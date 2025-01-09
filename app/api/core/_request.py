@@ -154,13 +154,19 @@ class ApiRequest(ABC):
         endpoint: str,
         access: Optional[str] = None,
         data: Optional[Union[BaseModel, Dict[str, Any]]] = None,
+        params: Optional[Dict[str, Any]] = None,
         response_model: Optional[Type[T]] = None,
     ) -> Union[httpx.Response, T]:
         """
         Perform a PUT request
         """
         return await self._request(
-            "PUT", endpoint, data=data, response_model=response_model, access=access
+            "PUT",
+            endpoint,
+            data=data,
+            response_model=response_model,
+            params=params,
+            access=access,
         )
 
     async def delete(

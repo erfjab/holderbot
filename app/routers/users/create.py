@@ -24,6 +24,7 @@ class DateTypes(str, Enum):
 
 
 class UserCreateForm(StatesGroup):
+    ADMIN = State()
     USERNAME = State()
     USERCOUNT = State()
     USERSUFFIX = State()
@@ -46,10 +47,37 @@ async def data(callback: CallbackQuery, callback_data: PageCB, state: FSMContext
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
 
-    await state.set_state(UserCreateForm.USERNAME)
+    await state.set_state(UserCreateForm.ADMIN)
     await state.update_data(panel=callback_data.panel)
+    admins = await ClinetManager.get_admins(server=server)
+    if not admins:
+        await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+
     return await callback.message.edit_text(
-        text=MessageTexts.ASK_REMARK, reply_markup=BotKeys.cancel()
+        text=MessageTexts.ASK_ADMIN,
+        reply_markup=BotKeys.selector(
+            data=[admin.username for admin in admins],
+            types=Pages.USERS,
+            action=Actions.CREATE,
+            panel=server.id,
+        ),
+    )
+
+
+@router.callback_query(
+    StateFilter(UserCreateForm.ADMIN),
+    SelectCB.filter((F.types.is_(Pages.USERS)) & (F.action.is_(Actions.CREATE))),
+)
+async def adminselect(
+    callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
+):
+    await state.set_state(UserCreateForm.USERNAME)
+    await state.update_data(admin=callback_data.select)
+    return await callback.message.edit_text(
+        text=MessageTexts.ASK_REMARK,
+        reply_markup=BotKeys.cancel(),
     )
 
 
@@ -284,6 +312,9 @@ async def createusers(
                 text=MessageTexts.FAILED_USERNAME.format(username=username),
             )
         else:
+            await ClinetManager.set_owner(
+                server=server, username=user_created.username, admin=data["admin"]
+            )
             await callback.message.answer_photo(
                 photo=BufferedInputFile(
                     await create_qr(user_created.subscription_url),

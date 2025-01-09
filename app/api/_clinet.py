@@ -137,3 +137,15 @@ class ClinetApiManager:
                 admins = await api.get_admins(access=server.access)
 
         return admins
+
+    async def set_owner(
+        self, server: Server, username: str, admin: str
+    ) -> Optional[MarzneshinUserResponse]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                user = await api.set_owner(
+                    username=username, admin=admin, access=server.access
+                )
+
+        return user

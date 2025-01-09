@@ -45,3 +45,4 @@ class _MessageSettings(BaseSettings):
         "• <b>Sub Url:</b> <code>{subscription_url}</code>\n"
     )
     ASK_SURE: str = "Are your sure?"
+    ASK_ADMIN: str = "Select admin:"

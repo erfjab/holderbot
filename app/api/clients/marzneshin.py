@@ -119,3 +119,10 @@ class MarzneshinApiManager(ApiRequest):
         if not admins:
             return False
         return [MarzneshinAdmin(**admin) for admin in admins["items"]]
+
+    async def set_owner(self, username: str, admin: str, access: str) -> Optional[bool]:
+        return await self.put(
+            endpoint=f"/api/users/{username}/set-owner",
+            params={"username": username, "admin_username": admin},
+            access=access,
+        )
