@@ -32,6 +32,7 @@ class MarzneshinUserModify(BaseModel):
     expire_strategy: MarzneshinUserExpireStrategy | None = None
     expire_date: datetime | None = None
     usage_duration: int | None = None
+    note: str | None = None
 
 
 class UserModify(str, Enum):
@@ -45,3 +46,4 @@ class UserModify(str, Enum):
     CONFIGS = "📂 Configs"
     DATA_LIMIT = "📊 Data Limit"
     DATE_LIMIT = "⏱️ Date Limit"
+    NOTE = "🗒 Note"

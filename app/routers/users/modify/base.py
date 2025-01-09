@@ -8,3 +8,4 @@ class UserModifyForm(StatesGroup):
     DATE_LIMIT = State()
     DATE_TYPE = State()
     CONFIGS = State()
+    NOTE = State()
