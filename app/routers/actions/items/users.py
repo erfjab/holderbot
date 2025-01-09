@@ -54,7 +54,7 @@ async def select(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
             )
             return await tracker.add(track)
         return await callback.message.edit_text(
-            text=MessageTexts.ITEMS,
+            text=MessageTexts.ASK_ADMIN,
             reply_markup=BotKeys.selector(
                 data=[admin.username for admin in admins],
                 types=Pages.ACTIONS,
