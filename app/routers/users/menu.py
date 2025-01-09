@@ -36,7 +36,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
 
     control = (
         current - 1 if current else 0,
-        current + 1 if has_more and current else (2 if not current else 0),
+        current + 1 if has_more and current else (2 if not current and has_more else 0),
     )
     filters_buttons = [
         f"✔{emojifilter}" if emojifilter == callback_data.filters else emojifilter
