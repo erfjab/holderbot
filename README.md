@@ -1,4 +1,6 @@
-### HolderBot  
+![holderbotcover](https://github.com/user-attachments/assets/db3b5da5-3e22-4436-9502-ed478415f908)
+
+# HolderBot  
 
 Telegram bot for managing panels with unique and advanced capabilities.
 
@@ -8,6 +10,7 @@ Telegram bot for managing panels with unique and advanced capabilities.
 - [ ] **Hiddify**  
 - [ ] **3x-ui**  
 
+# Setup
 
 ### Server and Docker Setup  
 
@@ -102,7 +105,7 @@ cd /opt/erfjab/holderbot
 </details>
 
 
-### Support  
+# Support  
 
 Telegram Channel: [@ErfJabs](https://t.me/ErfJabs)  
 Telegram Group: [@ErfJabGroup](https://t.me/erfjabgroup)  
