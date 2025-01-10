@@ -105,6 +105,44 @@ cd /opt/erfjab/holderbot
 </details>
 
 
+### How to change to GA mode?  
+
+<details>
+<summary>Show GA Commands</summary>
+
+Make sure you're in the **HolderBot** directory:  
+```bash
+cd /opt/erfjab/holderbot
+```
+
+- **Open the docker compose:**  
+  ```bash
+  nano docker-compose.yml
+  ```
+
+- **Change tag:**  
+  
+  **from:**
+  ```bash
+  erfjab/holderbot:latest
+  ```
+  **to:**
+  ```bash
+  erfjab/holderbot:ga
+  ```
+
+- **pull docker:**  
+  ```bash
+  docker compose pull
+  ```
+
+- **start bot:**  
+  ```bash
+  docker compose up -d
+  ```
+</details>
+
+
 # Support  
 
 Telegram Channel: [@ErfJabs](https://t.me/ErfJabs)  
