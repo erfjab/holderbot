@@ -1,3 +1,5 @@
+![holderbotcover](https://github.com/user-attachments/assets/111fc745-4129-4d5d-bb07-83c6de861c88)
+
 ### Server Setup
 
 #### 1. Update the Server  
