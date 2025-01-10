@@ -19,5 +19,6 @@ class Actions(str, Enum):
 
 
 class YesOrNot(str, Enum):
-    YES = "yes"
-    NO = "no"
+    YES_USAGE = "✅ Yes (reset usage)"
+    YES = "✅ Yes"
+    NO = "❌ No"

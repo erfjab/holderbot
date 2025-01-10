@@ -47,3 +47,4 @@ class UserModify(str, Enum):
     DATA_LIMIT = "📊 Data Limit"
     DATE_LIMIT = "⏱️ Date Limit"
     NOTE = "🗒 Note"
+    CHARGE = "🧪 Charge"

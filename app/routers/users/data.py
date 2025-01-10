@@ -38,6 +38,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
                 UserModify.NOTE,
                 UserModify.OWNER,
                 UserModify.CONFIGS,
+                UserModify.CHARGE,
                 UserModify.REMOVE,
             ],
             types=Pages.USERS,

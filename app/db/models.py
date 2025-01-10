@@ -91,6 +91,10 @@ class Template(Base, BaseTime):
     def emoji(self) -> str:
         return "✅ " if self.is_active else "❌ "
 
+    @property
+    def button_remark(self) -> str:
+        return f"{self.id} | {self.remark} [{self.data_limit} GB - {self.date_limit} Day]"
+
     @hybrid_property
     def format_data(self) -> str:
         return (

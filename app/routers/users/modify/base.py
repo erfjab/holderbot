@@ -9,3 +9,5 @@ class UserModifyForm(StatesGroup):
     DATE_TYPE = State()
     CONFIGS = State()
     NOTE = State()
+    CHARGE = State()
+    TEMPLATE = State()
