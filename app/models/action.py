@@ -9,3 +9,4 @@ class ActionTypes(str, Enum):
     DISABLED_USERS = "✖️ Disabled Users"
     ACTIVATED_USERS = "✔️ Activate Users"
     DELETE_USERS = "🗑 Delete Admin Users"
+    TRANSFER_USERS = "💱 Transfer Users"

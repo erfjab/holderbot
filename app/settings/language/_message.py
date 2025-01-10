@@ -47,3 +47,5 @@ class _MessageSettings(BaseSettings):
     ASK_SURE: str = "Are your sure?"
     ASK_ADMIN: str = "Select admin:"
     ASK_NOTE: str = "Enter note text:"
+    ASK_ADMIN_FROM: str = "Select from admin:"
+    ASK_ADMIN_TO: str = "Select to admin:"
