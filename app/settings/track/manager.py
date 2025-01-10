@@ -93,11 +93,10 @@ class SQLAlchemyStorage(BaseStorage):
         )
         message_ids = await self.get(chatid)
 
-        for msg_id in message_ids:
-            try:
-                await update.bot.delete_message(chatid, msg_id)
-            except Exception:
-                pass
+        try:
+            await update.bot.delete_messages(chatid, message_ids)
+        except Exception:
+            pass
 
         await self.delete(chatid)
 
