@@ -93,7 +93,9 @@ class Template(Base, BaseTime):
 
     @property
     def button_remark(self) -> str:
-        return f"{self.id} | {self.remark} [{self.data_limit} GB - {self.date_limit} Day]"
+        return (
+            f"{self.id} | {self.remark} [{self.data_limit} GB - {self.date_limit} Day]"
+        )
 
     @hybrid_property
     def format_data(self) -> str:

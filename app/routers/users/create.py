@@ -107,9 +107,10 @@ async def usercount(message: Message, state: FSMContext):
             return await message.answer(
                 text=MessageTexts.ITEMS,
                 reply_markup=BotKeys.selector(
-                    data=[tem.remark for tem in templates] + ["CUSTOM"],
+                    data=[tem.button_remark for tem in templates] + ["CUSTOM"],
                     types=Pages.USERS,
                     action=Actions.CREATE,
+                    width=1,
                 ),
             )
         await state.set_state(UserCreateForm.DATA_LIMIT)
@@ -141,9 +142,10 @@ async def userprefix(message: Message, state: FSMContext):
     track = await message.answer(
         text=MessageTexts.ITEMS,
         reply_markup=BotKeys.selector(
-            data=[tem.remark for tem in templates] + ["CUSTOM"],
+            data=[tem.button_remark for tem in templates] + ["CUSTOM"],
             types=Pages.USERS,
             action=Actions.CREATE,
+            width=1,
         ),
     )
     await tracker.cleardelete(message, track)
@@ -162,7 +164,7 @@ async def templateselect(
             text=MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
         )
         return await tracker.cleardelete(callback, track)
-    template = await crud.get_template(callback_data.select)
+    template = await crud.get_template(int(callback_data.select.split()[0]))
     if not template:
         track = await callback.message.edit_text(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
