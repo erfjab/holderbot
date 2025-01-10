@@ -57,6 +57,7 @@ class Server(Base, BaseTime):
             ]
         )
         return (
+            f"• <b>ID:</b> <code>{self.id}</code>\n"
             f"• <b>Remark:</b> <code>{self.remark}</code>\n"
             f"• <b>Active:</b> <code>{'Yes' if self.is_active else 'No'}</code>\n"
             f"• <b>Online:</b> <code>{'Yes' if self.is_online else 'No'}</code>\n"

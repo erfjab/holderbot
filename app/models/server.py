@@ -13,6 +13,6 @@ class MarzneshinServerData(BaseModel):
 
 
 class ServerModify(str, Enum):
-    REMARK = "remark"
-    DATA = "data"
-    REMOVE = "remove"
+    REMOVE = "🗑 Remove"
+    REMARK = "🏷 Remark"
+    DATA = "📋 Data"
