@@ -160,3 +160,42 @@ async def create_template(
         await db.commit()
         await db.refresh(template)
         return template
+
+
+async def modify_template(
+    templateid: int,
+    remark: Optional[str] = None,
+    data_limit: Optional[int] = None,
+    date_limit: Optional[int] = None,
+    date_types: Optional[DateTypes] = None,
+    is_active: Optional[bool] = None,
+) -> Template:
+    async with get_db() as db:
+        template = await db.execute(select(Template).filter(Template.id == templateid))
+        template = template.scalar_one_or_none()
+        if not template:
+            return False
+        if remark is not None:
+            template.remark = remark
+        if data_limit is not None:
+            template.data_limit = data_limit
+        if date_limit is not None:
+            template.date_limit = date_limit
+        if date_types is not None:
+            template.date_types = date_types
+        if is_active is not None:
+            template.is_active = is_active
+        await db.commit()
+        await db.refresh(template)
+        return template
+
+
+async def remove_template(templateid: int) -> bool:
+    async with get_db() as db:
+        template = await db.execute(select(Template).filter(Template.id == templateid))
+        template = template.scalar_one_or_none()
+        if not template:
+            return True
+        await db.delete(template)
+        await db.commit()
+        return True

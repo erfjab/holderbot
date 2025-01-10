@@ -4,6 +4,7 @@ from app.keys import BotKeys, PageCB, Pages, Actions
 from app.db import crud
 from app.settings.language import MessageTexts
 from app.settings.track import tracker
+from app.models.template import TemplateModify
 
 router = Router(name="template_data")
 
@@ -21,5 +22,18 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
 
     return await callback.message.edit_text(
         text=template.format_data,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.selector(
+            data=[
+                TemplateModify.DATA_LIMIT,
+                TemplateModify.DATE_LIMIT,
+                TemplateModify.DISABLED
+                if template.is_active
+                else TemplateModify.ACTIVATED,
+                TemplateModify.REMARK,
+                TemplateModify.REMOVE,
+            ],
+            types=Pages.TEMPLATES,
+            action=Actions.MODIFY,
+            extra=callback_data.dataid,
+        ),
     )

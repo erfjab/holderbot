@@ -239,7 +239,7 @@ class _KeyboardsManager:
         return kb.as_markup()
 
     def modify(
-        self, dataid: int, datatypes: list[Enum], page: Pages, panel: int
+        self, dataid: int, datatypes: list[Enum], page: Pages, panel: int | None = None
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
