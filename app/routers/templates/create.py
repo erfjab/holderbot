@@ -7,7 +7,6 @@ from aiogram.fsm.state import State, StatesGroup
 from app.settings.language import MessageTexts
 from app.settings.track import tracker
 from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB
-from app.models.server import ServerTypes
 from app.models.user import DateTypes
 from app.db import crud
 
@@ -42,29 +41,12 @@ async def remark(message: Message, state: FSMContext):
         track = await message.answer(MessageTexts.DUPLICATE)
         return await tracker.add(track)
 
-    await state.set_state(TemplateCreateForm.TYPES)
     await state.update_data(remark=message.text.lower())
-    track = await message.answer(
-        MessageTexts.ASK_TYPES,
-        reply_markup=BotKeys.selector(
-            [ServerTypes.MARZNESHIN],
-            types=Pages.TEMPLATES,
-            action=Actions.CREATE,
-        ),
-    )
-    return await tracker.cleardelete(message, track)
-
-
-@router.callback_query(
-    StateFilter(TemplateCreateForm.TYPES),
-    SelectCB.filter((F.types.is_(Pages.TEMPLATES)) & (F.action.is_(Actions.CREATE))),
-)
-async def types(callback: CallbackQuery, callback_data: SelectCB, state: FSMContext):
-    await state.update_data(types=callback_data.select)
     await state.set_state(TemplateCreateForm.DATA_LIMIT)
-    return await callback.message.edit_text(
+    track = await message.answer(
         MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
     )
+    return await tracker.cleardelete(message, track)
 
 
 @router.message(StateFilter(TemplateCreateForm.DATA_LIMIT))
@@ -99,7 +81,6 @@ async def datetypes(
         data = await state.get_data()
         template = await crud.create_template(
             remark=data["remark"],
-            types=data["types"],
             data_limit=int(data["datalimit"]),
             date_limit=0,
             date_types=callback_data.select,
@@ -124,7 +105,6 @@ async def datelimit(message: Message, state: FSMContext):
     data = await state.get_data()
     template = await crud.create_template(
         remark=data["remark"],
-        types=data["types"],
         data_limit=int(data["datalimit"]),
         date_limit=int(message.text),
         date_types=data["datatypes"],

@@ -26,7 +26,6 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("remark", sa.String(), nullable=False),
         sa.Column("is_active", sa.Boolean(), nullable=False),
-        sa.Column("types", sa.String(), nullable=False),
         sa.Column("data_limit", sa.Integer(), nullable=False),
         sa.Column("date_limit", sa.Integer(), nullable=False),
         sa.Column("date_types", sa.String(), nullable=False),

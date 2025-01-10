@@ -143,7 +143,6 @@ async def get_template(key: Union[str, int]) -> Optional[Template]:
 
 async def create_template(
     remark: str,
-    types: ServerTypes,
     data_limit: int,
     date_limit: int,
     date_types: DateTypes,
@@ -151,7 +150,6 @@ async def create_template(
     async with get_db() as db:
         template = Template(
             remark=remark,
-            types=types,
             data_limit=data_limit,
             date_limit=date_limit,
             date_types=date_types,
