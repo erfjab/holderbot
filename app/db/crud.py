@@ -106,3 +106,21 @@ async def remove_server(serverid: int) -> bool:
         await db.delete(server)
         await db.commit()
         return True
+
+
+async def get_templates(
+    limit: Optional[int] = None,
+    offset: Optional[int] = None,
+    active: Optional[bool] = None,
+) -> list[Server]:
+    async with get_db() as db:
+        query = select(Server)
+        if active is not None:
+            query = query.where(Server.is_active == active)
+        if limit:
+            query = query.limit(limit)
+        if offset:
+            query = query.offset(offset)
+
+        result = await db.execute(query)
+        return result.scalars().all()
