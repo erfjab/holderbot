@@ -1,6 +1,18 @@
-![holderbotcover](https://github.com/user-attachments/assets/111fc745-4129-4d5d-bb07-83c6de861c88)
+### HolderBot  
 
-### Server Setup
+Telegram bot for managing panels with unique and advanced capabilities.
+
+### Supported Panels  
+- [x] **Marzneshin**  
+- [ ] **Alireza**  
+- [ ] **Hiddify**  
+- [ ] **3x-ui**  
+
+
+### Server and Docker Setup  
+
+<details>
+<summary>Show Server Commands</summary>
 
 #### 1. Update the Server  
 ```bash
@@ -11,10 +23,14 @@ sudo apt update && sudo apt upgrade -y
 ```bash
 curl -fsSL https://get.docker.com | sh
 ```
+</details>
 
----
 
-### Download and Configure
+### Run the Bot  
+
+<details>
+<summary>Show Run Commands</summary>
+
 
 #### 1. Create Directory and Download Files  
 ```bash
@@ -25,55 +41,71 @@ curl -o .env https://raw.githubusercontent.com/erfjab/holderbot/master/.env.exam
 nano .env
 ```
 
----
-
-### Run the Bot
-
-#### 1. Pull Docker Image  
+#### 2. Pull Docker Image  
 ```bash
 docker compose pull
 ```
 
-#### 2. Start the Bot  
+#### 3. Start the Bot  
 ```bash
 docker compose up -d
 ```
 
-#### 3. Verify Bot Status  
-```bash
-docker compose ps
-```
+After a few moments, start the bot.
 
----
+</details>
+
 
 ### Update the Bot  
+
+<details>
+<summary>Show Update Commands</summary>
+
+Make sure you're in the **HolderBot** directory:  
+```bash
+cd /opt/erfjab/holderbot
+```
+
+Then update the bot:  
 ```bash
 docker compose pull && docker compose up -d
 ```
 
----
+</details>
+
 
 ### Manage the Bot  
 
-- Restart:  
+<details>
+<summary>Show Manage Commands</summary>
+
+Make sure you're in the **HolderBot** directory:  
+```bash
+cd /opt/erfjab/holderbot
+```
+
+- **Restart the Bot:**  
   ```bash
   docker compose restart
   ```
 
-- Stop:  
+- **Stop the Bot:**  
   ```bash
   docker compose down
   ```
 
-- Logs:  
+- **View Logs:**  
   ```bash
   docker compose logs -f
   ```
 
----
+</details>
+
 
 ### Support  
-Telegram: [@ErfJabs](https://t.me/ErfJabs)  
 
-⭐ Star the project:  
+Telegram Channel: [@ErfJabs](https://t.me/ErfJabs)  
+Telegram Group: [@ErfJabGroup](https://t.me/erfjabgroup)  
+
+⭐ **Star the project:**  
 [![Stargazers](https://starchart.cc/erfjab/holderbot.svg?variant=adaptive)](https://starchart.cc/erfjab/holderbot)  
