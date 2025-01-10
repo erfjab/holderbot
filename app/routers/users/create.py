@@ -104,7 +104,7 @@ async def usercount(message: Message, state: FSMContext):
         templates = await crud.get_templates(active=True)
         if templates:
             await state.set_state(UserCreateForm.TEMPLATE)
-            return await message.answer(
+            track = await message.answer(
                 text=MessageTexts.ITEMS,
                 reply_markup=BotKeys.selector(
                     data=[tem.button_remark for tem in templates] + ["CUSTOM"],
@@ -113,6 +113,7 @@ async def usercount(message: Message, state: FSMContext):
                     width=1,
                 ),
             )
+            return await tracker.cleardelete(message, track)
         await state.set_state(UserCreateForm.DATA_LIMIT)
         text = MessageTexts.ASK_DATA_LIMT
     else:
