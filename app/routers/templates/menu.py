@@ -15,6 +15,6 @@ async def menu(callback: CallbackQuery):
     return await callback.message.edit_text(
         text=MessageTexts.ITEMS,
         reply_markup=BotKeys.lister(
-            items=[tem.remark for tem in templates], page=Pages.TEMPLATES
+            items=[tem for tem in templates], page=Pages.TEMPLATES
         ),
     )

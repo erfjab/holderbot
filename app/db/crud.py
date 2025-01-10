@@ -3,9 +3,11 @@ from sqlalchemy import select
 from .models import (
     Server,
     ServerAccess,
+    Template,
 )
 from .base import get_db
 from app.models.server import ServerTypes
+from app.models.user import DateTypes
 
 
 async def upsert_server_access(serverid: int, serveraccess: str):
@@ -112,11 +114,11 @@ async def get_templates(
     limit: Optional[int] = None,
     offset: Optional[int] = None,
     active: Optional[bool] = None,
-) -> list[Server]:
+) -> list[Template]:
     async with get_db() as db:
-        query = select(Server)
+        query = select(Template)
         if active is not None:
-            query = query.where(Server.is_active == active)
+            query = query.where(Template.is_active == active)
         if limit:
             query = query.limit(limit)
         if offset:
@@ -124,3 +126,37 @@ async def get_templates(
 
         result = await db.execute(query)
         return result.scalars().all()
+
+
+async def get_template(key: Union[str, int]) -> Optional[Template]:
+    async with get_db() as db:
+        query = select(Template)
+
+        if isinstance(key, str):
+            query = query.where(Template.remark == key)
+        else:
+            query = query.where(Template.id == key)
+
+        result = await db.execute(query)
+        return result.scalar_one_or_none()
+
+
+async def create_template(
+    remark: str,
+    types: ServerTypes,
+    data_limit: int,
+    date_limit: int,
+    date_types: DateTypes,
+) -> Template:
+    async with get_db() as db:
+        template = Template(
+            remark=remark,
+            types=types,
+            data_limit=data_limit,
+            date_limit=date_limit,
+            date_types=date_types,
+        )
+        db.add(template)
+        await db.commit()
+        await db.refresh(template)
+        return template

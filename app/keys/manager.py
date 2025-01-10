@@ -24,6 +24,10 @@ class _KeyboardsManager:
 
         kb.row(
             InlineKeyboardButton(
+                text=KeyboardTexts.TEMPLATES,
+                callback_data=PageCB(page=Pages.TEMPLATES, action=Actions.LIST).pack(),
+            ),
+            InlineKeyboardButton(
                 text=KeyboardTexts.UPDATE_CHECKER,
                 callback_data=PageCB(page=Pages.UPDATE, action=Actions.INFO).pack(),
             ),
@@ -39,7 +43,10 @@ class _KeyboardsManager:
     def menu(self, panel: int) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
-        items = {KeyboardTexts.USERS: Pages.USERS, KeyboardTexts.ACTIONS: Pages.ACTIONS}
+        items = {
+            KeyboardTexts.USERS: Pages.USERS,
+            KeyboardTexts.ACTIONS: Pages.ACTIONS,
+        }
 
         for text, page in items.items():
             kb.button(
@@ -71,7 +78,7 @@ class _KeyboardsManager:
         self,
         items: list[Server],
         page: Pages,
-        panel: int,
+        panel: int | None = None,
         control: tuple[int, int] = None,
         filters: list[str] | None = None,
         select_filters: str | None = None,
@@ -93,20 +100,21 @@ class _KeyboardsManager:
         kb.adjust(2)
 
         buttons = []
-        for f in filters:
-            buttons.append(
-                InlineKeyboardButton(
-                    text=f,
-                    callback_data=PageCB(
-                        page=page,
-                        action=Actions.LIST,
-                        panel=panel,
-                        filters=f,
-                    ).pack(),
+        if filters is not None:
+            for f in filters:
+                buttons.append(
+                    InlineKeyboardButton(
+                        text=f,
+                        callback_data=PageCB(
+                            page=page,
+                            action=Actions.LIST,
+                            panel=panel,
+                            filters=f,
+                        ).pack(),
+                    )
                 )
-            )
-        if buttons:
-            kb.row(*buttons, width=len(filters))
+            if buttons:
+                kb.row(*buttons, width=len(filters))
 
         if control is not None:
             left, right = control

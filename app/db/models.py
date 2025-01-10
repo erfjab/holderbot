@@ -83,10 +83,10 @@ class Template(Base, BaseTime):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     remark: Mapped[str] = mapped_column(String, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    types: Mapped[ServerTypes] = mapped_column(String, nullable=False)
     data_limit: Mapped[int] = mapped_column(Integer, nullable=False)
     date_limit: Mapped[int] = mapped_column(Integer, nullable=False)
     date_types: Mapped[DateTypes] = mapped_column(String, nullable=False)
-    configs: Mapped[dict] = mapped_column(JSON, nullable=False)
 
     @hybrid_property
     def emoji(self) -> str:
@@ -94,19 +94,13 @@ class Template(Base, BaseTime):
 
     @hybrid_property
     def format_data(self) -> str:
-        formatted_data = "\n".join(
-            [
-                f"     • <b>{key}:</b> <code>{value}</code>"
-                for key, value in self.configs.items()
-            ]
-        )
         return (
             f"• <b>Remark:</b> <code>{self.remark}</code>\n"
             f"• <b>Active:</b> <code>{'Yes' if self.is_active else 'No'}</code>\n"
+            f"• <b>Types:</b> <code>{self.types}</code>\n"
             f"• <b>Data limit:</b> <code>{self.data_limit}</code>\n"
             f"• <b>Date limit:</b> <code>{self.date_limit}</code>\n"
-            f"• <b>Date types:</b> <code>{self.date_limit}</code>\n"
-            f"• <b>Data</b>\n{formatted_data}\n"
+            f"• <b>Date types:</b> <code>{self.date_types}</code>\n"
             f"• <b>Updated At:</b> <code>{self.updated_at or '➖'}</code>\n"
             f"• <b>Created At:</b> <code>{(datetime.utcnow() - self.created_at).days} days ago</code>\n"
         )
