@@ -25,6 +25,7 @@ class UserCreateForm(StatesGroup):
     USERNAME = State()
     USERCOUNT = State()
     USERSUFFIX = State()
+    TEMPLATE = State()
     DATA_LIMIT = State()
     DATE_TYPE = State()
     DATE_LIMIT = State()
@@ -100,6 +101,18 @@ async def usercount(message: Message, state: FSMContext):
 
     await state.update_data(usercount=message.text)
     if int(message.text) == 1:
+        templates = await crud.get_templates(active=True)
+        if templates:
+            await state.set_state(UserCreateForm.TEMPLATE)
+            return await message.answer(
+                text=MessageTexts.ITEMS,
+                reply_markup=BotKeys.selector(
+                    data=[tem.button_remark for tem in templates] + ["CUSTOM"],
+                    types=Pages.USERS,
+                    action=Actions.CREATE,
+                    width=1,
+                ),
+            )
         await state.set_state(UserCreateForm.DATA_LIMIT)
         text = MessageTexts.ASK_DATA_LIMT
     else:
@@ -117,11 +130,79 @@ async def userprefix(message: Message, state: FSMContext):
         return await tracker.add(track)
 
     await state.update_data(usersuffix=message.text)
-    await state.set_state(UserCreateForm.DATA_LIMIT)
+    templates = await crud.get_templates(active=True)
+    if not templates:
+        await state.set_state(UserCreateForm.DATA_LIMIT)
+        track = await message.answer(
+            text=MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.cleardelete(message, track)
+
+    await state.set_state(UserCreateForm.TEMPLATE)
     track = await message.answer(
-        text=MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
+        text=MessageTexts.ITEMS,
+        reply_markup=BotKeys.selector(
+            data=[tem.button_remark for tem in templates] + ["CUSTOM"],
+            types=Pages.USERS,
+            action=Actions.CREATE,
+            width=1,
+        ),
     )
-    return await tracker.cleardelete(message, track)
+    await tracker.cleardelete(message, track)
+
+
+@router.callback_query(
+    StateFilter(UserCreateForm.TEMPLATE),
+    SelectCB.filter((F.types.is_(Pages.USERS)) & (F.action.is_(Actions.CREATE))),
+)
+async def templateselect(
+    callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
+):
+    if callback_data.select == "CUSTOM":
+        await state.set_state(UserCreateForm.DATA_LIMIT)
+        track = await callback.message.answer(
+            text=MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.cleardelete(callback, track)
+    template = await crud.get_template(int(callback_data.select.split()[0]))
+    if not template:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
+    await state.update_data(datalimit=template.data_limit)
+    await state.update_data(datelimit=template.date_limit)
+    await state.update_data(datetypes=template.date_types)
+
+    panelid = int(await state.get_value("panel"))
+    await state.set_state(UserCreateForm.CONFIGS)
+    server = await crud.get_server(panelid)
+    if not server:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
+    configs = await ClinetManager.get_configs(server)
+    if not configs:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+        )
+        return await tracker.add(track)
+
+    await state.update_data(configs=[config.dict() for config in configs])
+    await state.update_data(selects=[config.dict() for config in configs])
+    return await callback.message.edit_text(
+        text=MessageTexts.ASK_CONFIGS,
+        reply_markup=BotKeys.selector(
+            data=[config.name for config in configs],
+            types=Pages.USERS,
+            action=Actions.CREATE,
+            selects=[config.name for config in configs],
+            panel=server.id,
+        ),
+    )
 
 
 @router.message(StateFilter(UserCreateForm.DATA_LIMIT))
@@ -271,7 +352,7 @@ async def createusers(
     callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
 ):
     data = await state.get_data()
-    server = await crud.get_server(callback_data.panel)
+    server = await crud.get_server(int(callback_data.panel))
     if not server:
         track = await callback.message.edit_text(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()

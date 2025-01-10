@@ -10,6 +10,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from .base import Base
 from app.models.server import ServerTypes
+from app.models.user import DateTypes
 
 
 class BaseTime:
@@ -74,3 +75,36 @@ class ServerAccess(Base, BaseTime):
     server_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("servers.id"), nullable=False
     )
+
+
+class Template(Base, BaseTime):
+    __tablename__ = "templates"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    remark: Mapped[str] = mapped_column(String, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    data_limit: Mapped[int] = mapped_column(Integer, nullable=False)
+    date_limit: Mapped[int] = mapped_column(Integer, nullable=False)
+    date_types: Mapped[DateTypes] = mapped_column(String, nullable=False)
+
+    @hybrid_property
+    def emoji(self) -> str:
+        return "✅ " if self.is_active else "❌ "
+
+    @property
+    def button_remark(self) -> str:
+        return (
+            f"{self.id} | {self.remark} [{self.data_limit} GB - {self.date_limit} Day]"
+        )
+
+    @hybrid_property
+    def format_data(self) -> str:
+        return (
+            f"• <b>Remark:</b> <code>{self.remark}</code>\n"
+            f"• <b>Active:</b> <code>{'Yes' if self.is_active else 'No'}</code>\n"
+            f"• <b>Data limit:</b> <code>{self.data_limit}</code>\n"
+            f"• <b>Date limit:</b> <code>{self.date_limit}</code>\n"
+            f"• <b>Date types:</b> <code>{self.date_types}</code>\n"
+            f"• <b>Updated At:</b> <code>{self.updated_at or '➖'}</code>\n"
+            f"• <b>Created At:</b> <code>{(datetime.utcnow() - self.created_at).days} days ago</code>\n"
+        )

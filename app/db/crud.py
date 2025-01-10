@@ -3,9 +3,11 @@ from sqlalchemy import select
 from .models import (
     Server,
     ServerAccess,
+    Template,
 )
 from .base import get_db
 from app.models.server import ServerTypes
+from app.models.user import DateTypes
 
 
 async def upsert_server_access(serverid: int, serveraccess: str):
@@ -104,5 +106,94 @@ async def remove_server(serverid: int) -> bool:
             return True
         await db.delete(server.server_access)
         await db.delete(server)
+        await db.commit()
+        return True
+
+
+async def get_templates(
+    limit: Optional[int] = None,
+    offset: Optional[int] = None,
+    active: Optional[bool] = None,
+) -> list[Template]:
+    async with get_db() as db:
+        query = select(Template)
+        if active is not None:
+            query = query.where(Template.is_active == active)
+        if limit:
+            query = query.limit(limit)
+        if offset:
+            query = query.offset(offset)
+
+        result = await db.execute(query)
+        return result.scalars().all()
+
+
+async def get_template(key: Union[str, int]) -> Optional[Template]:
+    async with get_db() as db:
+        query = select(Template)
+
+        if isinstance(key, str):
+            query = query.where(Template.remark == key)
+        else:
+            query = query.where(Template.id == key)
+
+        result = await db.execute(query)
+        return result.scalar_one_or_none()
+
+
+async def create_template(
+    remark: str,
+    data_limit: int,
+    date_limit: int,
+    date_types: DateTypes,
+) -> Template:
+    async with get_db() as db:
+        template = Template(
+            remark=remark,
+            data_limit=data_limit,
+            date_limit=date_limit,
+            date_types=date_types,
+        )
+        db.add(template)
+        await db.commit()
+        await db.refresh(template)
+        return template
+
+
+async def modify_template(
+    templateid: int,
+    remark: Optional[str] = None,
+    data_limit: Optional[int] = None,
+    date_limit: Optional[int] = None,
+    date_types: Optional[DateTypes] = None,
+    is_active: Optional[bool] = None,
+) -> Template:
+    async with get_db() as db:
+        template = await db.execute(select(Template).filter(Template.id == templateid))
+        template = template.scalar_one_or_none()
+        if not template:
+            return False
+        if remark is not None:
+            template.remark = remark
+        if data_limit is not None:
+            template.data_limit = data_limit
+        if date_limit is not None:
+            template.date_limit = date_limit
+        if date_types is not None:
+            template.date_types = date_types
+        if is_active is not None:
+            template.is_active = is_active
+        await db.commit()
+        await db.refresh(template)
+        return template
+
+
+async def remove_template(templateid: int) -> bool:
+    async with get_db() as db:
+        template = await db.execute(select(Template).filter(Template.id == templateid))
+        template = template.scalar_one_or_none()
+        if not template:
+            return True
+        await db.delete(template)
         await db.commit()
         return True

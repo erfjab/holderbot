@@ -11,6 +11,7 @@ class _KeyboardSettings(BaseSettings):
     CREATE: str = "➕ Create"
     USERS: str = "👤 Users"
     ACTIONS: str = "🗄 Actions"
+    TEMPLATES: str = "🗃 Templates"
     DONE: str = "✔️ DONE"
     LEFT: str = "⬅️"
     RIGHT: str = "➡️"

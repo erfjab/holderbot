@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from . import base, configs, confirm, datalimit, owner, datelimit, note
+from . import base, configs, confirm, datalimit, owner, datelimit, note, charge
 
 __all__ = [
     "setup_user_modify_routers",
@@ -11,6 +11,7 @@ __all__ = [
     "datalimit",
     "datelimit",
     "note",
+    "charge",
 ]
 
 
@@ -23,5 +24,6 @@ def setup_user_modify_routers() -> Router:
     router.include_router(datalimit.router)
     router.include_router(datelimit.router)
     router.include_router(note.router)
+    router.include_router(charge.router)
 
     return router

@@ -8,6 +8,7 @@ class Pages(str, Enum):
     USERS = "users"
     ACTIONS = "actions"
     UPDATE = "update"
+    TEMPLATES = "templates"
 
 
 class Actions(str, Enum):
@@ -18,5 +19,6 @@ class Actions(str, Enum):
 
 
 class YesOrNot(str, Enum):
-    YES = "yes"
-    NO = "no"
+    YES_USAGE = "✅ Yes (reset usage)"
+    YES = "✅ Yes"
+    NO = "❌ No"
