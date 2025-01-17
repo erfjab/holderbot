@@ -8,7 +8,8 @@ from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
 from app.settings.track import tracker
-from app.models.user import UserModify, MarzneshinUserModify
+from app.models.user import UserModify
+from app.settings.utils.user import change_config_data
 from .base import UserModifyForm
 
 router = Router(name="users_modify_configs")
@@ -70,6 +71,8 @@ async def configselect(
 ):
     data = await state.get_data()
     selects: list[dict] = data["selects"]
+    configs: list[dict] = data["configs"]
+
     if callback_data.done is True:
         server = await crud.get_server(callback_data.panel)
         if not server:
@@ -77,14 +80,13 @@ async def configselect(
                 text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
             )
             return await tracker.add(track)
-
+        datadict = change_config_data(
+            server.types, callback_data.extra, configs, selects
+        )
         action = await ClinetManager.modify_user(
             server=server,
             username=callback_data.extra,
-            data=MarzneshinUserModify(
-                username=callback_data.extra,
-                service_ids=[int(service["id"]) for service in selects],
-            ).dict(),
+            data=datadict,
         )
         await state.clear()
         return await callback.message.edit_text(
@@ -92,7 +94,6 @@ async def configselect(
             reply_markup=BotKeys.cancel(),
         )
 
-    configs: list[dict] = data["configs"]
     selected = callback_data.select
 
     target_config = next(config for config in configs if config["name"] == selected)

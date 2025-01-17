@@ -8,7 +8,8 @@ from app.db import crud
 from app.settings.language import MessageTexts
 from app.settings.track import tracker
 from app.api import ClinetManager
-from app.models.user import UserModify, MarzneshinUserModify
+from app.models.user import UserModify
+from app.settings.utils.user import update_user_data_limit_data
 from .base import UserModifyForm
 
 
@@ -59,13 +60,13 @@ async def dateend(message: Message, state: FSMContext):
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
         return await tracker.cleardelete(message, track)
-
+    datadict = update_user_data_limit_data(
+        server.types, data["username"], datalimit=message.text
+    )
     action = await ClinetManager.modify_user(
         server,
         data["username"],
-        MarzneshinUserModify(
-            username=data["username"], data_limit=int(message.text) * (1024**3)
-        ).dict(),
+        datadict,
     )
     track = await message.answer(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,

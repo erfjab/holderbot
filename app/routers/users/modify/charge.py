@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from aiogram.filters import StateFilter
@@ -9,12 +8,8 @@ from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
 from app.settings.track import tracker
-from app.models.user import (
-    UserModify,
-    MarzneshinUserModify,
-    DateTypes,
-    MarzneshinUserExpireStrategy,
-)
+from app.models.user import UserModify
+from app.settings.utils.user import charge_user_data
 from .base import UserModifyForm
 
 router = Router(name="users_modify_charge")
@@ -136,29 +131,14 @@ async def confirmend(
     if callback_data.select == YesOrNot.YES_USAGE.value:
         await ClinetManager.reset_user(server, data["username"])
 
-    datatypesfind = {
-        DateTypes.NOW.value: MarzneshinUserExpireStrategy.FIXED_DATE,
-        DateTypes.AFTER_FIRST_USE.value: MarzneshinUserExpireStrategy.START_ON_FIRST_USE,
-        DateTypes.UNLIMITED.value: MarzneshinUserExpireStrategy.NEVER,
-    }
-    datetype = datatypesfind.get(template.date_types)
-    datelimit = int(template.date_limit)
-
-    action = await ClinetManager.modify_user(
-        server,
+    datadict = charge_user_data(
+        server.types,
         data["username"],
-        MarzneshinUserModify(
-            username=data["username"],
-            data_limit=int(template.data_limit) * (1024**3),
-            expire_strategy=datetype,
-            expire_date=(datetime.utcnow() + timedelta(days=datelimit))
-            if datetype == MarzneshinUserExpireStrategy.FIXED_DATE
-            else None,
-            usage_duration=(datelimit * (24 * 60 * 60))
-            if datetype == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
-            else None,
-        ).dict(),
+        template.data_limit,
+        template.date_limit,
+        template.date_types,
     )
+    action = await ClinetManager.modify_user(server, data["username"], datadict)
     return await callback.message.edit_text(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
         reply_markup=BotKeys.cancel(),

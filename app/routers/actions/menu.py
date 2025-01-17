@@ -5,6 +5,7 @@ from app.db import crud
 from app.settings.language import MessageTexts
 from app.settings.track import tracker
 from app.models.action import ActionTypes
+from app.models.server import ServerTypes
 
 router = Router(name="actions_menu")
 
@@ -19,20 +20,20 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
         return await tracker.add(track)
-
+    menu_keys = [
+        ActionTypes.ACTIVATED_USERS,
+        ActionTypes.DISABLED_USERS,
+        ActionTypes.DELETE_EXPIRED_USERS,
+        ActionTypes.DELETE_LIMITED_USERS,
+        ActionTypes.DELETE_USERS,
+        ActionTypes.TRANSFER_USERS,
+    ]
+    if server.types == ServerTypes.MARZNESHIN.value:
+        menu_keys.append(ActionTypes.ADD_CONFIG, ActionTypes.DELETE_CONFIG)
     return await callback.message.edit_text(
         text=MessageTexts.ITEMS,
         reply_markup=BotKeys.selector(
-            data=[
-                ActionTypes.ADD_CONFIG,
-                ActionTypes.DELETE_CONFIG,
-                ActionTypes.ACTIVATED_USERS,
-                ActionTypes.DISABLED_USERS,
-                ActionTypes.DELETE_EXPIRED_USERS,
-                ActionTypes.DELETE_LIMITED_USERS,
-                ActionTypes.DELETE_USERS,
-                ActionTypes.TRANSFER_USERS,
-            ],
+            data=menu_keys,
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,
