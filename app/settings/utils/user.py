@@ -123,3 +123,31 @@ def charge_user_data(
                 else None,
             ).dict()
     return data
+
+
+def change_config_data(types: str, username: str, configs: dict, selects: dict) -> dict:
+    match types:
+        case ServerTypes.MARZBAN.value:
+            inbound_objects = [MarzbanProxyInbound(**item) for item in configs]
+            proxies = {
+                proto: {}
+                for proto in {inbound.protocol.value for inbound in inbound_objects}
+            }
+            inbounds = {
+                proto: [
+                    inbound.tag
+                    for inbound in inbound_objects
+                    if inbound.protocol.value == proto
+                ]
+                for proto in proxies
+            }
+            data = MarzbanUserModify(
+                inbounds=inbounds,
+                proxies=proxies,
+            ).dict()
+        case ServerTypes.MARZNESHIN.value:
+            data = MarzneshinUserModify(
+                username=username,
+                service_ids=[int(service["id"]) for service in selects],
+            ).dict()
+    return data
