@@ -1,5 +1,4 @@
 import asyncio
-from datetime import datetime, timedelta
 
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message, BufferedInputFile
@@ -11,13 +10,10 @@ from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB
 from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
-from app.models.user import (
-    MarzneshinUserExpireStrategy,
-    MarzneshinUserCreate,
-    DateTypes,
-)
+from app.models.user import DateTypes
 from app.settings.utils.qrcode import create_qr
 from app.settings.track import tracker
+from app.settings.utils.user import user_create_data
 
 
 class UserCreateForm(StatesGroup):
@@ -360,32 +356,22 @@ async def createusers(
         )
         return await tracker.cleardelete(callback, track)
 
-    datatypesfind = {
-        DateTypes.NOW.value: MarzneshinUserExpireStrategy.FIXED_DATE,
-        DateTypes.AFTER_FIRST_USE.value: MarzneshinUserExpireStrategy.START_ON_FIRST_USE,
-        DateTypes.UNLIMITED.value: MarzneshinUserExpireStrategy.NEVER,
-    }
-    datetype = datatypesfind.get(data["datetypes"])
-    datelimit = int(data["datelimit"])
     for i in range(int(data["usercount"])):
         username = (
             f"{data['username']}{i + int(data['usersuffix'])}"
             if data.get("usersuffix")
             else data["username"]
         )
-        user_data = MarzneshinUserCreate(
+        user_data = user_create_data(
+            server.types,
             username=username,
-            data_limit=int(int(data["datalimit"]) * (1024**3)),
-            service_ids=[service["id"] for service in data["selects"]],
-            expire_strategy=datetype,
-            expire_date=(datetime.utcnow() + timedelta(days=datelimit))
-            if datetype == MarzneshinUserExpireStrategy.FIXED_DATE
-            else None,
-            usage_duration=(datelimit * (24 * 60 * 60))
-            if datetype == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
-            else None,
+            datalimit=int(data["datalimit"]),
+            datetype=data["datetypes"],
+            datelimit=int(data["datalimit"]),
+            selects=data["selects"],
+            configs=data["configs"],
         )
-        user_created = await ClinetManager.create_user(server, user_data.dict())
+        user_created = await ClinetManager.create_user(server, user_data)
         if not user_created:
             await callback.message.answer(
                 text=MessageTexts.FAILED_USERNAME.format(username=username),

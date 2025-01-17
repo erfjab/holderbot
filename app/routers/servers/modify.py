@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from app.db import crud
-from app.models.server import MarzneshinServerData, ServerTypes
+from app.models.server import ServerTypes
 from app.keys import BotKeys, PageCB, Actions, Pages, YesOrNot, SelectCB
 from app.models.server import ServerModify
 from app.settings.language import MessageTexts
@@ -43,7 +43,7 @@ async def start_modify(
             text = MessageTexts.ASK_REMARK
         case ServerModify.DATA:
             await state.update_data(action=ServerModify.DATA)
-            text = MessageTexts.ASK_MARZNESHIN_DATA
+            text = MessageTexts.ASK_MARZ_DATA
         case ServerModify.REMOVE:
             await state.set_state(ServerModifyForm.REMOVE)
             return await callback.message.edit_text(
@@ -85,18 +85,20 @@ async def finish_modify(message: Message, state: FSMContext):
             server_type_find = {
                 ServerTypes.MARZNESHIN.value: ServerTypes.MARZNESHIN,
             }
-            server_data = MarzneshinServerData(
-                username=messages[0], password=messages[1], host=messages[2]
-            )
+            server_data = {
+                "username": messages[0],
+                "password": messages[1],
+                "host": messages[2],
+            }
             server_type = server_type_find.get(state_data["servertypes"])
-            token = await ClinetManager.generate_access(server_data.dict(), server_type)
+            token = await ClinetManager.generate_access(server_data, server_type)
             if not token:
                 track = await message.answer(MessageTexts.INVALID_DATA)
                 return await tracker.add(track)
 
             server_modify = await crud.modify_server(
                 serverid,
-                data=server_data.dict(),
+                data=server_data,
             )
     await state.clear()
     track = await message.answer(

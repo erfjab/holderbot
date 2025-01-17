@@ -2,6 +2,7 @@ from enum import Enum
 from datetime import datetime
 
 from pydantic import BaseModel
+from app.api.types.marzban import MarzbanUserStatus
 
 
 class MarzneshinUserExpireStrategy(str, Enum):
@@ -23,6 +24,26 @@ class MarzneshinUserCreate(BaseModel):
     expire_strategy: MarzneshinUserExpireStrategy
     expire_date: datetime | None
     usage_duration: int | None
+
+
+class MarzbanUserCreate(BaseModel):
+    username: str
+    data_limit: int
+    inbounds: dict
+    proxies: dict
+    status: MarzbanUserStatus
+    expire: int | None = None
+    on_hold_expire_duration: int | None = None
+
+
+class MarzbanUserModify(BaseModel):
+    data_limit: int | None = None
+    inbounds: dict | None = None
+    proxies: dict | None = None
+    status: MarzbanUserStatus | None = None
+    expire: int | None = None
+    on_hold_expire_duration: int | None = None
+    note: str | None = None
 
 
 class MarzneshinUserModify(BaseModel):

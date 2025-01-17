@@ -19,8 +19,8 @@ class _MessageSettings(BaseSettings):
     WRONG_INT: str = "❌ Invalid, Just use [0-9]"
     DUPLICATE: str = "❌ Duplicate, try another."
     ASK_TYPES: str = "Select a type:"
-    ASK_MARZNESHIN_DATA: str = (
-        "<b>Enter Marzneshin Server Credentials:\n</b>"
+    ASK_MARZ_DATA: str = (
+        "<b>Enter Marz Server Credentials:\n</b>"
         "• <code>Username [sudo]</code>\n"
         "• <code>Password [sudo]</code>\n"
         "• <code>Host [https://sub.domain.com:port]</code>\n\n"
