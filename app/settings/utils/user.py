@@ -151,3 +151,16 @@ def change_config_data(types: str, username: str, configs: dict, selects: dict) 
                 service_ids=[int(service["id"]) for service in selects],
             ).dict()
     return data
+
+
+def update_user_data_limit_data(
+    types: ServerTypes, username: str, datalimit: int
+) -> dict:
+    match types:
+        case ServerTypes.MARZBAN.value:
+            data = MarzbanUserModify(data_limit=int(datalimit) * (1024**3)).dict()
+        case ServerTypes.MARZNESHIN.value:
+            data = MarzneshinUserModify(
+                username=username, data_limit=int(datalimit) * (1024**3)
+            ).dict()
+    return data
