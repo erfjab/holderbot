@@ -160,7 +160,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         users = await ClinetManager.get_users(
             server,
             page,
-            size=100,
+            size=50,
             owner_username=fromadmin,
         )
 
