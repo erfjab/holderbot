@@ -5,6 +5,8 @@ from app.models.user import (
     DateTypes,
     MarzbanUserStatus,
     MarzbanUserCreate,
+    MarzbanUserModify,
+    MarzneshinUserModify,
 )
 from app.models.server import ServerTypes
 from app.api.types.marzban import MarzbanProxyInbound
@@ -18,7 +20,7 @@ def user_create_data(
     datelimit: int,
     selects: dict,
     configs: dict | None = None,
-):
+) -> dict:
     match types:
         case ServerTypes.MARZNESHIN.value:
             datatypesfind = {
@@ -66,9 +68,7 @@ def user_create_data(
                 inbounds=inbounds,
                 proxies=proxies,
                 status=datetype,
-                expire_date=int(
-                    (datetime.utcnow() + timedelta(days=datelimit)).timestamp()
-                )
+                expire=int((datetime.utcnow() + timedelta(days=datelimit)).timestamp())
                 if datetype == MarzbanUserStatus.ACTIVE
                 else None,
                 on_hold_expire_duration=int(datelimit * (24 * 60 * 60))
@@ -76,4 +76,50 @@ def user_create_data(
                 else None,
             ).dict()
 
+    return data
+
+
+def charge_user_data(
+    types: ServerTypes, username: str, datalimit: int, datelimit: int, status: str
+) -> dict:
+    match types:
+        case ServerTypes.MARZBAN.value:
+            datatypesfind = {
+                DateTypes.NOW.value: MarzbanUserStatus.ACTIVE,
+                DateTypes.AFTER_FIRST_USE.value: MarzbanUserStatus.ONHOLD,
+                DateTypes.UNLIMITED.value: MarzbanUserStatus.ACTIVE,
+            }
+            datetype = datatypesfind.get(status)
+            datelimit = int(datelimit)
+            data = MarzbanUserModify(
+                data_limit=int(datalimit) * (1024**3),
+                status=datetype,
+                expire=int((datetime.utcnow() + timedelta(days=datelimit)).timestamp())
+                if datetype == MarzbanUserStatus.ACTIVE
+                else 0
+                if status == DateTypes.UNLIMITED
+                else None,
+                on_hold_expire_duration=int(datelimit * (24 * 60 * 60))
+                if datetype == MarzbanUserStatus.ONHOLD
+                else None,
+            ).dict()
+        case ServerTypes.MARZNESHIN.value:
+            datatypesfind = {
+                DateTypes.NOW.value: MarzneshinUserExpireStrategy.FIXED_DATE,
+                DateTypes.AFTER_FIRST_USE.value: MarzneshinUserExpireStrategy.START_ON_FIRST_USE,
+                DateTypes.UNLIMITED.value: MarzneshinUserExpireStrategy.NEVER,
+            }
+            datetype = datatypesfind.get(status)
+            datelimit = int(datelimit)
+            data = MarzneshinUserModify(
+                username=username,
+                data_limit=int(datalimit) * (1024**3),
+                expire_strategy=datetype,
+                expire_date=(datetime.utcnow() + timedelta(days=datelimit))
+                if datetype == MarzneshinUserExpireStrategy.FIXED_DATE
+                else None,
+                usage_duration=(datelimit * (24 * 60 * 60))
+                if datetype == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
+                else None,
+            ).dict()
     return data
