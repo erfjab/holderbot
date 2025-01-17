@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter
@@ -11,10 +10,9 @@ from app.settings.track import tracker
 from app.api import ClinetManager
 from app.models.user import (
     UserModify,
-    MarzneshinUserModify,
     DateTypes,
-    MarzneshinUserExpireStrategy,
 )
+from app.settings.utils.user import charge_user_datelimit
 from .base import UserModifyForm
 
 
@@ -68,13 +66,13 @@ async def datelimit(
             return await callback.message.edit_text(
                 text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
             )
+        datadict = charge_user_datelimit(
+            server.types, callback_data.extra, 0, DateTypes.UNLIMITED
+        )
         action = await ClinetManager.modify_user(
             server=server,
             username=callback_data.extra,
-            data=MarzneshinUserModify(
-                username=callback_data.extra,
-                expire_strategy=MarzneshinUserExpireStrategy.NEVER,
-            ).dict(),
+            data=datadict,
         )
         await state.clear()
         return await callback.message.edit_text(
@@ -107,27 +105,13 @@ async def dateend(message: Message, state: FSMContext):
         return await tracker.add(track)
 
     data = await state.get_data()
-
-    datatypesfind = {
-        DateTypes.NOW.value: MarzneshinUserExpireStrategy.FIXED_DATE,
-        DateTypes.AFTER_FIRST_USE.value: MarzneshinUserExpireStrategy.START_ON_FIRST_USE,
-        DateTypes.UNLIMITED.value: MarzneshinUserExpireStrategy.NEVER,
-    }
-    datetype = datatypesfind.get(data["datetypes"])
-    datelimit = int(message.text)
+    datadict = charge_user_datelimit(
+        server.types, data["username"], message.text, data["datetypes"]
+    )
     action = await ClinetManager.modify_user(
         server=server,
         username=data["username"],
-        data=MarzneshinUserModify(
-            username=data["username"],
-            expire_strategy=datetype,
-            expire_date=(datetime.utcnow() + timedelta(days=datelimit))
-            if datetype == MarzneshinUserExpireStrategy.FIXED_DATE
-            else None,
-            usage_duration=(datelimit * (24 * 60 * 60))
-            if datetype == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
-            else None,
-        ).dict(),
+        data=datadict,
     )
     await state.clear()
     track = await message.answer(

@@ -164,3 +164,47 @@ def update_user_data_limit_data(
                 username=username, data_limit=int(datalimit) * (1024**3)
             ).dict()
     return data
+
+
+def charge_user_datelimit(
+    types: ServerTypes, username: str, datelimit: int, status: str
+) -> dict:
+    match types:
+        case ServerTypes.MARZBAN.value:
+            datatypesfind = {
+                DateTypes.NOW.value: MarzbanUserStatus.ACTIVE,
+                DateTypes.AFTER_FIRST_USE.value: MarzbanUserStatus.ONHOLD,
+                DateTypes.UNLIMITED.value: MarzbanUserStatus.ACTIVE,
+            }
+            datetype = datatypesfind.get(status)
+            datelimit = int(datelimit)
+            data = MarzbanUserModify(
+                status=datetype,
+                expire=int((datetime.utcnow() + timedelta(days=datelimit)).timestamp())
+                if datetype == MarzbanUserStatus.ACTIVE
+                else 0
+                if status == DateTypes.UNLIMITED
+                else None,
+                on_hold_expire_duration=int(datelimit * (24 * 60 * 60))
+                if datetype == MarzbanUserStatus.ONHOLD
+                else None,
+            ).dict()
+        case ServerTypes.MARZNESHIN.value:
+            datatypesfind = {
+                DateTypes.NOW.value: MarzneshinUserExpireStrategy.FIXED_DATE,
+                DateTypes.AFTER_FIRST_USE.value: MarzneshinUserExpireStrategy.START_ON_FIRST_USE,
+                DateTypes.UNLIMITED.value: MarzneshinUserExpireStrategy.NEVER,
+            }
+            datetype = datatypesfind.get(status)
+            datelimit = int(datelimit)
+            data = MarzneshinUserModify(
+                username=username,
+                expire_strategy=datetype,
+                expire_date=(datetime.utcnow() + timedelta(days=datelimit))
+                if datetype == MarzneshinUserExpireStrategy.FIXED_DATE
+                else None,
+                usage_duration=(datelimit * (24 * 60 * 60))
+                if datetype == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
+                else None,
+            ).dict()
+    return data
