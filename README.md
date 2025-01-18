@@ -1,19 +1,66 @@
-![holderbotcover](https://github.com/user-attachments/assets/db3b5da5-3e22-4436-9502-ed478415f908)
-
 # HolderBot  
 
-Telegram bot for managing panels with unique and advanced capabilities.
+A powerful Telegram bot for managing multiple VPN panels with advanced features and ease of use.
 
-### Supported Panels  
+![holderbotcover](https://github.com/user-attachments/assets/db3b5da5-3e22-4436-9502-ed478415f908)
+
+---
+
+## **Supported Panels**  
 - [x] **Marzneshin**  
-- [x] **Marzban**
+- [x] **Marzban**  
 - [ ] **Alireza**  
 - [ ] **Hiddify**  
 - [ ] **3x-ui**  
 
-# Setup
+---
 
-### Server and Docker Setup  
+## **Features**  
+
+### **Multi-Server & Multi-Panel Support**  
+- Manage multiple servers and panels from a single bot.
+
+### **Bulk User Creation**  
+- Create users in bulk with custom admin selection.  
+- Add custom suffixes to usernames.  
+- Send QR codes and user data after creation (customizable).  
+- Select custom data limits, expiration dates, and configurations.  
+- Create users using predefined templates.
+
+### **User Management**  
+- **User Menu:**  
+  - Filter users by status: active, expired, or limited.  
+  - Display icons for user status.  
+- **User Search:**  
+  - Search users with `/user serverid username`.  
+  - Show up to 10 users matching the search criteria.  
+- **User Modifications:**  
+  - Add notes.  
+  - Set data and date limits.  
+  - Activate or disable users.  
+  - Charge users using templates (optional reset of data usage).  
+  - Reset usage.  
+  - Revoke subscriptions.  
+  - Send QR codes with user data (customizable).  
+  - Set or change the owner.  
+  - Modify configurations.  
+  - Remove users.
+
+### **Admin Management**  
+- Activate or deactivate admin users.  
+- Delete expired, limited, or admin users.  
+- Transfer users from one admin to another.  
+- Add or remove configurations for all users.
+
+### **Node Monitoring**  
+- Monitor nodes for issues.  
+- Automatically restart nodes if needed.
+
+---
+
+## **Setup**  
+
+### **Server and Docker Setup**  
 
 <details>
 <summary>Show Server Commands</summary>
@@ -29,12 +76,12 @@ curl -fsSL https://get.docker.com | sh
 ```
 </details>
 
+---
 
-### Run the Bot  
+### **Install & Run the Bot**  
 
 <details>
 <summary>Show Run Commands</summary>
-
 
 #### 1. Create Directory and Download Files  
 ```bash
@@ -55,12 +102,13 @@ docker compose pull
 docker compose up -d
 ```
 
-After a few moments, start the bot.
+After a few moments, the bot will start running.
 
 </details>
 
+---
 
-### Update the Bot  
+### **Update the Bot**  
 
 <details>
 <summary>Show Update Commands</summary>
@@ -77,8 +125,9 @@ docker compose pull && docker compose up -d
 
 </details>
 
+---
 
-### Manage the Bot  
+### **Manage the Bot**  
 
 <details>
 <summary>Show Manage Commands</summary>
@@ -105,8 +154,9 @@ cd /opt/erfjab/holderbot
 
 </details>
 
+---
 
-### How to change to GA mode?  
+### **Switch to GA Mode (preview mode)**  
 
 <details>
 <summary>Show GA Commands</summary>
@@ -116,38 +166,39 @@ Make sure you're in the **HolderBot** directory:
 cd /opt/erfjab/holderbot
 ```
 
-- **Open the docker compose:**  
+- **Open the Docker Compose File:**  
   ```bash
   nano docker-compose.yml
   ```
 
-- **Change tag:**  
+- **Change the Image Tag:**  
   
-  **from:**
-  ```bash
+  **From:**  
+  ```yaml
   erfjab/holderbot:latest
   ```
-  **to:**
-  ```bash
+  **To:**  
+  ```yaml
   erfjab/holderbot:ga
   ```
 
-- **pull docker:**  
+- **Pull the Docker Image:**  
   ```bash
   docker compose pull
   ```
 
-- **start bot:**  
+- **Start the Bot:**  
   ```bash
   docker compose up -d
   ```
 </details>
 
+---
 
-# Support  
+## **Support**  
 
-Telegram Channel: [@ErfJabs](https://t.me/ErfJabs)  
-Telegram Group: [@ErfJabGroup](https://t.me/erfjabgroup)  
+- **Telegram Channel:** [@ErfJabs](https://t.me/ErfJabs)  
+- **Telegram Group:** [@ErfJabGroup](https://t.me/erfjabgroup)  
 
-⭐ **Star the project:**  
+⭐ **Star the Project:**  
 [![Stargazers](https://starchart.cc/erfjab/holderbot.svg?variant=adaptive)](https://starchart.cc/erfjab/holderbot)  
