@@ -33,13 +33,20 @@ def _get_expire_date(expire_strategy, datelimit: int):
         MarzneshinUserExpireStrategy.FIXED_DATE,
         MarzbanUserStatus.ACTIVE,
     ]:
-        return datetime.utcnow() + timedelta(days=datelimit)
+        return (
+            datetime.utcnow() + timedelta(days=int(datelimit))
+            if int(datelimit) != 0
+            else 0
+        )
     return None
 
 
 def _get_usage_duration(expire_strategy, datelimit: int):
-    if expire_strategy == MarzneshinUserExpireStrategy.START_ON_FIRST_USE:
-        return datelimit * (24 * 60 * 60)
+    if expire_strategy in [
+        MarzneshinUserExpireStrategy.START_ON_FIRST_USE,
+        MarzbanUserStatus.ONHOLD,
+    ]:
+        return int(datelimit) * (24 * 60 * 60)
     return None
 
 
@@ -73,21 +80,22 @@ def user_create_data(
     expire_strategy = _get_expire_strategy(types, datetype)
     expire_date = _get_expire_date(expire_strategy, datelimit)
     usage_duration = _get_usage_duration(expire_strategy, datelimit)
-    proxies, inbounds = _get_proxies_and_inbounds(configs)
+    datalimit = int(datalimit)
 
     if types == ServerTypes.MARZNESHIN.value:
         data = MarzneshinUserCreate(
             username=username,
-            data_limit=int(datalimit) * (1024**3),
+            data_limit=datalimit * (1024**3) if datalimit != 0 else 0,
             service_ids=[service["id"] for service in selects],
             expire_strategy=expire_strategy,
             expire_date=expire_date,
             usage_duration=usage_duration,
         ).dict()
     elif types == ServerTypes.MARZBAN.value:
+        proxies, inbounds = _get_proxies_and_inbounds(configs)
         data = MarzbanUserCreate(
             username=username,
-            data_limit=int(datalimit) * (1024**3),
+            data_limit=datalimit * (1024**3) if datalimit != 0 else 0,
             inbounds=inbounds,
             proxies=proxies,
             status=expire_strategy,
@@ -147,12 +155,11 @@ def change_config_data(types: str, username: str, configs: dict, selects: dict) 
 def update_user_data_limit_data(
     types: ServerTypes, username: str, datalimit: int
 ) -> dict:
+    data_limit = int(datalimit) * (1024**3)
     if types == ServerTypes.MARZBAN.value:
-        data = MarzbanUserModify(data_limit=int(datalimit) * (1024**3)).dict()
+        data = MarzbanUserModify(data_limit=data_limit).dict()
     elif types == ServerTypes.MARZNESHIN.value:
-        data = MarzneshinUserModify(
-            username=username, data_limit=int(datalimit) * (1024**3)
-        ).dict()
+        data = MarzneshinUserModify(username=username, data_limit=data_limit).dict()
     return data
 
 
