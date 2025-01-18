@@ -6,6 +6,7 @@ from ..types.marzneshin import (
     MarzneshinUserResponse,
     MarzneshinServiceResponce,
     MarzneshinAdmin,
+    MarzneshinNodeResponse,
 )
 
 
@@ -94,34 +95,34 @@ class MarzneshinApiManager(ApiRequest):
             response_model=MarzneshinUserResponse,
         )
 
-    async def remove_user(self, username: str, access: str) -> Optional[bool]:
+    async def remove_user(self, username: str, access: str) -> bool:
         return await self.delete(
             endpoint=f"/api/users/{username}",
             access=access,
         )
 
-    async def activate_user(self, username: str, access: str) -> Optional[bool]:
+    async def activate_user(self, username: str, access: str) -> bool:
         return await self.post(endpoint=f"/api/users/{username}/enable", access=access)
 
-    async def disabled_user(self, username: str, access: str) -> Optional[bool]:
+    async def disabled_user(self, username: str, access: str) -> bool:
         return await self.post(endpoint=f"/api/users/{username}/disable", access=access)
 
-    async def activate_users(self, admin: str, access: str) -> Optional[bool]:
+    async def activate_users(self, admin: str, access: str) -> bool:
         return await self.post(
             endpoint=f"/api/admins/{admin}/enable_users", access=access
         )
 
-    async def disabled_users(self, admin: str, access: str) -> Optional[bool]:
+    async def disabled_users(self, admin: str, access: str) -> bool:
         return await self.post(
             endpoint=f"/api/admins/{admin}/disable_users", access=access
         )
 
-    async def revoke_user(self, username: str, access: str) -> Optional[bool]:
+    async def revoke_user(self, username: str, access: str) -> bool:
         return await self.post(
             endpoint=f"/api/users/{username}/revoke_sub", access=access
         )
 
-    async def reset_user(self, username: str, access: str) -> Optional[bool]:
+    async def reset_user(self, username: str, access: str) -> bool:
         return await self.post(endpoint=f"/api/users/{username}/reset", access=access)
 
     async def get_admins(self, access: str) -> Optional[list[MarzneshinAdmin]]:
@@ -130,9 +131,18 @@ class MarzneshinApiManager(ApiRequest):
             return False
         return [MarzneshinAdmin(**admin) for admin in admins["items"]]
 
-    async def set_owner(self, username: str, admin: str, access: str) -> Optional[bool]:
+    async def set_owner(self, username: str, admin: str, access: str) -> bool:
         return await self.put(
             endpoint=f"/api/users/{username}/set-owner",
             params={"username": username, "admin_username": admin},
             access=access,
         )
+
+    async def get_nodes(self, access: str) -> Optional[MarzneshinNodeResponse]:
+        nodes = await self.get(endpoint="/api/nodes", access=access)
+        if not nodes:
+            return False
+        return [MarzneshinNodeResponse(**node) for node in nodes["items"]]
+
+    async def restart_node(self, access: str, nodeid: int) -> bool:
+        return await self.post(endpoint=f"/api/nodes/{nodeid}/resync", access=access)

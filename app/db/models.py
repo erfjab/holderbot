@@ -24,6 +24,8 @@ class Server(Base, BaseTime):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     remark: Mapped[str] = mapped_column(String, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    node_monitoring: Mapped[bool] = mapped_column(Boolean, default=False)
+    node_restart: Mapped[bool] = mapped_column(Boolean, default=False)
     types: Mapped[ServerTypes] = mapped_column(String, nullable=False)
     data: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)
 
@@ -61,6 +63,8 @@ class Server(Base, BaseTime):
             f"• <b>Remark:</b> <code>{self.remark}</code>\n"
             f"• <b>Active:</b> <code>{'Yes' if self.is_active else 'No'}</code>\n"
             f"• <b>Online:</b> <code>{'Yes' if self.is_online else 'No'}</code>\n"
+            f"• <b>Node Monitoring:</b> <code>{'Yes' if self.node_monitoring else 'No'}</code>\n"
+            f"• <b>Node Auto Restart:</b> <code>{'Yes' if self.node_restart else 'No'}</code>\n"
             f"• <b>Types:</b> <code>{self.types}</code>\n"
             f"• <b>Data</b>\n{formatted_data}\n"
             f"• <b>Updated At:</b> <code>{self.updated_at or '➖'}</code>\n"

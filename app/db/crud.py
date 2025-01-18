@@ -83,6 +83,8 @@ async def modify_server(
     serverid: int,
     remark: Optional[str] = None,
     data: Optional[dict] = None,
+    node_monitoring: Optional[bool] = None,
+    node_restart: Optional[bool] = None,
 ) -> Optional[Server]:
     async with get_db() as db:
         server = await db.execute(select(Server).filter(Server.id == serverid))
@@ -93,6 +95,10 @@ async def modify_server(
             server.remark = remark
         if data is not None:
             server.data = data
+        if node_monitoring is not None:
+            server.node_monitoring = node_monitoring
+        if node_restart is not None:
+            server.node_restart = node_restart
         await db.commit()
         await db.refresh(server)
         return server

@@ -10,3 +10,5 @@ class ServerModify(str, Enum):
     REMOVE = "🗑 Remove"
     REMARK = "🏷 Remark"
     DATA = "📋 Data"
+    NODE_MONITORING = "📡 Monitoring Nodes"
+    NODE_AUTORESTART = "🔄 Auto Restart Nodes"

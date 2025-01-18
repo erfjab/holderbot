@@ -6,6 +6,7 @@ from .types.marzneshin import (
     MarzneshinUserResponse,
     MarzneshinServiceResponce,
     MarzneshinAdmin,
+    MarzneshinNodeResponse,
 )
 from .types.marzban import (
     MarzbanAdmin,
@@ -13,6 +14,7 @@ from .types.marzban import (
     MarzbanToken,
     MarzbanUserResponse,
     MarzbanUserStatus,
+    MarzbanNodeResponse,
 )
 from app.models.server import ServerTypes
 from app.db import Server
@@ -139,7 +141,7 @@ class ClinetApiManager:
 
         return user
 
-    async def remove_user(self, server: Server, username: str) -> Optional[bool]:
+    async def remove_user(self, server: Server, username: str) -> bool:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
@@ -151,7 +153,7 @@ class ClinetApiManager:
 
         return user
 
-    async def activated_user(self, server: Server, username: str) -> Optional[bool]:
+    async def activated_user(self, server: Server, username: str) -> bool:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
@@ -163,7 +165,7 @@ class ClinetApiManager:
 
         return user
 
-    async def disabled_user(self, server: Server, username: str) -> Optional[bool]:
+    async def disabled_user(self, server: Server, username: str) -> bool:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
@@ -175,7 +177,7 @@ class ClinetApiManager:
 
         return user
 
-    async def reset_user(self, server: Server, username: str) -> Optional[bool]:
+    async def reset_user(self, server: Server, username: str) -> bool:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
@@ -187,7 +189,7 @@ class ClinetApiManager:
 
         return user
 
-    async def revoke_user(self, server: Server, username: str) -> Optional[bool]:
+    async def revoke_user(self, server: Server, username: str) -> bool:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
@@ -231,7 +233,7 @@ class ClinetApiManager:
 
         return user
 
-    async def activated_users(self, server: Server, admin: str) -> Optional[bool]:
+    async def activated_users(self, server: Server, admin: str) -> bool:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
@@ -243,7 +245,7 @@ class ClinetApiManager:
 
         return action
 
-    async def disabled_users(self, server: Server, admin: str) -> Optional[bool]:
+    async def disabled_users(self, server: Server, admin: str) -> bool:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])
@@ -252,5 +254,31 @@ class ClinetApiManager:
             case ServerTypes.MARZBAN.value:
                 api = MarzbanApiManager(host=server.data["host"])
                 action = await api.disabled_users(admin, server.access)
+
+        return action
+
+    async def get_nodes(
+        self, server: Server
+    ) -> Optional[list[MarzneshinNodeResponse] | list[MarzbanNodeResponse]]:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                nodes = await api.get_nodes(server.access)
+
+            case ServerTypes.MARZBAN.value:
+                api = MarzbanApiManager(host=server.data["host"])
+                nodes = await api.get_nodes(server.access)
+
+        return nodes
+
+    async def restart_node(self, server: Server, nodeid: int) -> bool:
+        match server.types:
+            case ServerTypes.MARZNESHIN.value:
+                api = MarzneshinApiManager(host=server.data["host"])
+                action = await api.restart_node(server.access, nodeid)
+
+            case ServerTypes.MARZBAN.value:
+                api = MarzbanApiManager(host=server.data["host"])
+                action = await api.restart_node(server.access, nodeid)
 
         return action

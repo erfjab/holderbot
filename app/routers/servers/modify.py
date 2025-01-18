@@ -17,7 +17,7 @@ router = Router(name="server_modify")
 
 class ServerModifyForm(StatesGroup):
     ALL = State()
-    REMOVE = State()
+    CONFIRM = State()
 
 
 @router.callback_query(
@@ -44,8 +44,13 @@ async def start_modify(
         case ServerModify.DATA:
             await state.update_data(action=ServerModify.DATA)
             text = MessageTexts.ASK_MARZ_DATA
-        case ServerModify.REMOVE:
-            await state.set_state(ServerModifyForm.REMOVE)
+        case (
+            ServerModify.REMOVE
+            | ServerModify.NODE_MONITORING
+            | ServerModify.NODE_AUTORESTART
+        ):
+            await state.set_state(ServerModifyForm.CONFIRM)
+            await state.update_data(action=callback_data.datatype)
             return await callback.message.edit_text(
                 text=MessageTexts.ASK_SURE,
                 reply_markup=BotKeys.selector(
@@ -109,7 +114,7 @@ async def finish_modify(message: Message, state: FSMContext):
 
 
 @router.callback_query(
-    StateFilter(ServerModifyForm.REMOVE),
+    StateFilter(ServerModifyForm.CONFIRM),
     SelectCB.filter((F.types.is_(Pages.SERVERS)) & (F.action.is_(Actions.MODIFY))),
 )
 async def remove(callback: CallbackQuery, callback_data: SelectCB, state: FSMContext):
@@ -126,8 +131,22 @@ async def remove(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         )
         return await tracker.add(track)
 
-    await crud.remove_server(serverid=server.id)
+    data = await state.get_data()
+
+    match data["action"]:
+        case ServerModify.REMOVE.value:
+            action = await crud.remove_server(serverid=server.id)
+        case ServerModify.NODE_MONITORING.value:
+            action = await crud.modify_server(
+                serverid=server.id,
+                node_monitoring=False if server.node_monitoring else True,
+            )
+        case ServerModify.NODE_AUTORESTART.value:
+            action = await crud.modify_server(
+                serverid=server.id, node_restart=False if server.node_restart else True
+            )
+
     return await callback.message.edit_text(
-        text=MessageTexts.SUCCESS,
+        text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
         reply_markup=BotKeys.cancel(),
     )
