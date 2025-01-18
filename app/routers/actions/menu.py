@@ -29,7 +29,8 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
         ActionTypes.TRANSFER_USERS,
     ]
     if server.types == ServerTypes.MARZNESHIN.value:
-        menu_keys.append(ActionTypes.ADD_CONFIG, ActionTypes.DELETE_CONFIG)
+        menu_keys.append(ActionTypes.ADD_CONFIG)
+        menu_keys.append(ActionTypes.DELETE_CONFIG)
     return await callback.message.edit_text(
         text=MessageTexts.ITEMS,
         reply_markup=BotKeys.selector(
