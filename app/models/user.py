@@ -2,7 +2,14 @@ from enum import Enum
 from datetime import datetime
 
 from pydantic import BaseModel
-from app.api.types.marzban import MarzbanUserStatus
+
+
+class MarzbanUserStatus(str, Enum):
+    ACTIVE = "active"
+    DISABLED = "disabled"
+    LIMITED = "limited"
+    EXPIRED = "expired"
+    ONHOLD = "on_hold"
 
 
 class MarzneshinUserExpireStrategy(str, Enum):
