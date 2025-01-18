@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from .clients import MarzneshinApiManager, MarzbanApiManager
 from .types.marzneshin import (
@@ -15,7 +15,9 @@ from .types.marzban import (
     MarzbanUserStatus,
 )
 from app.models.server import ServerTypes
-from ..db.models import Server
+
+if TYPE_CHECKING:
+    from ..db.models import Server
 
 
 class ClinetApiManager:
