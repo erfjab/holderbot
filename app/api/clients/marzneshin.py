@@ -145,4 +145,4 @@ class MarzneshinApiManager(ApiRequest):
         return [MarzneshinNodeResponse(**node) for node in nodes["items"]]
 
     async def restart_node(self, access: str, nodeid: int) -> bool:
-        return await self.post(endpoint=f"/api/user/{nodeid}/resync", access=access)
+        return await self.post(endpoint=f"/api/nodes/{nodeid}/resync", access=access)

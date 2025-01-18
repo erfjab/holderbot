@@ -15,10 +15,9 @@ async def start() -> bool:
         replace_existing=False,
         max_instances=1,
     )
-
     scheduler.add_job(
         monitoring_nodes,
-        trigger=IntervalTrigger(minutes=1),
+        trigger=IntervalTrigger(seconds=30),
         id="monitoring_nodes",
         replace_existing=False,
         max_instances=1,
