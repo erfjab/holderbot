@@ -7,6 +7,7 @@ from ..types.marzban import (
     MarzbanUserResponse,
     MarzbanProxyInbound,
     MarzbanUserStatus,
+    MarzbanNodeResponse,
 )
 
 
@@ -101,38 +102,38 @@ class MarzbanApiManager(ApiRequest):
             response_model=MarzbanUserResponse,
         )
 
-    async def remove_user(self, username: str, access: str) -> Optional[bool]:
+    async def remove_user(self, username: str, access: str) -> bool:
         return await self.delete(
             endpoint=f"/api/user/{username}",
             access=access,
         )
 
-    async def activate_user(self, username: str, access: str) -> Optional[bool]:
+    async def activate_user(self, username: str, access: str) -> bool:
         return await self.put(
             endpoint=f"/api/user/{username}", data={"status": "active"}, access=access
         )
 
-    async def disabled_user(self, username: str, access: str) -> Optional[bool]:
+    async def disabled_user(self, username: str, access: str) -> bool:
         return await self.put(
             endpoint=f"/api/user/{username}", data={"status": "disabled"}, access=access
         )
 
-    async def activate_users(self, admin: str, access: str) -> Optional[bool]:
+    async def activate_users(self, admin: str, access: str) -> bool:
         return await self.post(
             endpoint=f"/api/admin/{admin}/users/activate", access=access
         )
 
-    async def disabled_users(self, admin: str, access: str) -> Optional[bool]:
+    async def disabled_users(self, admin: str, access: str) -> bool:
         return await self.post(
             endpoint=f"/api/admin/{admin}/users/disable", access=access
         )
 
-    async def revoke_user(self, username: str, access: str) -> Optional[bool]:
+    async def revoke_user(self, username: str, access: str) -> bool:
         return await self.post(
             endpoint=f"/api/user/{username}/revoke_sub", access=access
         )
 
-    async def reset_user(self, username: str, access: str) -> Optional[bool]:
+    async def reset_user(self, username: str, access: str) -> bool:
         return await self.post(endpoint=f"/api/user/{username}/reset", access=access)
 
     async def get_admins(self, access: str) -> Optional[list[MarzbanAdmin]]:
@@ -141,9 +142,18 @@ class MarzbanApiManager(ApiRequest):
             return False
         return [MarzbanAdmin(**admin) for admin in admins]
 
-    async def set_owner(self, username: str, admin: str, access: str) -> Optional[bool]:
+    async def set_owner(self, username: str, admin: str, access: str) -> bool:
         return await self.put(
             endpoint=f"/api/user/{username}/set-owner",
             params={"username": username, "admin_username": admin},
             access=access,
         )
+
+    async def get_nodes(self, access: str) -> Optional[MarzbanNodeResponse]:
+        nodes = await self.get(endpoint="/api/nodes", access=access)
+        if not nodes:
+            return False
+        return [MarzbanNodeResponse(**node) for node in nodes]
+
+    async def restart_node(self, access: str, nodeid: int) -> bool:
+        return await self.post(endpoint=f"/api/user/{nodeid}/reconnect", access=access)
