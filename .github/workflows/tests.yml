@@ -1,0 +1,29 @@
+name: Python Alembic Migration Tests
+on:
+    push:
+      branches:
+        - master
+    pull_request:
+      branches:
+        - '*'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+        
+    - name: Install dependencies
+      run: |
+        export PIP_BREAK_SYSTEM_PACKAGES=1
+        python -m pip install --upgrade pip
+        pip install uv
+        uv sync        
+    - name: Run Tests
+      run: |
+        uv run pytest tests/ -v

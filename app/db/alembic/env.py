@@ -1,25 +1,18 @@
-# pylint: disable=all
-
-"""
-Alembic environment configuration for running database migrations.
-
-This module configures and runs Alembic migrations for the database, supporting both
-synchronous (offline) and asynchronous (online) migration modes.
-"""
-
+import os
 import asyncio
-from logging.config import fileConfig
-
 from alembic import context
+from logging.config import fileConfig
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
 from app.db.base import Base
 
-# Alembic Config object for accessing values within the .ini file.
-config = context.config  # pylint: disable=no-member
-config.set_main_option("sqlalchemy.url", "sqlite+aiosqlite:///data/db.sqlite3")
+config = context.config
+
+if os.getenv("TESTING"):
+    config.set_main_option("sqlalchemy.url", "sqlite+aiosqlite:///:memory:")
+else:
+    config.set_main_option("sqlalchemy.url", "sqlite+aiosqlite:///data/db.sqlite3")
 
 # Set up loggers from config file if available
 if config.config_file_name is not None:
@@ -32,9 +25,6 @@ target_metadata = Base.metadata
 def run_migrations_offline() -> None:
     """
     Run migrations in 'offline' mode.
-
-    Configures the context with a URL instead of an Engine,
-    allowing migrations without DBAPI.
     """
     url = config.get_main_option("sqlalchemy.url")
     context.configure(  # pylint: disable=no-member

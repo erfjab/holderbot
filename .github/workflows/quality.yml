@@ -2,7 +2,7 @@ name: Code Quality Checks
 on:
   push:
     branches:
-      - '*'
+      - master
   pull_request:
     branches:
       - '*'
