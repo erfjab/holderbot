@@ -6,6 +6,7 @@ Telegram bot for managing panels with unique and advanced capabilities.
 
 ### Supported Panels  
 - [x] **Marzneshin**  
+- [x] **Marzban**
 - [ ] **Alireza**  
 - [ ] **Hiddify**  
 - [ ] **3x-ui**  
