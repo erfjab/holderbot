@@ -1,4 +1,4 @@
-name: Pr Test Build
+name: Build and Test
 
 on:
   pull_request:
@@ -35,3 +35,28 @@ jobs:
           push: true
           tags: |
             erfjab/holderbot:pr-${{ github.event.pull_request.number }}
+
+      - name: Add Comment to PR on Success
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const tag = `erfjab/holderbot:pr-${{ github.event.pull_request.number }}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `✅ Docker Image built successfully! You can test it using the following command:\n\n\`\`\`bash\ndocker run -it --rm ${tag}\n\`\`\``
+            });
+
+      - name: Add Comment to PR on Failure
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "❌ Docker Image build failed! Please check the logs for more details."
+            });
