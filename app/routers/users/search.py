@@ -15,10 +15,11 @@ async def data(message: Message):
     try:
         _, serverid, username = message.text.split(maxsplit=2)
     except ValueError:
-        return await message.reply(
+        track = await message.reply(
             text=f"{MessageTexts.WRONG_PATTERN}\n/user serverid username",
             reply_markup=BotKeys.cancel(),
         )
+        return await tracker.add(track)
 
     server = await crud.get_server(int(serverid))
     if not server:

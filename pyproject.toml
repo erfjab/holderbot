@@ -17,4 +17,5 @@ dependencies = [
     "qrcode==7.4.2",
     "sqlalchemy==2.0.31",
     "packaging>=24.2",
+    "pytest-alembic>=0.11.1",
 ]
