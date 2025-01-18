@@ -15,7 +15,7 @@ from .types.marzban import (
     MarzbanUserStatus,
 )
 from app.models.server import ServerTypes
-from ..db import Server
+from ..db.models import Server
 
 
 class ClinetApiManager:
