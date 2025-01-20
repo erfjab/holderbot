@@ -367,7 +367,7 @@ async def createusers(
             username=username,
             datalimit=int(data["datalimit"]),
             datetype=data["datetypes"],
-            datelimit=int(data["datalimit"]),
+            datelimit=int(data["datelimit"]),
             selects=data["selects"],
             configs=data["configs"],
         )
