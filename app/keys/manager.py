@@ -55,6 +55,12 @@ class _KeyboardsManager:
                     page=page, action=Actions.LIST, panel=panel
                 ).pack(),
             )
+        kb.button(
+            text=KeyboardTexts.CREATE_USER,
+            callback_data=PageCB(
+                page=Pages.USERS, action=Actions.CREATE, panel=panel
+            ).pack(),
+        )
 
         kb.adjust(2)
 
