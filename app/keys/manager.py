@@ -32,7 +32,7 @@ class _KeyboardsManager:
                 callback_data=PageCB(page=Pages.UPDATE, action=Actions.INFO).pack(),
             ),
             InlineKeyboardButton(
-                text=KeyboardTexts.CREATE,
+                text=KeyboardTexts.CREATE_SERVER,
                 callback_data=PageCB(page=Pages.SERVERS, action=Actions.CREATE).pack(),
             ),
             width=2,
