@@ -75,7 +75,6 @@ def user_create_data(
     datetype: str,
     datelimit: int,
     selects: dict,
-    configs: dict | None = None,
 ) -> dict:
     expire_strategy = _get_expire_strategy(types, datetype)
     expire_date = _get_expire_date(expire_strategy, datelimit)
@@ -92,7 +91,7 @@ def user_create_data(
             usage_duration=usage_duration,
         ).dict()
     elif types == ServerTypes.MARZBAN.value:
-        proxies, inbounds = _get_proxies_and_inbounds(configs)
+        proxies, inbounds = _get_proxies_and_inbounds(selects)
         data = MarzbanUserCreate(
             username=username,
             data_limit=datalimit * (1024**3) if datalimit != 0 else 0,
