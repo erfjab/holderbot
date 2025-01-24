@@ -369,7 +369,6 @@ async def createusers(
             datetype=data["datetypes"],
             datelimit=int(data["datelimit"]),
             selects=data["selects"],
-            configs=data["configs"],
         )
         user_created = await ClinetManager.create_user(server, user_data)
         if not user_created:
