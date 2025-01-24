@@ -11,6 +11,8 @@ class _KeyboardSettings(BaseSettings):
     CREATE: str = "➕ Create"
     USERS: str = "👤 Users"
     ACTIONS: str = "🗄 Actions"
+    CREATE_USER: str = "➕ Create User"
+    CREATE_SERVER: str = "➕ Add Server"
     TEMPLATES: str = "🗃 Templates"
     DONE: str = "✔️ DONE"
     LEFT: str = "⬅️"
