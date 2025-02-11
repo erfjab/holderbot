@@ -198,7 +198,7 @@ class _KeyboardsManager:
 
     def selector(
         self,
-        data: list[str],
+        data: list[str | tuple[str, str]],
         types: str,
         action: Actions | None = None,
         selects: list[str] | None = None,
@@ -210,16 +210,20 @@ class _KeyboardsManager:
 
         for d in data:
             text = d.value if isinstance(d, Enum) else d
+            if isinstance(d, tuple):
+                display_name, value = d
+            else:
+                display_name = value = d.value if isinstance(d, Enum) else d
             selected = False
 
             if selects is not None:
-                selected = d in selects
-                text = f"✅ {text}" if selected else f"❌ {text}"
+                selected = value in selects
+                display_name = f"✅ {text}" if selected else f"❌ {text}"
 
             kb.button(
-                text=text,
+                text=display_name,
                 callback_data=SelectCB(
-                    select=d,
+                    select=value,
                     types=types,
                     action=action,
                     selected=selected,
