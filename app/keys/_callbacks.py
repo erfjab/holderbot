@@ -15,7 +15,7 @@ class PageCB(CallbackData, prefix="pages"):
 
 
 class SelectCB(CallbackData, prefix="select"):
-    select: str | Enum | None = None
+    select: str | int | Enum | None = None
     types: Pages
     action: Actions | None = None
     selected: bool | None = None

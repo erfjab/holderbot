@@ -50,7 +50,7 @@ async def chargestart(
     return await callback.message.edit_text(
         text=MessageTexts.ASK_ADMIN,
         reply_markup=BotKeys.selector(
-            data=[tem.button_remark for tem in templates],
+            data=[(tem.button_remark, tem.id) for tem in templates],
             types=Pages.USERS,
             action=Actions.MODIFY,
             panel=server.id,
@@ -74,7 +74,7 @@ async def chargeend(
         )
         return await tracker.add(track)
 
-    await state.update_data(templateid=callback_data.select.split()[0])
+    await state.update_data(templateid=int(callback_data.select))
     await state.set_state(UserModifyForm.CHARGE)
     return await callback.message.edit_text(
         text=MessageTexts.ASK_SURE,
