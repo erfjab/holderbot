@@ -11,6 +11,7 @@ from app.models.server import ServerModify
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
 from app.settings.track import tracker
+from app.settings.utils.helpers import is_valid_input
 
 router = Router(name="server_modify")
 
@@ -71,7 +72,7 @@ async def finish_modify(message: Message, state: FSMContext):
     serverid = int(state_data["serverid"])
     match state_data["action"]:
         case ServerModify.REMARK.value:
-            if not message.text.isalpha():
+            if not is_valid_input(message.text):
                 track = await message.answer(MessageTexts.WRONG_STR)
                 return await tracker.add(track)
 
