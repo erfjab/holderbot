@@ -61,6 +61,12 @@ class _KeyboardsManager:
                 page=Pages.USERS, action=Actions.CREATE, panel=panel
             ).pack(),
         )
+        kb.button(
+            text=KeyboardTexts.SEARCH_USER,
+            callback_data=PageCB(
+                page=Pages.USERS, action=Actions.SEARCH, panel=panel
+            ).pack(),
+        )
 
         kb.adjust(2)
 
@@ -88,6 +94,7 @@ class _KeyboardsManager:
         control: tuple[int, int] = None,
         filters: list[str] | None = None,
         select_filters: str | None = None,
+        search: bool = False,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -153,7 +160,16 @@ class _KeyboardsManager:
                 )
             if buttons:
                 kb.row(*buttons, width=2)
-
+        if search:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.SEARCH_USER,
+                    callback_data=PageCB(
+                        page=Pages.USERS, action=Actions.SEARCH, panel=panel
+                    ).pack(),
+                ),
+                width=1,
+            )
         kb.row(
             InlineKeyboardButton(
                 text=KeyboardTexts.CREATE,

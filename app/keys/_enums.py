@@ -16,6 +16,7 @@ class Actions(str, Enum):
     INFO = "info"
     CREATE = "create"
     MODIFY = "modify"
+    SEARCH = "search"
 
 
 class YesOrNot(str, Enum):

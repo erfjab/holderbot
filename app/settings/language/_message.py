@@ -49,3 +49,4 @@ class _MessageSettings(BaseSettings):
     ASK_NOTE: str = "Enter note text:"
     ASK_ADMIN_FROM: str = "Select from admin:"
     ASK_ADMIN_TO: str = "Select to admin:"
+    ASK_USERNAME: str = "Enter Username:"
