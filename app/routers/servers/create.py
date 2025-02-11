@@ -6,6 +6,7 @@ from aiogram.fsm.state import State, StatesGroup
 
 from app.settings.language import MessageTexts
 from app.settings.track import tracker
+from app.settings.utils.helpers import is_valid_input
 from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB
 from app.models.server import ServerTypes
 from app.db import crud
@@ -32,7 +33,7 @@ async def create(callback: CallbackQuery, state: FSMContext):
 
 @router.message(StateFilter(ServerCreateForm.REMARK))
 async def remark(message: Message, state: FSMContext):
-    if not message.text.isalpha():
+    if not is_valid_input(message.text):
         track = await message.answer(MessageTexts.WRONG_STR)
         return await tracker.add(track)
 

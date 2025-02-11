@@ -7,6 +7,7 @@ from app.db import crud
 from app.keys import BotKeys, Actions, Pages, SelectCB
 from app.settings.language import MessageTexts
 from app.settings.track import tracker
+from app.settings.utils.helpers import is_valid_input
 from .base import TemplateModifyForm
 from app.models.template import TemplateModify
 
@@ -39,7 +40,7 @@ async def start_modify(
 async def finish_modify(message: Message, state: FSMContext):
     state_data = await state.get_data()
     templateid = state_data["templateid"]
-    if not message.text.isalpha():
+    if not is_valid_input(text=message.text):
         track = await message.answer(MessageTexts.WRONG_STR)
         return await tracker.add(track)
 
