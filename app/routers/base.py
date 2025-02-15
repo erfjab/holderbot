@@ -9,12 +9,59 @@ from app.keys import BotKeys, PageCB, Pages, Actions
 from app.db import crud
 from app.settings.utils.update import check_github_version
 from app.version import __version__
+from app.api import ClinetManager
+from app.models.user import UserModify
 
 router = Router(name="start")
 
 
 @router.message(Command(commands=["start"]))
 async def start(message: Message, state: FSMContext):
+    args = message.text.split()
+
+    if len(args) >= 2 and args[1].startswith("user_"):
+        try:
+            await message.delete()
+        except Exception:
+            pass
+        parts = args[1].split("_")
+
+        if len(parts) >= 3:
+            server_id = int(parts[1])
+            username = "_".join(parts[2:])
+            server = await crud.get_server(server_id)
+            if not server:
+                track = await message.answer(text=MessageTexts.NOT_FOUND)
+                return await tracker.add(track)
+
+            user = await ClinetManager.get_user(server, username)
+            if not user:
+                return await message.answer(text=MessageTexts.NOT_FOUND)
+
+            track = await message.answer(
+                text=user.format_data_str(),
+                reply_markup=BotKeys.selector(
+                    data=[
+                        UserModify.DATA_LIMIT,
+                        UserModify.DATE_LIMIT,
+                        UserModify.DISABLED if user.is_active else UserModify.ACTIVATED,
+                        UserModify.RESET_USAGE,
+                        UserModify.REVOKE,
+                        UserModify.QRCODE,
+                        UserModify.NOTE,
+                        UserModify.OWNER,
+                        UserModify.CONFIGS,
+                        UserModify.CHARGE,
+                        UserModify.REMOVE,
+                    ],
+                    types=Pages.USERS,
+                    action=Actions.MODIFY,
+                    extra=user.username,
+                    panel=server.id,
+                ),
+            )
+            return await tracker.add(track)
+
     await state.clear()
     servers = await crud.get_servers()
     track = await message.answer(

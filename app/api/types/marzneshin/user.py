@@ -89,6 +89,64 @@ class MarzneshinUserResponse(BaseModel):
         return "Unknown"
 
     @property
+    def is_enable(self) -> bool:
+        return self.activated
+
+    @property
+    def is_limited(self) -> bool:
+        return self.data_limit_reached
+
+    @property
+    def is_expired(self) -> bool:
+        return self.expired
+
+    @property
+    def data_percent(self) -> int:
+        if not self.data_limit or not self.used_traffic:
+            return 100
+
+        if self.used_traffic >= self.data_limit:
+            return 0
+
+        return int(((self.data_limit - self.used_traffic) / self.data_limit) * 100)
+
+    @property
+    def last_sub_update_hour(self) -> int:
+        if not self.sub_updated_at:
+            return None
+        return int(
+            (
+                datetime.now(timezone.utc) - ensure_utc(self.sub_updated_at)
+            ).total_seconds()
+            / 3600
+        )
+
+    @property
+    def last_online_hour(self) -> int:
+        if not self.online_at:
+            return None
+        return int(
+            (datetime.now(timezone.utc) - ensure_utc(self.online_at)).total_seconds()
+            / 3600
+        )
+
+    @property
+    def last_expired_hour(self) -> int:
+        if (
+            self.expire_strategy
+            in [UserExpireStrategy.NEVER, UserExpireStrategy.START_ON_FIRST_USE]
+            or not self.expire_date
+        ):
+            return None
+
+        now = datetime.now(timezone.utc)
+        refrenc = ensure_utc(self.expire_date)
+        if now >= refrenc:
+            return None
+
+        return int((refrenc - now).total_seconds() / 3600)
+
+    @property
     def format_data(self) -> dict:
         now = ensure_utc(datetime.now(timezone.utc))
 

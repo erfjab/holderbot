@@ -19,3 +19,4 @@ class _KeyboardSettings(BaseSettings):
     LEFT: str = "⬅️"
     RIGHT: str = "➡️"
     UPDATE_CHECKER: str = "👀 Check Update"
+    STATS: str = "📊 Stats"
