@@ -8,6 +8,7 @@ from aiogram.types import Update
 from app.settings.log import logger
 from app.settings.config import env
 from app.settings.track import tracker
+from app.bot import bot
 
 
 class CheckUserAccess(BaseMiddleware):
@@ -35,6 +36,21 @@ class CheckUserAccess(BaseMiddleware):
             return None
 
         if not env.is_admin(user.id):
+            for admin in env.TELEGRAM_ADMINS_ID:
+                try:
+                    await bot.send_message(
+                        chat_id=admin,
+                        text=(
+                            "<b>Oops, we have a spy!</b>\n"
+                            f"🥷🏻 <b>Full Name:</b> <code>{user.full_name}</code>\n"
+                            f"📌 <b>Username:</b> <code>{user.username or '➖'}</code>\n"
+                            f"🆔 <b>User ID:</b> <code>{user.id}</code>\n"
+                            f"🔗 <b>Private Chat Link:</b> <a href='tg://openmessage?user_id={user.id}'>Click here to open chat</a>"
+                        ),
+                    )
+                except Exception:
+                    pass
+
             logger.warning(
                 f"Blocked {'@' + user.username or user.first_name} [{user.id}]"
             )
