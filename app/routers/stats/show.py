@@ -24,7 +24,7 @@ async def show_stats(callback: CallbackQuery, callback_data: PageCB):
     await callback.message.edit_text(text="⏳")
 
     categories = defaultdict(list)
-    page, size = 1, 50
+    page, size = 1, server.size_value
 
     while True:
         users = await ClinetManager.get_users(server=server, page=page, size=size)
