@@ -28,7 +28,7 @@ async def start() -> bool:
 
     scheduler.add_job(
         monitoring_expired,
-        trigger=CronTrigger(hour=0, minute=0),
+        trigger=CronTrigger(hour=6, minute=0),
         id="monitoring_expired",
         replace_existing=False,
         max_instances=1,
