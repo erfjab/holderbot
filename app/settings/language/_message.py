@@ -21,12 +21,21 @@ class _MessageSettings(BaseSettings):
     ASK_TYPES: str = "Select a type:"
     ASK_MARZ_DATA: str = (
         "<b>Enter Marz Server Credentials:\n</b>"
-        "• <code>Username [sudo]</code>\n"
-        "• <code>Password [sudo]</code>\n"
+        "• <code>Username [SUDO]</code>\n"
+        "• <code>Password [SUDO]</code>\n"
         "• <code>Host [https://sub.domain.com:port]</code>\n\n"
         "<b>Example:</b>\n"
         "<code>erfan\nerfan\nhttps://panel.domain.com:443</code>"
     )
+    ASK_XUI_DATA: str = (
+        "<b>Enter Marz Server Credentials:\n</b>"
+        "• <code>Username [FULL ACCESS]</code>\n"
+        "• <code>Password [FULL ACCESS]</code>\n"
+        "• <code>Host [https://sub.domain.com:port/path]</code>\n\n"
+        "<b>Example:</b>\n"
+        "<code>erfan\nerfan\nhttps://panel.domain.com:443/path</code>"
+    )
+
     WRONG_PATTERN: str = "❌ Invalid pattern."
     INVALID_DATA: str = "❌ Invalid data."
     SUCCESS: str = "✅ Success."

@@ -46,7 +46,7 @@ async def remark(message: Message, state: FSMContext):
     track = await message.answer(
         MessageTexts.ASK_TYPES,
         reply_markup=BotKeys.selector(
-            [ServerTypes.MARZNESHIN, ServerTypes.MARZBAN],
+            [ServerTypes.MARZNESHIN, ServerTypes.MARZBAN, ServerTypes.SANAEI],
             types=Pages.SERVERS,
             action=Actions.CREATE,
         ),
@@ -62,7 +62,10 @@ async def types(callback: CallbackQuery, callback_data: SelectCB, state: FSMCont
     await state.update_data(types=callback_data.select)
     await state.set_state(ServerCreateForm.DATA)
     return await callback.message.edit_text(
-        MessageTexts.ASK_MARZ_DATA, reply_markup=BotKeys.cancel()
+        MessageTexts.ASK_MARZ_DATA
+        if callback_data.select != ServerTypes.SANAEI.value
+        else MessageTexts.ASK_XUI_DATA,
+        reply_markup=BotKeys.cancel(),
     )
 
 
@@ -78,6 +81,7 @@ async def data(message: Message, state: FSMContext):
     server_type_find = {
         ServerTypes.MARZNESHIN.value: ServerTypes.MARZNESHIN,
         ServerTypes.MARZBAN.value: ServerTypes.MARZBAN,
+        ServerTypes.SANAEI.value: ServerTypes.SANAEI,
     }
     server_data = {
         "username": messages[0],

@@ -4,6 +4,7 @@ from enum import Enum
 class ServerTypes(str, Enum):
     MARZNESHIN = "marzneshin"
     MARZBAN = "marzban"
+    SANAEI = "sanaei"
 
 
 class ServerModify(str, Enum):
