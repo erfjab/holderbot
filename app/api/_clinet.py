@@ -1,6 +1,6 @@
 from typing import Optional
 
-from .clients import MarzneshinApiManager, MarzbanApiManager
+from .clients import MarzneshinApiManager, MarzbanApiManager, SanaeiApiManager
 from .types.marzneshin import (
     MarzneshinToken,
     MarzneshinUserResponse,
@@ -38,6 +38,10 @@ class ClinetApiManager:
                 if token:
                     admin = await api.get_admin(access=token.access_token)
                     token = token.access_token if admin.is_sudo else False
+
+            case ServerTypes.SANAEI:
+                api = SanaeiApiManager(host=data["host"])
+                token = await api.get_token(data["username"], data["password"])
 
         return token
 

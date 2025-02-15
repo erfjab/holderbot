@@ -42,6 +42,7 @@ class ApiRequest(ABC):
         data: Optional[Union[BaseModel, Dict[str, Any]]] = None,
         params: Optional[Dict[str, Any]] = None,
         response_model: Optional[Type[T]] = None,
+        full: Optional[bool] = None,
     ) -> Union[httpx.Response, T, bool]:
         """
         Generic request method with flexible parameters and empty response handling
@@ -60,7 +61,8 @@ class ApiRequest(ABC):
                 params=clean_params,
             )
             response.raise_for_status()
-
+            if full:
+                return response
             if not response.content:
                 if response.status_code in [200, 201, 204]:
                     return True
@@ -136,6 +138,7 @@ class ApiRequest(ABC):
         data: Optional[Union[BaseModel, Dict[str, Any]]] = None,
         params: Optional[Dict[str, Any]] = None,
         response_model: Optional[Type[T]] = None,
+        full: Optional[bool] = None,
     ) -> Union[httpx.Response, T]:
         """
         Perform a POST request
@@ -147,6 +150,7 @@ class ApiRequest(ABC):
             params=params,
             response_model=response_model,
             access=access,
+            full=full,
         )
 
     async def put(
