@@ -51,6 +51,10 @@ class Server(Base, BaseTime):
         return (datetime.utcnow() - last_update).total_seconds() < 86400
 
     @hybrid_property
+    def size_value(self) -> int:
+        return 100 if self.types == ServerTypes.MARZNESHIN else 25
+
+    @hybrid_property
     def format_data(self) -> str:
         formatted_data = "\n".join(
             [

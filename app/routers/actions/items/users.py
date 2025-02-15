@@ -160,7 +160,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         users = await ClinetManager.get_users(
             server,
             page,
-            size=100,
+            size=server.size_value,
             limited=True if action_type == ActionTypes.DELETE_LIMITED_USERS else None,
             expired=True if action_type == ActionTypes.DELETE_EXPIRED_USERS else None,
             owner_username=admin,
