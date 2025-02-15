@@ -46,6 +46,7 @@ class _KeyboardsManager:
         items = {
             KeyboardTexts.USERS: Pages.USERS,
             KeyboardTexts.ACTIONS: Pages.ACTIONS,
+            KeyboardTexts.STATS: Pages.STATS,
         }
 
         for text, page in items.items():

@@ -9,6 +9,7 @@ class Pages(str, Enum):
     ACTIONS = "actions"
     UPDATE = "update"
     TEMPLATES = "templates"
+    STATS = "stats"
 
 
 class Actions(str, Enum):
