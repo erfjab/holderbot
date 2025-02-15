@@ -12,3 +12,4 @@ class ServerModify(str, Enum):
     DATA = "📋 Data"
     NODE_MONITORING = "📡 Monitoring Nodes"
     NODE_AUTORESTART = "🔄 Auto Restart Nodes"
+    EXPIRED_STATS = "⚰️ Expired Stats"

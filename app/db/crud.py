@@ -85,6 +85,7 @@ async def modify_server(
     data: Optional[dict] = None,
     node_monitoring: Optional[bool] = None,
     node_restart: Optional[bool] = None,
+    expired_stats: Optional[bool] = None,
 ) -> Optional[Server]:
     async with get_db() as db:
         server = await db.execute(select(Server).filter(Server.id == serverid))
@@ -99,6 +100,8 @@ async def modify_server(
             server.node_monitoring = node_monitoring
         if node_restart is not None:
             server.node_restart = node_restart
+        if expired_stats is not None:
+            server.expired_stats = expired_stats
         await db.commit()
         await db.refresh(server)
         return server

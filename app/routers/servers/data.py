@@ -29,6 +29,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
                 ServerModify.DATA,
                 ServerModify.NODE_MONITORING,
                 ServerModify.NODE_AUTORESTART,
+                ServerModify.EXPIRED_STATS,
                 ServerModify.REMOVE,
             ],
             page=Pages.SERVERS,
