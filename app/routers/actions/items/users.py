@@ -47,33 +47,23 @@ async def select(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         return await tracker.add(track)
 
     await state.update_data(action=callback_data.select)
-    if callback_data.select in [
-        ActionTypes.DELETE_USERS.value,
-        ActionTypes.ACTIVATED_USERS.value,
-        ActionTypes.DISABLED_USERS.value,
-    ]:
-        await state.set_state(UsersActionsForm.ADMINS)
-        admins = await ClinetManager.get_admins(server=server)
-        if not admins:
-            track = await callback.message.edit_text(
-                text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
-            )
-            return await tracker.add(track)
-        return await callback.message.edit_text(
-            text=MessageTexts.ASK_ADMIN,
-            reply_markup=BotKeys.selector(
-                data=[admin.username for admin in admins],
-                types=Pages.ACTIONS,
-                action=Actions.INFO,
-                panel=server.id,
-            ),
+    await state.set_state(UsersActionsForm.ADMINS)
+    admins = await ClinetManager.get_admins(server=server)
+    if not admins:
+        track = await callback.message.edit_text(
+            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
-
-    await state.set_state(UsersActionsForm.USERS)
+        return await tracker.add(track)
+    admins = [admin.username for admin in admins]
+    if callback_data.select in [
+        ActionTypes.DELETE_EXPIRED_USERS,
+        ActionTypes.DELETE_LIMITED_USERS,
+    ]:
+        admins.append("ALL")
     return await callback.message.edit_text(
-        text=MessageTexts.ITEMS,
+        text=MessageTexts.ASK_ADMIN,
         reply_markup=BotKeys.selector(
-            data=[YesOrNot.YES, YesOrNot.NO],
+            data=admins,
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,
@@ -163,7 +153,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
             size=server.size_value,
             limited=True if action_type == ActionTypes.DELETE_LIMITED_USERS else None,
             expired=True if action_type == ActionTypes.DELETE_EXPIRED_USERS else None,
-            owner_username=admin,
+            owner_username=None if admin == "ALL" else admin,
         )
 
         if not users:
