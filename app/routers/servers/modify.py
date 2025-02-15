@@ -49,6 +49,7 @@ async def start_modify(
             ServerModify.REMOVE
             | ServerModify.NODE_MONITORING
             | ServerModify.NODE_AUTORESTART
+            | ServerModify.EXPIRED_STATS
         ):
             await state.set_state(ServerModifyForm.CONFIRM)
             await state.update_data(action=callback_data.datatype)
@@ -146,7 +147,11 @@ async def remove(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
             action = await crud.modify_server(
                 serverid=server.id, node_restart=False if server.node_restart else True
             )
-
+        case ServerModify.EXPIRED_STATS.value:
+            action = await crud.modify_server(
+                serverid=server.id,
+                expired_stats=False if server.expired_stats else True,
+            )
     return await callback.message.edit_text(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
         reply_markup=BotKeys.cancel(),
