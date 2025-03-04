@@ -81,7 +81,6 @@ def user_create_data(
     expire_date = _get_expire_date(expire_strategy, datelimit)
     usage_duration = _get_usage_duration(expire_strategy, datelimit)
     datalimit = int(datalimit)
-
     if types == ServerTypes.MARZNESHIN.value:
         data = MarzneshinUserCreate(
             username=username,
@@ -203,9 +202,8 @@ def normal_charge_user_data(
 
 
 def change_config_data(types: str, username: str, configs: dict, selects: dict) -> dict:
-    proxies, inbounds = _get_proxies_and_inbounds(configs)
-
     if types == ServerTypes.MARZBAN.value:
+        proxies, inbounds = _get_proxies_and_inbounds(configs)
         data = MarzbanUserModify(
             inbounds=inbounds,
             proxies=proxies,

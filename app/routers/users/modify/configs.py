@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 
-from app.keys import BotKeys, SelectCB, Pages, Actions
+from app.keys import BotKeys, SelectCB, Pages, Actions, SelectAll
 from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
@@ -58,6 +58,7 @@ async def configstart(
             selects=[config.name for config in configs],
             panel=server.id,
             extra=callback_data.extra,
+            all_selects=True,
         ),
     )
 
@@ -74,6 +75,11 @@ async def configselect(
     configs: list[dict] = data["configs"]
 
     if callback_data.done is True:
+        configs = data["selects"]
+        if not configs:
+            return await callback.answer(
+                text=MessageTexts.NOT_FOUND_CONFIGS, show_alert=True
+            )
         server = await crud.get_server(callback_data.panel)
         if not server:
             track = await callback.message.edit_text(
@@ -95,13 +101,19 @@ async def configselect(
         )
 
     selected = callback_data.select
-
-    target_config = next(config for config in configs if config["name"] == selected)
-
-    if selected in {select["name"] for select in selects}:
-        selects = [select for select in selects if select["name"] != selected]
+    if selected in [SelectAll.SELECT, SelectAll.DESELECT]:
+        if selected == SelectAll.SELECT:
+            selects = [config for config in configs]
+        elif selected == SelectAll.DESELECT:
+            selects = []
     else:
-        selects.append(target_config)
+        if selected in {select["name"] for select in selects}:
+            selects = [select for select in selects if select["name"] != selected]
+        else:
+            target_config = next(
+                config for config in configs if config["name"] == selected
+            )
+            selects.append(target_config)
 
     await state.update_data(selects=selects)
 
@@ -114,5 +126,6 @@ async def configselect(
             selects=[select["name"] for select in selects],
             panel=int(data["panel"]),
             extra=callback_data.extra,
+            all_selects=True,
         ),
     )
