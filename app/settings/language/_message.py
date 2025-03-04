@@ -32,6 +32,7 @@ class _MessageSettings(BaseSettings):
     SUCCESS: str = "✅ Success."
     FAILED: str = "❌ Failed"
     NOT_FOUND: str = "❌ Not Found."
+    NOT_FOUND_CONFIGS: str = "❌ Not Found Any Config."
     ASK_COUNT: str = "Enter count: [0-9]"
     ASK_SUFFIX: str = "Enter Suffix:"
     ASK_DATA_LIMT: str = "Enter DataLimit: [0-9]\n0 for unlimited"

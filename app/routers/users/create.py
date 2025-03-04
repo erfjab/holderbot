@@ -6,7 +6,7 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
-from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB
+from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB, SelectAll
 from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
@@ -198,6 +198,7 @@ async def templateselect(
             action=Actions.CREATE,
             selects=[config.name for config in configs],
             panel=server.id,
+            all_selects=True,
         ),
     )
 
@@ -258,6 +259,7 @@ async def datetypes(
                 action=Actions.CREATE,
                 selects=[config.name for config in configs],
                 panel=server.id,
+                all_selects=True,
             ),
         )
     else:
@@ -299,6 +301,7 @@ async def datelimit(message: Message, state: FSMContext):
             action=Actions.CREATE,
             selects=[config.name for config in configs],
             panel=server.id,
+            all_selects=True,
         ),
     )
     return await tracker.cleardelete(message, track)
@@ -318,12 +321,19 @@ async def configs(callback: CallbackQuery, callback_data: SelectCB, state: FSMCo
     selected = callback_data.select
     selects = data["selects"]
 
-    target_config = next(config for config in configs if config["name"] == selected)
-
-    if selected in {select["name"] for select in selects}:
-        selects = [select for select in selects if select["name"] != selected]
+    if selected in [SelectAll.SELECT, SelectAll.DESELECT]:
+        if selected == SelectAll.SELECT:
+            selects = [config for config in configs]
+        elif selected == SelectAll.DESELECT:
+            selects = []
     else:
-        selects.append(target_config)
+        if selected in {select["name"] for select in selects}:
+            selects = [select for select in selects if select["name"] != selected]
+        else:
+            target_config = next(
+                config for config in configs if config["name"] == selected
+            )
+            selects.append(target_config)
 
     await state.update_data(selects=selects)
 
@@ -335,6 +345,7 @@ async def configs(callback: CallbackQuery, callback_data: SelectCB, state: FSMCo
             action=Actions.CREATE,
             selects=[select["name"] for select in selects],
             panel=data["panel"],
+            all_selects=True,
         ),
     )
 
@@ -349,6 +360,13 @@ async def createusers(
     callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
 ):
     data = await state.get_data()
+
+    configs = data["selects"]
+    if not configs:
+        return await callback.answer(
+            text=MessageTexts.NOT_FOUND_CONFIGS, show_alert=True
+        )
+
     server = await crud.get_server(int(callback_data.panel))
     if not server:
         track = await callback.message.edit_text(

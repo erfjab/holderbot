@@ -20,3 +20,5 @@ class _KeyboardSettings(BaseSettings):
     RIGHT: str = "➡️"
     UPDATE_CHECKER: str = "👀 Check Update"
     STATS: str = "📊 Stats"
+    SELECTS_ALL: str = "Select All"
+    DESELECTS_ALL: str = "DeSelect All"

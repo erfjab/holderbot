@@ -26,3 +26,8 @@ class YesOrNot(str, Enum):
     YES_CHARGE = "✅ Yes (charge)"
     YES = "✅ Yes"
     NO = "❌ No"
+
+
+class SelectAll(str, Enum):
+    SELECT = "select"
+    DESELECT = "deselect"

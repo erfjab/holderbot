@@ -4,7 +4,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from app.settings.language import KeyboardTexts
 from app.db import Server
-from ._enums import Pages, Actions
+from ._enums import Pages, Actions, SelectAll
 from ._callbacks import PageCB, SelectCB
 
 
@@ -206,6 +206,7 @@ class _KeyboardsManager:
         width: int = 2,
         panel: int | None = None,
         extra: str | None = None,
+        all_selects: bool = False,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -234,6 +235,63 @@ class _KeyboardsManager:
             )
 
         kb.adjust(width)
+
+        if all_selects:
+            select_buttons = []
+            if len(selects) != len(data) and len(selects) > 0:
+                select_buttons.extend(
+                    [
+                        InlineKeyboardButton(
+                            text=KeyboardTexts.SELECTS_ALL,
+                            callback_data=SelectCB(
+                                types=types,
+                                action=action,
+                                panel=panel,
+                                extra=extra,
+                                select=SelectAll.SELECT,
+                            ).pack(),
+                        ),
+                        InlineKeyboardButton(
+                            text=KeyboardTexts.DESELECTS_ALL,
+                            callback_data=SelectCB(
+                                types=types,
+                                action=action,
+                                panel=panel,
+                                extra=extra,
+                                select=SelectAll.DESELECT,
+                            ).pack(),
+                        ),
+                    ]
+                )
+            elif len(selects) == len(data):
+                select_buttons.append(
+                    InlineKeyboardButton(
+                        text=KeyboardTexts.DESELECTS_ALL,
+                        callback_data=SelectCB(
+                            types=types,
+                            action=action,
+                            panel=panel,
+                            extra=extra,
+                            select=SelectAll.DESELECT,
+                        ).pack(),
+                    )
+                )
+            elif len(selects) == 0:
+                select_buttons.append(
+                    InlineKeyboardButton(
+                        text=KeyboardTexts.SELECTS_ALL,
+                        callback_data=SelectCB(
+                            types=types,
+                            action=action,
+                            panel=panel,
+                            extra=extra,
+                            select=SelectAll.SELECT,
+                        ).pack(),
+                    )
+                )
+
+            if select_buttons:
+                kb.row(*select_buttons, width=len(select_buttons))
 
         if selects is not None:
             kb.row(
