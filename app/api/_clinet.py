@@ -189,7 +189,9 @@ class ClinetApiManager:
 
         return user
 
-    async def revoke_user(self, server: Server, username: str) -> bool:
+    async def revoke_user(
+        self, server: Server, username: str
+    ) -> Optional[MarzneshinUserResponse | MarzbanUserResponse]:
         match server.types:
             case ServerTypes.MARZNESHIN.value:
                 api = MarzneshinApiManager(host=server.data["host"])

@@ -124,6 +124,14 @@ async def confirmend(
             action = await ClinetManager.revoke_user(
                 server=server, username=callback_data.extra
             )
+            if action:
+                await callback.message.answer_photo(
+                    photo=BufferedInputFile(
+                        file=await create_qr(action.subscription_url),
+                        filename="holderbot.png",
+                    ),
+                    caption=MessageTexts.USER_INFO.format(**action.format_data),
+                )
 
         case UserModify.REMOVE:
             action = await ClinetManager.remove_user(
