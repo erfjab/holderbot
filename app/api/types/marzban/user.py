@@ -135,6 +135,16 @@ class MarzbanUserResponse(BaseModel):
         return int((refrenc - now).total_seconds() / 3600)
 
     @property
+    def time_to_second(self) -> int:
+        if self.status == "active":
+            if self.expire:
+                return datetime.fromtimestamp(self.expire).second
+        elif self.status == "on_hold":
+            if self.on_hold_expire_duration:
+                return self.on_hold_expire_duration
+        return None
+
+    @property
     def format_data(self) -> dict:
         now = ensure_utc(datetime.now(timezone.utc))
 
