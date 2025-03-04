@@ -156,12 +156,12 @@ def advenced_charge_user_data(
                 if user.data_limit
                 else 0,
                 expire_strategy=expire_strategy,
-                expire_date=(user.expire_date or datetime.utcnow())
-                + timedelta(days=int(datelimit))
+                expire_date=timedelta(
+                    seconds=user.time_to_second + int(datelimit * (24 * 60 * 60))
+                )
                 if expire_strategy == MarzneshinUserExpireStrategy.FIXED_DATE
                 else None,
-                usage_duration=(user.usage_duration or 0)
-                + (int(datelimit) * (24 * 60 * 60))
+                usage_duration=user.time_to_second + (int(datelimit) * (24 * 60 * 60))
                 if expire_strategy == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
                 else None,
             ).dict()

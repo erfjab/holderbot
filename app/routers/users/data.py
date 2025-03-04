@@ -24,7 +24,6 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
     user = await ClinetManager.get_user(server, callback_data.dataid)
     if not user:
         return await callback.answer(text=MessageTexts.NOT_FOUND, show_alert=True)
-
     return await callback.message.edit_text(
         text=user.format_data_str(),
         reply_markup=BotKeys.selector(
