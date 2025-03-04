@@ -107,6 +107,9 @@ async def finish_modify(message: Message, state: FSMContext):
                 serverid,
                 data=server_data,
             )
+            await crud.upsert_server_access(
+                serverid=serverid, serveraccess=token.access_token
+            )
     await state.clear()
     track = await message.answer(
         text=MessageTexts.SUCCESS if server_modify else MessageTexts.FAILED,
