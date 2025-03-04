@@ -9,7 +9,8 @@ from app.models.user import (
     MarzneshinUserModify,
 )
 from app.models.server import ServerTypes
-from app.api.types.marzban import MarzbanProxyInbound
+from app.api.types.marzban import MarzbanProxyInbound, MarzbanUserResponse
+from app.api.types.marzneshin import MarzneshinUserResponse
 
 
 def _get_expire_strategy(types: ServerTypes, datetype: str):
@@ -107,7 +108,68 @@ def user_create_data(
 
 
 def charge_user_data(
-    types: ServerTypes, username: str, datalimit: int, datelimit: int, status: str
+    types: ServerTypes,
+    user: MarzbanUserResponse | MarzneshinUserResponse,
+    datalimit: int,
+    datelimit: int,
+    datetypes: str,
+    charge: bool = False,
+) -> dict:
+    if charge:
+        return advenced_charge_user_data(types, user, datalimit, datelimit, datetypes)
+    return normal_charge_user_data(types, user, datalimit, datelimit, datetypes)
+
+
+def advenced_charge_user_data(
+    types: ServerTypes,
+    user: MarzbanUserResponse | MarzneshinUserResponse,
+    datalimit: int,
+    datelimit: int,
+    datetypes: str,
+) -> dict:
+    match types:
+        case ServerTypes.MARZBAN:
+            data = MarzbanUserModify(
+                data_limit=int(datalimit) * (1024**3) + user.data_limit
+                if user.data_limit
+                else 0,
+                status="on_hold"
+                if datetypes == DateTypes.AFTER_FIRST_USE
+                else "active",
+                expire=int(int((datelimit) * (24 * 60 * 60)) + (user.expire))
+                if datetypes != DateTypes.AFTER_FIRST_USE
+                else None,
+                on_hold_expire_duration=int(
+                    int((datelimit) * (24 * 60 * 60)) + (user.on_hold_expire_duration)
+                )
+                if datetypes == DateTypes.AFTER_FIRST_USE
+                else None,
+            ).dict()
+        case ServerTypes.MARZNESHIN:
+            expire_strategy = _get_expire_strategy(types, datetypes)
+            data = MarzneshinUserModify(
+                username=user.username,
+                data_limit=int(datalimit) * (1024**3) + user.data_limit
+                if user.data_limit
+                else 0,
+                expire_strategy=expire_strategy,
+                expire_date=user.expire_date + timedelta(int(datelimit))
+                if expire_strategy == MarzneshinUserExpireStrategy.FIXED_DATE
+                else None,
+                usage_duration=user.usage_duration + (int(datelimit) * (24 * 60 * 60))
+                if expire_strategy == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
+                else None,
+            ).dict()
+
+    return data
+
+
+def normal_charge_user_data(
+    types: ServerTypes,
+    user: MarzbanUserResponse | MarzneshinUserResponse,
+    datalimit: int,
+    datelimit: int,
+    status: str,
 ) -> dict:
     expire_strategy = _get_expire_strategy(types, status)
     expire_date = _get_expire_date(expire_strategy, datelimit)
@@ -126,7 +188,7 @@ def charge_user_data(
         ).dict()
     elif types == ServerTypes.MARZNESHIN.value:
         data = MarzneshinUserModify(
-            username=username,
+            username=user.username,
             data_limit=int(datalimit) * (1024**3),
             expire_strategy=expire_strategy,
             expire_date=expire_date,
