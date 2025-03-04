@@ -101,6 +101,16 @@ class MarzneshinUserResponse(BaseModel):
         return self.expired
 
     @property
+    def time_to_second(self) -> int:
+        if self.expire_strategy == UserExpireStrategy.NEVER:
+            return None
+        elif self.expire_strategy == UserExpireStrategy.FIXED_DATE and self.expire_date:
+            return self.expire_date.second
+        elif self.expire_strategy == UserExpireStrategy.START_ON_FIRST_USE:
+            return self.usage_duration
+        return None
+
+    @property
     def data_percent(self) -> int:
         if not self.data_limit or not self.used_traffic:
             return 100

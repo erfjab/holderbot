@@ -136,11 +136,14 @@ def advenced_charge_user_data(
                 status="on_hold"
                 if datetypes == DateTypes.AFTER_FIRST_USE
                 else "active",
-                expire=int(int((datelimit) * (24 * 60 * 60)) + (user.expire))
+                expire=int(
+                    int((datelimit) * (24 * 60 * 60)) + (user.expire or datetime.now())
+                )
                 if datetypes != DateTypes.AFTER_FIRST_USE
                 else None,
                 on_hold_expire_duration=int(
-                    int((datelimit) * (24 * 60 * 60)) + (user.on_hold_expire_duration)
+                    int((datelimit) * (24 * 60 * 60))
+                    + (user.on_hold_expire_duration or 0)
                 )
                 if datetypes == DateTypes.AFTER_FIRST_USE
                 else None,
@@ -153,10 +156,12 @@ def advenced_charge_user_data(
                 if user.data_limit
                 else 0,
                 expire_strategy=expire_strategy,
-                expire_date=user.expire_date + timedelta(int(datelimit))
+                expire_date=(user.expire_date or datetime.utcnow())
+                + timedelta(days=int(datelimit))
                 if expire_strategy == MarzneshinUserExpireStrategy.FIXED_DATE
                 else None,
-                usage_duration=user.usage_duration + (int(datelimit) * (24 * 60 * 60))
+                usage_duration=(user.usage_duration or 0)
+                + (int(datelimit) * (24 * 60 * 60))
                 if expire_strategy == MarzneshinUserExpireStrategy.START_ON_FIRST_USE
                 else None,
             ).dict()
