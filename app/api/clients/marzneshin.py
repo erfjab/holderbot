@@ -119,7 +119,9 @@ class MarzneshinApiManager(ApiRequest):
 
     async def revoke_user(self, username: str, access: str) -> bool:
         return await self.post(
-            endpoint=f"/api/users/{username}/revoke_sub", access=access
+            endpoint=f"/api/users/{username}/revoke_sub",
+            access=access,
+            response_model=MarzneshinUserResponse,
         )
 
     async def reset_user(self, username: str, access: str) -> bool:
