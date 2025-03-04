@@ -103,12 +103,20 @@ class MarzneshinUserResponse(BaseModel):
     @property
     def time_to_second(self) -> int:
         if self.expire_strategy == UserExpireStrategy.NEVER:
-            return None
+            return 0
         elif self.expire_strategy == UserExpireStrategy.FIXED_DATE and self.expire_date:
-            return self.expire_date.second
-        elif self.expire_strategy == UserExpireStrategy.START_ON_FIRST_USE:
+            return int(
+                (
+                    self.expire_date.astimezone(timezone.utc)
+                    - datetime.now(timezone.utc)
+                ).total_seconds()
+            )
+        elif (
+            self.expire_strategy == UserExpireStrategy.START_ON_FIRST_USE
+            and self.usage_duration
+        ):
             return self.usage_duration
-        return None
+        return 0
 
     @property
     def data_percent(self) -> int:
