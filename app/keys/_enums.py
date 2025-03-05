@@ -18,6 +18,7 @@ class Actions(str, Enum):
     CREATE = "create"
     MODIFY = "modify"
     SEARCH = "search"
+    JSON = "json"
 
 
 class YesOrNot(str, Enum):
@@ -31,3 +32,7 @@ class YesOrNot(str, Enum):
 class SelectAll(str, Enum):
     SELECT = "select"
     DESELECT = "deselect"
+
+
+class JsonHandler(str, Enum):
+    USER = "user"

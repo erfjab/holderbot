@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message, BufferedInputFile
@@ -6,13 +7,14 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
-from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB, SelectAll
+from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB, SelectAll, JsonHandler
 from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
-from app.models.user import DateTypes
+from app.models.user import DateTypes, UserJsonData
 from app.settings.utils.qrcode import create_qr
 from app.settings.track import tracker
+from app.settings.log import logger
 from app.settings.utils.user import user_create_data
 
 
@@ -26,6 +28,7 @@ class UserCreateForm(StatesGroup):
     DATE_TYPE = State()
     DATE_LIMIT = State()
     CONFIGS = State()
+    JSON = State()
 
 
 router = Router(name="users_create")
@@ -71,8 +74,81 @@ async def adminselect(
     await state.update_data(admin=callback_data.select)
     return await callback.message.edit_text(
         text=MessageTexts.ASK_REMARK,
+        reply_markup=BotKeys.selector(
+            data=[(MessageTexts.CREATE_WITH_JSON, JsonHandler.USER)],
+            types=Pages.USERS,
+            action=Actions.JSON,
+            panel=callback_data.panel,
+        ),
+    )
+
+
+@router.callback_query(
+    StateFilter(UserCreateForm.USERNAME),
+    SelectCB.filter((F.types.is_(Pages.USERS)) & (F.action.is_(Actions.JSON))),
+)
+async def json_start(
+    callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
+):
+    await state.set_state(UserCreateForm.JSON)
+    return await callback.message.edit_text(
+        text=MessageTexts.ASK_JSON,
         reply_markup=BotKeys.cancel(),
     )
+
+
+@router.message(StateFilter(UserCreateForm.JSON))
+async def json_input(message: Message, state: FSMContext):
+    if not message.document:
+        track = await message.answer(text=MessageTexts.WORNG_DOC)
+        return await tracker.add(track)
+
+    if not message.document.file_name.endswith(".json"):
+        track = await message.answer(text=MessageTexts.WORNG_JSON)
+        return await tracker.add(track)
+
+    try:
+        file = await message.bot.get_file(message.document.file_id)
+        file_content = await message.bot.download_file(file.file_path)
+        json_str = file_content.getvalue().decode("utf-8")
+        json_data = json.loads(json_str)
+        validated_users = [UserJsonData.model_validate(user) for user in json_data]
+        await state.update_data(
+            uploaded_json=[user.to_dict() for user in validated_users]
+        )
+        await state.set_state(UserCreateForm.CONFIGS)
+        server = await crud.get_server(int(await state.get_value("panel")))
+        if not server:
+            track = await message.answer(
+                text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            )
+            return await tracker.cleardelete(message, track)
+
+        configs = await ClinetManager.get_configs(server)
+        if not configs:
+            track = await message.answer(
+                text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            )
+            return await tracker.cleardelete(message, track)
+
+        await state.update_data(configs=[config.dict() for config in configs])
+        await state.update_data(selects=[config.dict() for config in configs])
+        track = await message.answer(
+            text=MessageTexts.ASK_CONFIGS,
+            reply_markup=BotKeys.selector(
+                data=[config.name for config in configs],
+                types=Pages.USERS,
+                action=Actions.CREATE,
+                selects=[config.name for config in configs],
+                panel=server.id,
+                all_selects=True,
+            ),
+        )
+        return await tracker.cleardelete(message, track)
+    except Exception as e:
+        logger.info(f"Error in json read: {str(e)}")
+        track = await message.answer(text=MessageTexts.INVALID_JSON)
+        await tracker.add(track)
 
 
 @router.message(StateFilter(UserCreateForm.USERNAME))
@@ -373,38 +449,66 @@ async def createusers(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
         return await tracker.cleardelete(callback, track)
-
-    for i in range(int(data["usercount"])):
-        username = (
-            f"{data['username']}{i + int(data['usersuffix'])}"
-            if data.get("usersuffix")
-            else data["username"]
-        )
-        user_data = user_create_data(
-            server.types,
-            username=username,
-            datalimit=int(data["datalimit"]),
-            datetype=data["datetypes"],
-            datelimit=int(data["datelimit"]),
-            selects=data["selects"],
-        )
-        user_created = await ClinetManager.create_user(server, user_data)
-        if not user_created:
-            await callback.message.answer(
-                text=MessageTexts.FAILED_USERNAME.format(username=username),
+    users = data.get("uploaded_json", None)
+    if users:
+        for user in users:
+            user_data = user_create_data(
+                server.types,
+                username=user["username"],
+                datalimit=int(user["datalimit"]),
+                datetype=user["datetypes"],
+                datelimit=int(user["datelimit"]),
+                selects=data["selects"],
             )
-        else:
-            await ClinetManager.set_owner(
-                server=server, username=user_created.username, admin=data["admin"]
+            user_created = await ClinetManager.create_user(server, user_data)
+            if not user_created:
+                await callback.message.answer(
+                    text=MessageTexts.FAILED_USERNAME.format(username=user["username"]),
+                )
+            else:
+                await ClinetManager.set_owner(
+                    server=server, username=user_created.username, admin=data["admin"]
+                )
+                await callback.message.answer_photo(
+                    photo=BufferedInputFile(
+                        await create_qr(user_created.subscription_url),
+                        filename="holderbot.png",
+                    ),
+                    caption=MessageTexts.USER_INFO.format(**user_created.format_data),
+                )
+            await asyncio.sleep(0.5)
+    else:
+        for i in range(int(data["usercount"])):
+            username = (
+                f"{data['username']}{i + int(data['usersuffix'])}"
+                if data.get("usersuffix")
+                else data["username"]
             )
-            await callback.message.answer_photo(
-                photo=BufferedInputFile(
-                    await create_qr(user_created.subscription_url),
-                    filename="holderbot.png",
-                ),
-                caption=MessageTexts.USER_INFO.format(**user_created.format_data),
+            user_data = user_create_data(
+                server.types,
+                username=username,
+                datalimit=int(data["datalimit"]),
+                datetype=data["datetypes"],
+                datelimit=int(data["datelimit"]),
+                selects=data["selects"],
             )
-        await asyncio.sleep(0.5)
+            user_created = await ClinetManager.create_user(server, user_data)
+            if not user_created:
+                await callback.message.answer(
+                    text=MessageTexts.FAILED_USERNAME.format(username=username),
+                )
+            else:
+                await ClinetManager.set_owner(
+                    server=server, username=user_created.username, admin=data["admin"]
+                )
+                await callback.message.answer_photo(
+                    photo=BufferedInputFile(
+                        await create_qr(user_created.subscription_url),
+                        filename="holderbot.png",
+                    ),
+                    caption=MessageTexts.USER_INFO.format(**user_created.format_data),
+                )
+            await asyncio.sleep(0.5)
 
     await state.clear()
     servers = await crud.get_servers()

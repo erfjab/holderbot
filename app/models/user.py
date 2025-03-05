@@ -24,6 +24,21 @@ class DateTypes(str, Enum):
     AFTER_FIRST_USE = "after first use"
 
 
+class UserJsonData(BaseModel):
+    username: str
+    datalimit: str | int
+    datelimit: str | int
+    datetypes: DateTypes
+
+    def to_dict(self):
+        return {
+            "username": self.username,
+            "datalimit": self.datalimit,
+            "datelimit": self.datelimit,
+            "datetypes": self.datetypes,
+        }
+
+
 class MarzneshinUserCreate(BaseModel):
     username: str
     data_limit: int
