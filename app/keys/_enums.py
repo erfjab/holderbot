@@ -36,3 +36,7 @@ class SelectAll(str, Enum):
 
 class JsonHandler(str, Enum):
     USER = "user"
+
+
+class RandomHandler(str, Enum):
+    USERNAME = "username"
