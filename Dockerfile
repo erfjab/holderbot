@@ -7,8 +7,8 @@ WORKDIR /code
 
 RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Asia/Tehran /etc/localtime && \
-    echo "Asia/Tehran" > /etc/timezone \
-    pip install --no-cache-dir --upgrade uv \
+    echo "Asia/Tehran" > /etc/timezone && \
+    pip install --no-cache-dir --upgrade uv && \
     rm -rf /var/cache/apk/*
 
 COPY . .
