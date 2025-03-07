@@ -80,10 +80,10 @@ async def chargeend(
         text=MessageTexts.ASK_SURE,
         reply_markup=BotKeys.selector(
             data=[
-                YesOrNot.YES_USAGE,
-                YesOrNot.YES_CHARGE,
-                YesOrNot.YES_NORMAL,
-                YesOrNot.NO,
+                ("✅ Yes, reset usage", YesOrNot.YES_USAGE),
+                ("✅ Yes, reset charge", YesOrNot.YES_CHARGE),
+                ("✅ Yes, Normal", YesOrNot.YES_NORMAL),
+                ("❌ No", YesOrNot.NO),
             ],
             types=Pages.USERS,
             action=Actions.MODIFY,
