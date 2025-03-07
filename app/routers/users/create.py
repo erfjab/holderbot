@@ -1,5 +1,6 @@
 import asyncio
 import json
+from secrets import token_hex
 
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message, BufferedInputFile
@@ -7,7 +8,16 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
-from app.keys import BotKeys, PageCB, Pages, Actions, SelectCB, SelectAll, JsonHandler
+from app.keys import (
+    BotKeys,
+    PageCB,
+    Pages,
+    Actions,
+    SelectCB,
+    SelectAll,
+    JsonHandler,
+    RandomHandler,
+)
 from app.db import crud
 from app.settings.language import MessageTexts
 from app.api import ClinetManager
@@ -75,10 +85,14 @@ async def adminselect(
     return await callback.message.edit_text(
         text=MessageTexts.ASK_REMARK,
         reply_markup=BotKeys.selector(
-            data=[(MessageTexts.CREATE_WITH_JSON, JsonHandler.USER)],
+            data=[
+                (MessageTexts.RANDOM_USERNAME, RandomHandler.USERNAME),
+                (MessageTexts.CREATE_WITH_JSON, JsonHandler.USER),
+            ],
             types=Pages.USERS,
             action=Actions.JSON,
             panel=callback_data.panel,
+            width=1,
         ),
     )
 
@@ -90,9 +104,15 @@ async def adminselect(
 async def json_start(
     callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
 ):
-    await state.set_state(UserCreateForm.JSON)
+    if callback_data.select == JsonHandler.USER:
+        await state.set_state(UserCreateForm.JSON)
+        text = MessageTexts.ASK_JSON
+    else:
+        await state.update_data(username=str(token_hex(3)))
+        await state.set_state(UserCreateForm.USERCOUNT)
+        text = MessageTexts.ASK_COUNT
     return await callback.message.edit_text(
-        text=MessageTexts.ASK_JSON,
+        text=text,
         reply_markup=BotKeys.cancel(),
     )
 
