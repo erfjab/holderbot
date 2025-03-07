@@ -22,9 +22,9 @@ class Actions(str, Enum):
 
 
 class YesOrNot(str, Enum):
-    YES_USAGE = "✅ Yes (reset usage)"
-    YES_NORMAL = "✅ Yes (no reset/charge)"
-    YES_CHARGE = "✅ Yes (charge)"
+    YES_USAGE = "YES_USAGE"
+    YES_NORMAL = "YES_NORMAL"
+    YES_CHARGE = "YES_CHARGE"
     YES = "✅ Yes"
     NO = "❌ No"
 
