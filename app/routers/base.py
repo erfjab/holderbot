@@ -58,6 +58,7 @@ async def start(message: Message, state: FSMContext):
                     action=Actions.MODIFY,
                     extra=user.username,
                     panel=server.id,
+                    server_back=server.id,
                 ),
             )
             return await tracker.add(track)

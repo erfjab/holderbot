@@ -44,5 +44,6 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             action=Actions.MODIFY,
             extra=user.username,
             panel=server.id,
+            server_back=server.id,
         ),
     )

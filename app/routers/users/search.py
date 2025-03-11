@@ -25,7 +25,6 @@ async def data(message: Message):
     except ValueError:
         track = await message.reply(
             text=f"{MessageTexts.WRONG_PATTERN}\n/user serverid username",
-            reply_markup=BotKeys.cancel(),
         )
         return await tracker.add(track)
 
@@ -41,7 +40,11 @@ async def data(message: Message):
     track = await message.answer(
         text=MessageTexts.ITEMS,
         reply_markup=BotKeys.lister(
-            items=users, page=Pages.USERS, panel=server.id, search=True
+            items=users,
+            page=Pages.USERS,
+            panel=server.id,
+            search=True,
+            server_back=server.id,
         ),
     )
     return await tracker.cleardelete(message, track)
@@ -62,7 +65,8 @@ async def start_search(
     await state.set_state(UserSearchForm.USERNAME)
     await state.update_data(serverid=server.id)
     return await callback.message.edit_text(
-        text=MessageTexts.ASK_USERNAME, reply_markup=BotKeys.cancel()
+        text=MessageTexts.ASK_USERNAME,
+        reply_markup=BotKeys.cancel(server_back=server.id),
     )
 
 
@@ -80,7 +84,11 @@ async def end_search(message: Message, state: FSMContext):
     track = await message.answer(
         text=MessageTexts.ITEMS,
         reply_markup=BotKeys.lister(
-            items=users, page=Pages.USERS, panel=server.id, search=True
+            items=users,
+            page=Pages.USERS,
+            panel=server.id,
+            search=True,
+            server_back=server.id,
         ),
     )
     return await tracker.cleardelete(message, track)

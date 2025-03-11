@@ -51,5 +51,6 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             control=control,
             select_filters=filter_select,
             filters=filters_buttons,
+            server_back=server.id,
         ),
     )

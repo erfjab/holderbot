@@ -59,7 +59,8 @@ async def data(callback: CallbackQuery, callback_data: PageCB, state: FSMContext
     admins = await ClinetManager.get_admins(server=server)
     if not admins:
         await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(server_back=server.id),
         )
 
     return await callback.message.edit_text(
@@ -69,6 +70,7 @@ async def data(callback: CallbackQuery, callback_data: PageCB, state: FSMContext
             types=Pages.USERS,
             action=Actions.CREATE,
             panel=server.id,
+            server_back=server.id,
         ),
     )
 
@@ -93,6 +95,7 @@ async def adminselect(
             action=Actions.JSON,
             panel=callback_data.panel,
             width=1,
+            server_back=int(await state.get_value("panel")),
         ),
     )
 
@@ -113,7 +116,7 @@ async def json_start(
         text = MessageTexts.ASK_COUNT
     return await callback.message.edit_text(
         text=text,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(server_back=int(await state.get_value("panel"))),
     )
 
 
@@ -137,7 +140,8 @@ async def json_input(message: Message, state: FSMContext):
             uploaded_json=[user.to_dict() for user in validated_users]
         )
         await state.set_state(UserCreateForm.CONFIGS)
-        server = await crud.get_server(int(await state.get_value("panel")))
+        serverid = int(await state.get_value("panel"))
+        server = await crud.get_server(serverid)
         if not server:
             track = await message.answer(
                 text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
@@ -147,7 +151,8 @@ async def json_input(message: Message, state: FSMContext):
         configs = await ClinetManager.get_configs(server)
         if not configs:
             track = await message.answer(
-                text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+                text=MessageTexts.NOT_FOUND,
+                reply_markup=BotKeys.cancel(server_back=serverid),
             )
             return await tracker.cleardelete(message, track)
 
@@ -162,6 +167,7 @@ async def json_input(message: Message, state: FSMContext):
                 selects=[config.name for config in configs],
                 panel=server.id,
                 all_selects=True,
+                server_back=serverid,
             ),
         )
         return await tracker.cleardelete(message, track)
@@ -180,7 +186,8 @@ async def username(message: Message, state: FSMContext):
     await state.update_data(username=message.text)
     await state.set_state(UserCreateForm.USERCOUNT)
     track = await message.answer(
-        text=MessageTexts.ASK_COUNT, reply_markup=BotKeys.cancel()
+        text=MessageTexts.ASK_COUNT,
+        reply_markup=BotKeys.cancel(int(await state.get_value("panel"))),
     )
     return await tracker.cleardelete(message, track)
 
@@ -190,7 +197,7 @@ async def usercount(message: Message, state: FSMContext):
     if not message.text.isdigit() or int(message.text) < 1:
         track = await message.answer(text=MessageTexts.WRONG_INT)
         return await tracker.add(track)
-
+    serverid = int(await state.get_value("panel"))
     await state.update_data(usercount=message.text)
     if int(message.text) == 1:
         templates = await crud.get_templates(active=True)
@@ -203,6 +210,7 @@ async def usercount(message: Message, state: FSMContext):
                     types=Pages.USERS,
                     action=Actions.CREATE,
                     width=1,
+                    server_back=serverid,
                 ),
             )
             return await tracker.cleardelete(message, track)
@@ -212,7 +220,9 @@ async def usercount(message: Message, state: FSMContext):
         await state.set_state(UserCreateForm.USERSUFFIX)
         text = MessageTexts.ASK_SUFFIX
 
-    track = await message.answer(text=text, reply_markup=BotKeys.cancel())
+    track = await message.answer(
+        text=text, reply_markup=BotKeys.cancel(server_back=serverid)
+    )
     return await tracker.cleardelete(message, track)
 
 
@@ -221,13 +231,14 @@ async def userprefix(message: Message, state: FSMContext):
     if not message.text.isdigit() or int(message.text) < 1:
         track = await message.answer(text=MessageTexts.WRONG_INT)
         return await tracker.add(track)
-
+    serverid = int(await state.get_value("panel"))
     await state.update_data(usersuffix=message.text)
     templates = await crud.get_templates(active=True)
     if not templates:
         await state.set_state(UserCreateForm.DATA_LIMIT)
         track = await message.answer(
-            text=MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
+            text=MessageTexts.ASK_DATA_LIMT,
+            reply_markup=BotKeys.cancel(server_back=serverid),
         )
         return await tracker.cleardelete(message, track)
 
@@ -239,6 +250,7 @@ async def userprefix(message: Message, state: FSMContext):
             types=Pages.USERS,
             action=Actions.CREATE,
             width=1,
+            server_back=serverid,
         ),
     )
     await tracker.cleardelete(message, track)
@@ -251,16 +263,19 @@ async def userprefix(message: Message, state: FSMContext):
 async def templateselect(
     callback: CallbackQuery, callback_data: SelectCB, state: FSMContext
 ):
+    panelid = int(await state.get_value("panel"))
     if callback_data.select == "CUSTOM":
         await state.set_state(UserCreateForm.DATA_LIMIT)
         track = await callback.message.answer(
-            text=MessageTexts.ASK_DATA_LIMT, reply_markup=BotKeys.cancel()
+            text=MessageTexts.ASK_DATA_LIMT,
+            reply_markup=BotKeys.cancel(server_back=panelid),
         )
         return await tracker.cleardelete(callback, track)
     template = await crud.get_template(int(callback_data.select.split()[0]))
     if not template:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(server_back=panelid),
         )
         return await tracker.add(track)
 
@@ -268,7 +283,6 @@ async def templateselect(
     await state.update_data(datelimit=template.date_limit)
     await state.update_data(datetypes=template.date_types)
 
-    panelid = int(await state.get_value("panel"))
     await state.set_state(UserCreateForm.CONFIGS)
     server = await crud.get_server(panelid)
     if not server:
@@ -280,7 +294,8 @@ async def templateselect(
     configs = await ClinetManager.get_configs(server)
     if not configs:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(server_back=server.id),
         )
         return await tracker.add(track)
 
@@ -295,6 +310,7 @@ async def templateselect(
             selects=[config.name for config in configs],
             panel=server.id,
             all_selects=True,
+            server_back=server.id,
         ),
     )
 
@@ -307,6 +323,7 @@ async def datalimit(message: Message, state: FSMContext):
 
     await state.update_data(datalimit=message.text)
     await state.set_state(UserCreateForm.DATE_TYPE)
+    serverid = await state.get_value("panel")
     track = await message.answer(
         text=MessageTexts.MENU,
         reply_markup=BotKeys.selector(
@@ -314,7 +331,8 @@ async def datalimit(message: Message, state: FSMContext):
             types=Pages.USERS,
             action=Actions.CREATE,
             width=1,
-            panel=await state.get_value("panel"),
+            panel=serverid,
+            server_back=serverid,
         ),
     )
     return await tracker.cleardelete(message, track)
@@ -341,7 +359,8 @@ async def datetypes(
         configs = await ClinetManager.get_configs(server)
         if not configs:
             track = await callback.message.edit_text(
-                text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+                text=MessageTexts.NOT_FOUND,
+                reply_markup=BotKeys.cancel(server_back=server.id),
             )
             return await tracker.add(track)
 
@@ -356,12 +375,14 @@ async def datetypes(
                 selects=[config.name for config in configs],
                 panel=server.id,
                 all_selects=True,
+                server_back=server.id,
             ),
         )
     else:
         await state.set_state(UserCreateForm.DATE_LIMIT)
         return await callback.message.edit_text(
-            text=MessageTexts.ASK_DATE_LIMIT, reply_markup=BotKeys.cancel()
+            text=MessageTexts.ASK_DATE_LIMIT,
+            reply_markup=BotKeys.cancel(server_back=server.id),
         )
 
 
@@ -383,7 +404,8 @@ async def datelimit(message: Message, state: FSMContext):
     configs = await ClinetManager.get_configs(server)
     if not configs:
         track = await message.answer(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(server_back=server.id),
         )
         return await tracker.add(track)
 
@@ -398,6 +420,7 @@ async def datelimit(message: Message, state: FSMContext):
             selects=[config.name for config in configs],
             panel=server.id,
             all_selects=True,
+            server_back=server.id,
         ),
     )
     return await tracker.cleardelete(message, track)
@@ -442,6 +465,7 @@ async def configs(callback: CallbackQuery, callback_data: SelectCB, state: FSMCo
             selects=[select["name"] for select in selects],
             panel=data["panel"],
             all_selects=True,
+            server_back=data["panel"],
         ),
     )
 
@@ -531,8 +555,8 @@ async def createusers(
             await asyncio.sleep(0.5)
 
     await state.clear()
-    servers = await crud.get_servers()
     track = await callback.message.answer(
-        text=MessageTexts.START, reply_markup=BotKeys.home(servers)
+        text=MessageTexts.LETS_BACK,
+        reply_markup=BotKeys.cancel(server_back=data["panel"]),
     )
     return await tracker.cleardelete(callback, track)
