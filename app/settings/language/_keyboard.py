@@ -22,3 +22,5 @@ class _KeyboardSettings(BaseSettings):
     STATS: str = "📊 Stats"
     SELECTS_ALL: str = "Select All"
     DESELECTS_ALL: str = "DeSelect All"
+    BACK_SERVER: str = "💻 Back Server"
+    BACK_USER: str = "👤 Back User"
