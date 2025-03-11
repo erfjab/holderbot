@@ -60,11 +60,14 @@ async def start_modify(
                     types=Pages.SERVERS,
                     action=Actions.MODIFY,
                     panel=server.id,
+                    server_back=server.id,
                 ),
             )
 
     await state.set_state(ServerModifyForm.ALL)
-    return await callback.message.edit_text(text=text, reply_markup=BotKeys.cancel())
+    return await callback.message.edit_text(
+        text=text, reply_markup=BotKeys.cancel(server_back=server.id)
+    )
 
 
 @router.message(StateFilter(ServerModifyForm.ALL))
@@ -113,7 +116,7 @@ async def finish_modify(message: Message, state: FSMContext):
     await state.clear()
     track = await message.answer(
         text=MessageTexts.SUCCESS if server_modify else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(server_back=serverid),
     )
     return await tracker.cleardelete(message, track)
 
@@ -132,7 +135,7 @@ async def remove(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
 
     if callback_data.select == YesOrNot.NO.value:
         track = await callback.message.edit_text(
-            text=MessageTexts.FAILED, reply_markup=BotKeys.cancel()
+            text=MessageTexts.FAILED, reply_markup=BotKeys.cancel(server_back=server.id)
         )
         return await tracker.add(track)
 
@@ -157,5 +160,5 @@ async def remove(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
             )
     return await callback.message.edit_text(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(server_back=server.id),
     )

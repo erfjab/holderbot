@@ -11,6 +11,7 @@ class _MessageSettings(BaseSettings):
         f"Welcome to HolderBot 🤖 [{__version__}]\n"
         "Developed and designed by <b>@ErfJabs</b>\n"
     )
+    LETS_BACK: str = "Let's back..."
     ITEMS_MENU: str = "Select a item or create a new:"
     ITEMS: str = "Select items"
     MENU: str = "Select a Button"

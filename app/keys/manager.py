@@ -96,6 +96,8 @@ class _KeyboardsManager:
         filters: list[str] | None = None,
         select_filters: str | None = None,
         search: bool = False,
+        server_back: int | None = None,
+        user_back: int | None = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -184,17 +186,66 @@ class _KeyboardsManager:
             ),
             width=2,
         )
-
+        if server_back and not user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.MENU, action=Actions.LIST, panel=server_back
+                    ).pack(),
+                ),
+                width=1,
+            )
+        if server_back and user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.USERS,
+                        action=Actions.INFO,
+                        dataid=user_back,
+                        panel=server_back,
+                    ).pack(),
+                ),
+                width=1,
+            )
         return kb.as_markup()
 
     def cancel(
         self,
+        server_back: int | None = None,
+        user_back: int | None = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
         kb.button(
             text=KeyboardTexts.HOMES, callback_data=PageCB(page=Pages.HOME).pack()
         )
+
+        if server_back and not user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.MENU, action=Actions.LIST, panel=server_back
+                    ).pack(),
+                ),
+                width=1,
+            )
+        if server_back and user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.USERS,
+                        action=Actions.INFO,
+                        dataid=user_back,
+                        panel=server_back,
+                    ).pack(),
+                ),
+                width=1,
+            )
+
         return kb.as_markup()
 
     def selector(
@@ -207,6 +258,8 @@ class _KeyboardsManager:
         panel: int | None = None,
         extra: str | None = None,
         all_selects: bool = False,
+        user_back: int | None = None,
+        server_back: int | None = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -321,10 +374,40 @@ class _KeyboardsManager:
                 width=1,
             )
 
+        if server_back and not user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.MENU, action=Actions.LIST, panel=server_back
+                    ).pack(),
+                ),
+                width=1,
+            )
+        if server_back and user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.USERS,
+                        action=Actions.INFO,
+                        dataid=user_back,
+                        panel=server_back,
+                    ).pack(),
+                ),
+                width=1,
+            )
+
         return kb.as_markup()
 
     def modify(
-        self, dataid: int, datatypes: list[Enum], page: Pages, panel: int | None = None
+        self,
+        dataid: int,
+        datatypes: list[Enum],
+        page: Pages,
+        panel: int | None = None,
+        server_back: int | None = None,
+        user_back: int | None = None,
     ) -> InlineKeyboardMarkup:
         kb = InlineKeyboardBuilder()
 
@@ -348,5 +431,29 @@ class _KeyboardsManager:
             ),
             width=1,
         )
+
+        if server_back and not user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.MENU, action=Actions.LIST, panel=server_back
+                    ).pack(),
+                ),
+                width=1,
+            )
+        if server_back and user_back:
+            kb.row(
+                InlineKeyboardButton(
+                    text=KeyboardTexts.BACK,
+                    callback_data=PageCB(
+                        page=Pages.USERS,
+                        action=Actions.INFO,
+                        dataid=user_back,
+                        panel=server_back,
+                    ).pack(),
+                ),
+                width=1,
+            )
 
         return kb.as_markup()

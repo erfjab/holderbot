@@ -41,7 +41,10 @@ async def configstart(
     configs = await ClinetManager.get_configs(server=server)
     if not configs:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(
+                server_back=server.id, user_back=callback_data.extra
+            ),
         )
         return await tracker.add(track)
 
@@ -59,6 +62,8 @@ async def configstart(
             panel=server.id,
             extra=callback_data.extra,
             all_selects=True,
+            server_back=server.id,
+            user_back=callback_data.extra,
         ),
     )
 
@@ -97,7 +102,9 @@ async def configselect(
         await state.clear()
         return await callback.message.edit_text(
             text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-            reply_markup=BotKeys.cancel(),
+            reply_markup=BotKeys.cancel(
+                server_back=server.id, user_back=callback_data.extra
+            ),
         )
 
     selected = callback_data.select
@@ -127,5 +134,7 @@ async def configselect(
             panel=int(data["panel"]),
             extra=callback_data.extra,
             all_selects=True,
+            server_back=int(data["panel"]),
+            user_back=callback_data.extra,
         ),
     )

@@ -100,6 +100,6 @@ async def show_stats(callback: CallbackQuery, callback_data: PageCB):
     )
 
     track = await callback.message.edit_text(
-        text=stats_text, reply_markup=BotKeys.cancel(), parse_mode="HTML"
+        text=stats_text, reply_markup=BotKeys.cancel(server_back=server.id)
     )
     await tracker.add(track)

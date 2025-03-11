@@ -40,7 +40,10 @@ async def ownerstart(
     admins = await ClinetManager.get_admins(server=server)
     if not admins:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(
+                server_back=server.id, user_back=callback_data.extra
+            ),
         )
         return await tracker.add(track)
 
@@ -54,6 +57,8 @@ async def ownerstart(
             action=Actions.MODIFY,
             panel=server.id,
             extra=callback_data.extra,
+            server_back=server.id,
+            user_back=callback_data.extra,
         ),
     )
 
@@ -76,5 +81,7 @@ async def ownerend(callback: CallbackQuery, callback_data: SelectCB, state: FSMC
     await state.clear()
     return await callback.message.edit_text(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(
+            server_back=server.id, user_back=callback_data.extra
+        ),
     )

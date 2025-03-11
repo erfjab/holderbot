@@ -34,5 +34,6 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             ],
             page=Pages.SERVERS,
             panel=server.id,
+            server_back=server.id,
         ),
     )

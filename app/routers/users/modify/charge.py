@@ -41,7 +41,10 @@ async def chargestart(
     templates = await crud.get_templates(active=True)
     if not templates:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(
+                server_back=server.id, user_back=callback_data.extra
+            ),
         )
         return await tracker.add(track)
 
@@ -56,6 +59,8 @@ async def chargestart(
             panel=server.id,
             extra=callback_data.extra,
             width=1,
+            server_back=server.id,
+            user_back=callback_data.extra,
         ),
     )
 
@@ -90,6 +95,8 @@ async def chargeend(
             extra=callback_data.extra,
             panel=server.id,
             width=1,
+            server_back=server.id,
+            user_back=await state.get_value("username"),
         ),
     )
 
@@ -116,7 +123,10 @@ async def confirmend(
 ):
     if callback_data.select == YesOrNot.NO.value:
         track = await callback.message.edit_text(
-            text=MessageTexts.FAILED, reply_markup=BotKeys.cancel()
+            text=MessageTexts.FAILED,
+            reply_markup=BotKeys.cancel(
+                server_back=callback_data.panel, user_back=callback_data.extra
+            ),
         )
         return await tracker.add(track)
 
@@ -124,7 +134,10 @@ async def confirmend(
     template = await crud.get_template(int(data["templateid"]))
     if not template:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(
+                server_back=callback_data.panel, user_back=callback_data.extra
+            ),
         )
         return await tracker.add(track)
 
@@ -138,7 +151,8 @@ async def confirmend(
     user = await ClinetManager.get_user(server, data["username"])
     if not user:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(server_back=server.id),
         )
         return await tracker.add(track)
 
@@ -157,5 +171,7 @@ async def confirmend(
 
     return await callback.message.edit_text(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(
+            server_back=callback_data.panel, user_back=callback_data.extra
+        ),
     )

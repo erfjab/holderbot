@@ -50,7 +50,8 @@ async def fromadmin(
     admins = await ClinetManager.get_admins(server=server)
     if not admins:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(server_back=server.id),
         )
         return await tracker.add(track)
     return await callback.message.edit_text(
@@ -60,6 +61,7 @@ async def fromadmin(
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,
+            server_back=server.id,
         ),
     )
 
@@ -80,7 +82,8 @@ async def toadmin(callback: CallbackQuery, callback_data: SelectCB, state: FSMCo
     admins = await ClinetManager.get_admins(server=server)
     if not admins:
         track = await callback.message.edit_text(
-            text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
+            text=MessageTexts.NOT_FOUND,
+            reply_markup=BotKeys.cancel(server_back=server.id),
         )
         return await tracker.add(track)
     await state.set_state(AdminActionsForm.TO)
@@ -91,6 +94,7 @@ async def toadmin(callback: CallbackQuery, callback_data: SelectCB, state: FSMCo
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,
+            server_back=server.id,
         ),
     )
 
@@ -118,6 +122,7 @@ async def confrimaction(
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,
+            server_back=server.id,
         ),
     )
 
@@ -136,7 +141,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
 
     if callback_data.select == YesOrNot.NO.value:
         track = await callback.message.edit_text(
-            text=MessageTexts.FAILED, reply_markup=BotKeys.cancel()
+            text=MessageTexts.FAILED, reply_markup=BotKeys.cancel(server_back=server.id)
         )
         return await tracker.add(track)
 
@@ -176,6 +181,7 @@ async def action(callback: CallbackQuery, callback_data: SelectCB, state: FSMCon
         await asyncio.sleep(0.01)
 
     track = await callback.message.answer(
-        text=f"Action Finished: {success}/{all_users}", reply_markup=BotKeys.cancel()
+        text=f"Action Finished: {success}/{all_users}",
+        reply_markup=BotKeys.cancel(server_back=server.id),
     )
     return await tracker.cleardelete(callback, track)
