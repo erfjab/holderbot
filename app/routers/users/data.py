@@ -1,5 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
+from aiogram.fsm.context import FSMContext
+
 from app.keys import BotKeys, PageCB, Pages, Actions
 from app.db import crud
 from app.settings.language import MessageTexts
@@ -13,7 +15,8 @@ router = Router(name="users_data")
 @router.callback_query(
     PageCB.filter((F.page.is_(Pages.USERS)) & (F.action.is_(Actions.INFO)))
 )
-async def data(callback: CallbackQuery, callback_data: PageCB):
+async def data(callback: CallbackQuery, callback_data: PageCB, state: FSMContext):
+    await state.clear()
     server = await crud.get_server(callback_data.panel)
     if not server:
         track = await callback.message.edit_text(
