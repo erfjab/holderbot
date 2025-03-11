@@ -222,7 +222,7 @@ class _KeyboardsManager:
             text=KeyboardTexts.HOMES, callback_data=PageCB(page=Pages.HOME).pack()
         )
 
-        if server_back is not None:
+        if server_back and not user_back:
             kb.row(
                 InlineKeyboardButton(
                     text=KeyboardTexts.BACK,
@@ -374,7 +374,7 @@ class _KeyboardsManager:
                 width=1,
             )
 
-        if server_back is not None:
+        if server_back and not user_back:
             kb.row(
                 InlineKeyboardButton(
                     text=KeyboardTexts.BACK,
@@ -432,7 +432,7 @@ class _KeyboardsManager:
             width=1,
         )
 
-        if server_back is not None:
+        if server_back and not user_back:
             kb.row(
                 InlineKeyboardButton(
                     text=KeyboardTexts.BACK,
