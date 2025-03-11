@@ -67,6 +67,8 @@ async def confirmstart(
             action=Actions.MODIFY,
             extra=callback_data.extra,
             panel=server.id,
+            server_back=server.id,
+            user_back=callback_data.extra,
         ),
     )
 
@@ -91,7 +93,10 @@ async def confirmend(
 ):
     if callback_data.select == YesOrNot.NO.value:
         track = await callback.message.edit_text(
-            text=MessageTexts.FAILED, reply_markup=BotKeys.cancel()
+            text=MessageTexts.FAILED,
+            reply_markup=BotKeys.cancel(
+                server_back=callback_data.panel, user_back=callback_data.extra
+            ),
         )
         return await tracker.add(track)
 
@@ -140,5 +145,7 @@ async def confirmend(
 
     return await callback.message.edit_text(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(
+            server_back=server.id, user_back=callback_data.extra
+        ),
     )

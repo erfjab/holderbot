@@ -40,7 +40,9 @@ async def datestart(
     await state.set_state(UserModifyForm.NOTE)
     return await callback.message.edit_text(
         text=MessageTexts.ASK_NOTE,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(
+            server_back=server.id, user_back=callback_data.extra
+        ),
     )
 
 
@@ -66,6 +68,6 @@ async def dateend(message: Message, state: FSMContext):
     )
     track = await message.answer(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(server_back=server.id, user_back=data["username"]),
     )
     return await tracker.cleardelete(message, track)

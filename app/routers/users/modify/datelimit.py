@@ -49,6 +49,8 @@ async def selecttype(
             width=1,
             panel=callback_data.panel,
             extra=callback_data.extra,
+            server_back=server.id,
+            user_back=callback_data.extra,
         ),
     )
 
@@ -77,7 +79,9 @@ async def datelimit(
         await state.clear()
         return await callback.message.edit_text(
             text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-            reply_markup=BotKeys.cancel(),
+            reply_markup=BotKeys.cancel(
+                server_back=server.id, user_back=callback_data.extra
+            ),
         )
 
     else:
@@ -87,7 +91,9 @@ async def datelimit(
         await state.set_state(UserModifyForm.DATE_LIMIT)
         return await callback.message.edit_text(
             text=MessageTexts.ASK_DATE_LIMIT,
-            reply_markup=BotKeys.cancel(),
+            reply_markup=BotKeys.cancel(
+                server_back=callback_data.panel, user_back=callback_data.extra
+            ),
         )
 
 
@@ -116,6 +122,6 @@ async def dateend(message: Message, state: FSMContext):
     await state.clear()
     track = await message.answer(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(),
+        reply_markup=BotKeys.cancel(server_back=server.id, user_back=data["username"]),
     )
     return await tracker.cleardelete(message, track)
