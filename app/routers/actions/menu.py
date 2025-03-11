@@ -38,5 +38,6 @@ async def data(callback: CallbackQuery, callback_data: PageCB):
             types=Pages.ACTIONS,
             action=Actions.INFO,
             panel=server.id,
+            server_back=server.id,
         ),
     )
