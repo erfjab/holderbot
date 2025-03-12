@@ -108,7 +108,7 @@ async def confirmend(
             text=MessageTexts.NOT_FOUND, reply_markup=BotKeys.cancel()
         )
         return await tracker.add(track)
-
+    keyboard = BotKeys.cancel(server_back=server.id, user_back=callback_data.extra)
     match data["action"]:
         case UserModify.DISABLED:
             action = await ClinetManager.disabled_user(
@@ -142,10 +142,9 @@ async def confirmend(
             action = await ClinetManager.remove_user(
                 server=server, username=callback_data.extra
             )
-
+            if action:
+                keyboard = BotKeys.cancel(server_back=server.id)
     return await callback.message.edit_text(
         text=MessageTexts.SUCCESS if action else MessageTexts.FAILED,
-        reply_markup=BotKeys.cancel(
-            server_back=server.id, user_back=callback_data.extra
-        ),
+        reply_markup=keyboard,
     )

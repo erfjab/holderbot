@@ -110,9 +110,9 @@ async def chargeend(
             F.select.in_(
                 [
                     YesOrNot.YES_USAGE,
-                    YesOrNot.YES,
-                    YesOrNot.NO,
                     YesOrNot.YES_CHARGE,
+                    YesOrNot.YES_NORMAL,
+                    YesOrNot.NO,
                 ]
             )
         )
