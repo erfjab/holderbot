@@ -10,7 +10,7 @@ class _KeyboardSettings(BaseSettings):
     SERVER: str = "☁️ سرور"
     CREATE: str = "➕ ایجاد"
     USERS: str = "👤 کاربران"
-    ACTIONS: str = "🗄 Actions"
+    ACTIONS: str = "🗄 اقدامات"
     CREATE_USER: str = "➕ ایجاد کاربر"
     SEARCH_USER: str = "🔍 جستجوی کاربر"
     CREATE_SERVER: str = "➕ اضافه کردن سرور"
