@@ -1,6 +1,6 @@
 services:
   holderbot:
-    image: erfjab/holderbot:latest
+    image: traveler3022/holderbot:latest
     restart: always
     env_file:
       - .env
