@@ -8,52 +8,53 @@ class _MessageSettings(BaseSettings):
     )
 
     START: str = (
-        f"Welcome to HolderBot 🤖 [<code>{__version__}</code> n"
-        "<b><a href='"
+        f"به هولدر بات خوش اومدی 🤖 [<code>{__version__}</code> توسط ]\n"
+        "<b><a href=''></a></b>"
     )
-    ny Config."
-    ASK_COUNT: str = "تعداد را وارد کنید [0-9]"
-    ASK_SUFFIX: str = "پسوند را وارد کنید:"
-    ASK_DATA_LIMT: str = "محدودیت داده را وارد کنید: [0-9]\n0 for unlimited"
-    ASK_DATE_LIMIT: str = "محدودیت تاریخ را وارد کنید: [0-9]"
-    ASK_CONFIGS: str = "پیکربندی‌ها را انتخاب کنید:"
-    FAILED_USERNAME: str = "❌ ایجاد نشد {username}."
-    RANDOM_USERNAME: str = "نام کاربری تصادفی"
-    USER_INFO: str = (
-        "• <b>Username:</b> <code>{username}</code>\n"
-        "• <b>Data Limit:</b> <code>{data_limit}</code>\n"
-        "• <b>Date Limit:</b> <code>{expire_strategy}</code>\n"
-        "• <b>Sub Url:</b> <code>{subscription_url}</code>\n"
-    )
-    ASK_SURE: str = "آیا مطمئن هستید?"
-    ASK_ADMIN: str = "مدیر را انتخاب کنید:"
-    ASK_NOTE: str = "متن یادداشت را وارد کنید"
-    ASK_ADMIN_FROM: str = "از بین مدیران انتخاب کنید:"
-    ASK_ADMIN_TO: str = "Select to admin:ITEMS_MENU: str = "Select a item or create a new:"
-    ITEMS: str = "یک گزینه را انتخاب کنید"
-    MENU: str = "یک دکمه را انتخاب کنید"
-    ASK_REMARK: str = "نام کاربر را وارد کنید: [a-z]"
-    ASK_JSON: str = "فایل json را وارد کنید: [*.json]"
-    CREATE_WITH_JSON: str = "ایجاد با .Json"
-    INVALID_JSON: str = "❌ نا معتبر است  json."
-    WORNG_DOC: str = "❌ نامعتبر است,   فقظ doc"
-    WORNG_JSON: str = "❌ نامعتبر است فقط [*.json]"
-    WRONG_STR: str = "❌ نامعتبر است ، فقط از [a-z]"
-    WRONG_INT: str = "❌ نامعتبر است، فقط از [0-9] استفاده کنید"
-    DUPLICATE: str = "❌   تکراری است، گزینه دیگری امتحان کنید. "
-    ASK_TYPES: str = "یک نوع را انتخاب کنید:"
+    LETS_BACK: str = "بریم عقب..."
+    ITEMS_MENU: str = "یه مورد انتخاب کن یا مورد جدید بساز:"
+    ITEMS: str = "موردها رو انتخاب کن"
+    MENU: str = "یه دکمه انتخاب کن"
+    ASK_REMARK: str = "توضیح وارد کن: [a-z]"
+    ASK_JSON: str = "فایل JSON رو وارد کن: [*.json]"
+    CREATE_WITH_JSON: str = "ساختن با JSON"
+    INVALID_JSON: str = "❌ فایل JSON نامعتبره."
+    WORNG_DOC: str = "❌ نامعتبر، فقط فایل داکیومنت بفرست"
+    WORNG_JSON: str = "❌ نامعتبر، فقط از [*.json] استفاده کن"
+    WRONG_STR: str = "❌ نامعتبر، فقط حروف [a-z] مجازه"
+    WRONG_INT: str = "❌ نامعتبر، فقط اعداد [0-9] مجازه"
+    DUPLICATE: str = "❌ تکراریه، یه چیز دیگه امتحان کن."
+    ASK_TYPES: str = "یه نوع انتخاب کن:"
     ASK_MARZ_DATA: str = (
-        "<b>Enter Marz Server Credentials:\n</b>"
-        "• <code>Username [sudo]</code>\n"
-        "• <code>Password [sudo]</code>\n"
-        "• <code>Host [https://sub.domain.com:port]</code>\n\n"
-        "<b>Example:</b>\n"
+        "<b>اطلاعات سرور مرز رو وارد کن:\n</b>"
+        "• <code>نام کاربری [sudo]</code>\n"
+        "• <code>رمز عبور [sudo]</code>\n"
+        "• <code>آدرس سرور [https://sub.domain.com:port]</code>\n\n"
+        "<b>مثال:</b>\n"
         "<code>erfan\nerfan\nhttps://panel.domain.com:443</code>"
     )
-    WRONG_PATTERN: str = "❌ رمز شما نامعتبر است"
-    INVALID_DATA: str = "❌داده نامعتبر است."
-    SUCCESS: str = "✅ موفقیت‌آمیز."
-    FAILED: str = "❌ ناموفق"
-    NOT_FOUND: str = "❌ یافت نشد."
-    NOT_FOUND_CONFIGS: str = "❌ هیچ پیکربندی‌ای یافت نشد"
-    ASK_USERNAME: str = "نام کاربری را وارد کنید:"
+    WRONG_PATTERN: str = "❌ الگوی واردشده نامعتبره."
+    INVALID_DATA: str = "❌ داده نامعتبره."
+    SUCCESS: str = "✅ با موفقیت انجام شد."
+    FAILED: str = "❌ ناموفق بود"
+    NOT_FOUND: str = "❌ پیدا نشد."
+    NOT_FOUND_CONFIGS: str = "❌ هیچ کانفیگی پیدا نشد."
+    ASK_COUNT: str = "تعداد رو وارد کن: [0-9]"
+    ASK_SUFFIX: str = "پسوند رو وارد کن:"
+    ASK_DATA_LIMT: str = "حجم مجاز رو وارد کن: [0-9]\n۰ برای نامحدود"
+    ASK_DATE_LIMIT: str = "تاریخ انقضا رو وارد کن: [0-9]"
+    ASK_CONFIGS: str = "کانفیگ‌هارو انتخاب کن:"
+    FAILED_USERNAME: str = "❌ ایجاد کاربر {username} ناموفق بود."
+    RANDOM_USERNAME: str = "نام کاربری تصادفی"
+    USER_INFO: str = (
+        "• <b>نام کاربری:</b> <code>{username}</code>\n"
+        "• <b>حجم مجاز:</b> <code>{data_limit}</code>\n"
+        "• <b>محدودیت زمانی:</b> <code>{expire_strategy}</code>\n"
+        "• <b>لینک اشتراک:</b> <code>{subscription_url}</code>\n"
+    )
+    ASK_SURE: str = "مطمئنی؟"
+    ASK_ADMIN: str = "ادمین رو انتخاب کن:"
+    ASK_NOTE: str = "متن یادداشت رو وارد کن:"
+    ASK_ADMIN_FROM: str = "ادمین مبدا رو انتخاب کن:"
+    ASK_ADMIN_TO: str = "ادمین مقصد رو انتخاب کن:"
+    ASK_USERNAME: str = "نام کاربری رو وارد کن:"
